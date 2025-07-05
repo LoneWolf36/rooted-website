@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en" x-data="rootedApp()" x-init="init()" :class="{ 'overflow-hidden': showEmailPopup }">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- SEO & Social Meta -->
+  <meta name="description" content="Rooted's popped water lily seeds are healthy, gluten-free, vegan snacks. Join our waitlist for 15% off!" />
+  <meta name="keywords" content="healthy snacks, popped water lily seeds, vegan, gluten-free, plant-based, superfood, Rooted" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <meta property="og:title" content="Rooted – Healthy Popped Water Lily Seed Snacks" />
+  <meta property="og:description" content="Discover a new and healthy way to snack. Himalayan Pink Salt Popped Water Lily Seeds. Join the waitlist for 15% off!" />
+  <meta property="og:image" content="/PATH_TO_OG_IMAGE.jpg" /> <!-- TODO: Replace with actual OG image path -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://rootedsnacks.com" /> <!-- TODO: Update with actual URL -->
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- Alpine.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Custom Fonts (Insert @font-face or link tags here) -->
+  <!--
+    Example:
+    <link rel="preload" href="/fonts/YourFont.woff2" as="font" type="font/woff2" crossorigin>
+    <style>
+      @font-face {
+        font-family: 'YourFont';
+        src: url('/fonts/YourFont.woff2') format('woff2');
+        font-display: swap;
+      }
+    </style>
+  -->
+  <style>
+    /* Brand color palette (replace with actual values) */
+    :root {
+      --rooted-green: #2C6752;
+      --rooted-beige: #FFEEC9;
+      --rooted-yellow: #FFC344;
+      --rooted-brown: #87473F;
+      --rooted-orange: #F35C37;
+      --rooted-green-alpha-10: rgba(44, 103, 82, 0.10);
+      --rooted-green-alpha-40: rgba(44, 103, 82, 0.40);
+      --rooted-brown-alpha-10: rgba(135, 71, 63, 0.10);
+      --rooted-orange-alpha-10: rgba(243, 92, 55, 0.10);
+    }
+    /* Hide [x-cloak] elements until Alpine initializes */
+    [x-cloak] { display: none !important; }
+    /* Light background texture for mission section */
+    .bg-texture {
+      background: url('PATH_TO_TEXTURE_IMAGE') repeat;
+      background-size: cover;
+    }
+    /* Example for custom font usage */
+    body {
+      font-family: 'YourFont', system-ui, sans-serif;
+    }
+    /* Glassmorphism card effect (more transparent, softer) */
+    .glass {
+      border-radius: 1rem;
+      border: 1px solid var(--rooted-green-alpha-10);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+      transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .glass-light {
+      background: rgba(255,255,255,0.65);
+      border-radius: 1rem;
+      border: 1px solid var(--rooted-green-alpha-10);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+    }
+    .glass-dark {
+      background: rgba(34,34,34,0.45);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.125);
+      backdrop-filter: blur(11px) saturate(180%);
+      -webkit-backdrop-filter: blur(11px) saturate(180%);
+      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+    }
+    .glass-colored {
+      background: rgba(247,201,192,0.35);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.125);
+      backdrop-filter: blur(11px) saturate(180%);
+      -webkit-backdrop-filter: blur(11px) saturate(180%);
+      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+    }
+    /* For sticky nav shadow */
+    .nav-shadow {
+      box-shadow: 0 2px 16px 0 rgba(31, 38, 135, 0.08);
+    }
+    .glass-colored-btn {
+      background: rgba(247,201,192,0.35);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.125);
+      backdrop-filter: blur(11px) saturate(180%);
+      -webkit-backdrop-filter: blur(11px) saturate(180%);
+      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+      transition: background 0.2s, color 0.2s;
+    }
+    .glass-colored-btn:hover,
+    .glass-colored-btn:focus {
+      background: var(--rooted-green) !important;
+      color: var(--rooted-earth) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    .glass-light button,
+    .glass-light .button,
+    button.rounded-lg,
+    button.rounded-xl {
+      border-radius: 9999px !important;
+    }
+    .glass-light:focus,
+    .glass-light:active {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--rooted-green), 0 0 0 4px #fff;
+    }
+    .glass-light:hover,
+    .glass-light:focus {
+      background: rgba(255,255,255,0.65) !important;
+      color: inherit !important;
+      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+    }
+    /* DRY glassmorphism and button rounding */
+    .rounded-full, .glass-light .rounded-full, .glass-light button, .glass-light .button {
+      border-radius: 9999px !important;
+    }
+    /* Card hover/focus: subtle border and shadow only */
+    .card-hover {
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .card-hover:hover, .card-hover:focus {
+      border-color: var(--rooted-green-alpha-40) !important;
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.13);
+      background: inherit !important;
+      color: inherit !important;
+    }
+    /* Only buttons/CTAs get strong green on hover */
+    .cta-btn:hover, .cta-btn:focus {
+      background: var(--rooted-green) !important;
+      color: var(--rooted-earth) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      box-shadow: 0 6px 32px 0 rgba(31,38,135,0.13);
+    }
+    /* Remove any duplicate swipe arrow animation */
+    @keyframes swipeArrowWiggle {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(10px); }
+      40% { transform: translateX(-7px); }
+      60% { transform: translateX(7px); }
+      80% { transform: translateX(-4px); }
+    }
+    .swipe-arrow { animation: swipeArrowWiggle 3s cubic-bezier(.4,2,.6,1) infinite; }
+  </style>
+  <!-- Preload critical images -->
+  <link rel="preload" href="./assets/logos/logo_rooted_green.png" as="image" />
+  <link rel="preload" href="PATH_TO_PRODUCT_IMAGE_1" as="image" />
+  <!-- Canonical tag for SEO -->
+  <link rel="canonical" href="https://rootedsnacks.com" />
+  <!-- Cache control for static assets -->
+  <meta http-equiv="Cache-Control" content="public, max-age=31536000" />
+</head>
+<body class="bg-[var(--rooted-beige)] text-[var(--rooted-brown)] antialiased scroll-smooth">
+  <!-- === NAVBAR: Glassmorphic Sticky Top === -->
+  <header x-cloak class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-light border-b border-[var(--rooted-green)]/20 shadow-lg rounded-b-xl md:rounded-b-2xl" role="banner">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-2" aria-label="Main navigation" x-data="{ mobileNavOpen: false, navLinks: [ {href:'#hero',label:'Home'}, {href:'#benefits',label:'Benefits'}, {href:'#mission',label:'Mission'}, {href:'#signup',label:'Sign Up'} ] }">
+      <!-- Logo -->
+      <a href="#hero" class="flex items-center gap-2" @click.prevent="scrollToSection('hero')">
+        <img src="./assets/logos/logo_rooted_green.png" alt="Rooted Snacks logo, link to homepage" class="h-8 w-auto" width="64" height="32" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'32\'><rect width=\'64\' height=\'32\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'12\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Rooted</text></svg>'" role="img" aria-label="Rooted Snacks logo" />
+        <span class="font-extrabold text-lg tracking-wider text-[var(--rooted-green)]">Rooted</span>
+      </a>
+      <!-- Desktop Nav Links -->
+      <ul class="hidden md:flex gap-6 text-[var(--rooted-brown)] font-semibold tracking-wide">
+        <template x-for="link in navLinks" :key="link.href">
+          <li><a :href="link.href" class="relative px-2 py-1 transition hover:text-[var(--rooted-green)] focus:text-[var(--rooted-green)] hover:underline focus:underline underline-offset-8 decoration-[var(--rooted-green)]/60 outline-none" @click.prevent="scrollToSection(link.href.substring(1))" x-text="link.label"></a></li>
+        </template>
+      </ul>
+      <!-- Mobile Hamburger -->
+      <button @click="mobileNavOpen = !mobileNavOpen" :aria-expanded="mobileNavOpen" aria-label="Toggle mobile navigation" class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)]">
+        <svg x-show="!mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+        <svg x-show="mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+      <!-- Mobile Nav Drawer -->
+      <div x-show="mobileNavOpen" x-transition class="md:hidden absolute top-full left-0 w-full bg-white/95 border-b border-[var(--rooted-green)]/20 shadow-2xl rounded-b-xl">
+        <ul class="flex flex-col gap-4 py-4 px-6 text-[var(--rooted-brown)] font-semibold tracking-wide">
+          <template x-for="link in navLinks" :key="'mobile-'+link.href">
+            <li><a :href="link.href" @click.prevent="scrollToSection(link.href.substring(1)); mobileNavOpen = false" class="hover:text-[var(--rooted-green)] focus:text-[var(--rooted-green)] transition px-2 py-2 hover:underline focus:underline underline-offset-8 decoration-[var(--rooted-green)]/60 outline-none" x-text="link.label"></a></li>
+          </template>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div class="h-4 md:h-8"></div> <!-- Spacer for sticky nav -->
+
+  <!-- === STICKY CTA BAR (Mobile, Glassmorphic) === -->
+  <div class="sticky-cta-mobile fixed bottom-0 left-0 right-0 z-40 md:hidden glass-light border-t border-[var(--rooted-green)]/15 shadow-lg flex items-center justify-between px-4 py-3 transition-transform duration-300 rounded-t-xl" x-data="{ visible: true }" x-init="
+    const footer = document.querySelector('footer');
+    const cta = $el;
+    if (footer && cta) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          visible = !entry.isIntersecting;
+        });
+      }, { threshold: 0.01 });
+      observer.observe(footer);
+    }
+  " x-show="!showEmailPopup && visible" x-transition>
+    <span class="font-semibold text-base md:text-lg text-[var(--rooted-green)]">Get 15% Off – Join the Waitlist!</span>
+    <button @click="openEmailPopup()" class="ml-4 glass-light text-[var(--rooted-green)] font-bold px-6 py-2 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2 border border-[var(--rooted-green)]/20 transition hover:bg-[var(--rooted-green)] hover:text-[var(--rooted-earth)]" aria-label="Open email signup">Sign Up</button>
+  </div>
+
+  <!-- === EMAIL POPUP (Glassmorphic, Focus Trap) === -->
+  <div x-show="showEmailPopup === true" x-cloak x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center glass-dark bg-black/40" @mousedown.self="closeEmailPopup()" @keydown.escape.window="closeEmailPopup()">
+    <div class="glass-light rounded-2xl shadow-2xl border border-[var(--rooted-green)]/15 max-w-md w-full p-8 relative focus:outline-none" tabindex="-1" @keydown.tab.prevent="focusTrap($event)" x-ref="popup">
+      <button @click="closeEmailPopup()" class="absolute top-2 right-2 glass-light text-gray-400 hover:text-[var(--rooted-green)] text-2xl focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2 rounded-full w-10 h-10 flex items-center justify-center" aria-label="Close popup">&times;</button>
+      <div class="text-center">
+        <h2 class="text-2xl font-extrabold tracking-wide mb-2 text-[var(--rooted-green)]">Join the Rooted Waitlist</h2>
+        <p class="mb-4 text-[var(--rooted-brown)] text-lg">Get 15% off your first order and early access!</p>
+        <div class="glass-light rounded-xl p-4 text-[var(--rooted-brown)] border border-[var(--rooted-green)]/10">[MailerLite Form Placeholder]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === DESKTOP FLOATING CTA BUTTON (Glassmorphic) === -->
+  <div class="hidden md:block fixed bottom-8 right-8 z-40" x-show="!showEmailPopup" x-transition>
+    <button @click="openEmailPopup()" class="glass-light text-[var(--rooted-green)] font-bold px-10 py-4 rounded-full shadow-lg border border-[var(--rooted-green)]/20 focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2 transition-colors duration-200 hover:bg-[var(--rooted-green)] hover:text-[var(--rooted-earth)] hover:glass-none hover:shadow-xl" aria-label="Get 15% Off – Join Waitlist">
+      Get 15% Off – Join Waitlist
+    </button>
+  </div>
+
+  <main class="overflow-x-hidden" role="main" id="main-content">
+    <!-- === SECTION: Hero Product Spotlight === -->
+    <section id="hero" class="relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 pt-4 pb-10 bg-[var(--rooted-beige)] text-center lg:text-left" x-data="heroSpotlight()">
+      <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-start gap-12">
+        <!-- Product Image (left on desktop, top on mobile) -->
+        <div class="flex-shrink-0 flex justify-center items-center mb-6 lg:mb-0 lg:mr-8 w-full lg:w-auto">
+          <div class="relative flex justify-center items-center h-40 sm:h-56 lg:h-[28rem] lg:w-[28rem] xl:h-[32rem] xl:w-[32rem] opacity-0 scale-95 transition-all duration-700 delay-200"
+               x-intersect:enter="animateIn($el, 200)"
+               :class="{ 'md:sticky md:top-28': isDesktop }"
+               x-ref="spotlight">
+            <div class="absolute inset-0 rounded-full bg-[var(--rooted-orange)] opacity-40 blur-2xl animate-pulse"></div>
+            <img src="PATH_TO_PRODUCT_IMAGE_1"
+                 :style="parallaxStyle"
+                 alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, front view, on spotlight, with pink halo"
+                 class="relative z-10 w-32 h-32 sm:w-48 sm:h-48 lg:w-[22rem] lg:h-[22rem] xl:w-[28rem] xl:h-[28rem] object-contain rounded-lg shadow-xl"
+                 width="448" height="448"
+                 decoding="async" fetchpriority="high" loading="eager"
+                 onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'448\' height=\'448\'><rect width=\'448\' height=\'448\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Product</text></svg>'" role="img" aria-label="Rooted Product" />
+          </div>
+        </div>
+        <!-- Text and CTA (right on desktop, bottom on mobile) -->
+        <div class="flex-1 flex flex-col items-center justify-center text-center">
+          <!-- StoryBrand: Character (Customer as Hero) -->
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 opacity-0 translate-y-8 transition-all duration-700" x-intersect:enter="animateIn($el, 0)">
+            Your New Healthy Snack Awaits: Popped Water Lily Seeds
+          </h1>
+          <!-- StoryBrand: Problem (Subheadline) -->
+          <p class="text-lg sm:text-xl mb-2 text-[var(--rooted-green)] opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
+            Tired of unhealthy snacks that don't fit your lifestyle?
+          </p>
+          <p class="text-lg sm:text-xl mb-6 text-[var(--rooted-green)] opacity-0 translate-y-8 transition-all duration-700 delay-150" x-intersect:enter="animateIn($el, 120)">
+            Tastier, Crunchier And Better For You
+          </p>
+          <!-- === PRODUCT USE CASES MICROCOPY (Dynamic, Animated, True Fade) === -->
+          <div class="flex justify-center mb-6 text-base sm:text-lg font-semibold min-h-10 relative text-center overflow-x-auto whitespace-nowrap gap-2">
+            <span
+              x-show="showChip"
+              x-transition:enter="transition-opacity duration-400"
+              x-transition:enter-start="opacity-0 scale-95"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition-opacity duration-300"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-95"
+              :class="[
+                'inline-flex items-center gap-2 px-5 py-1.5 rounded-full font-bold text-lg border border-[var(--rooted-green)]/15 shadow-sm',
+                'bg-[var(--rooted-orange)]/70',
+                'transition-all duration-300',
+                'usecase-chip-animate-luxury'
+              ]"
+              style="will-change: opacity, transform"
+            >
+              <template x-if="useCases[currentUseCase] === 'Movie Night'"><span class="text-base opacity-70">��</span></template>
+              <template x-if="useCases[currentUseCase] === 'Post-Yoga Fuel'"><span class="text-base opacity-70">🧘‍♂️</span></template>
+              <template x-if="useCases[currentUseCase] === 'Lunchbox Snack'"><span class="text-base opacity-70">🥪</span></template>
+              <template x-if="useCases[currentUseCase] === 'On-the-Go'"><span class="text-base opacity-70">🚗</span></template>
+              <template x-if="useCases[currentUseCase] === 'Plant-Based Protein'"><span class="text-base opacity-70">🌱</span></template>
+              <template x-if="useCases[currentUseCase] === 'Gluten-Free Treat'"><span class="text-base opacity-70">✨</span></template>
+              <span class="ml-1" x-text="useCases[currentUseCase]"></span>
+            </span>
+          </div>
+          <style>
+            .usecase-chip-animate-luxury { box-shadow: 0 2px 8px 0 rgba(31,38,135,0.07); animation: chipPop 0.5s cubic-bezier(.4,2,.6,1) 1; }
+            @keyframes chipPop { 0% { transform: scale(0.95); } 60% { transform: scale(1.04); } 100% { transform: scale(1); } }
+          </style>
+          <button @click="openEmailPopup()" class="inline-block bg-[var(--rooted-green)] text-[var(--rooted-earth)] font-bold px-4 py-2 md:px-8 md:py-3 rounded-full shadow-lg hover:bg-[var(--rooted-orange)] hover:text-[var(--rooted-dark)] transition text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2 mx-auto" aria-label="Join waitlist">
+            🎉 Get 15% Off – Snack Smarter!
+          </button>
+          <!-- StoryBrand: Plan (3-Step) -->
+          <ul class="list-decimal list-inside mt-4 mb-2 text-center mx-auto max-w-xs text-[var(--rooted-brown)] glass-light rounded-lg p-4 shadow opacity-0 translate-y-8 transition-all duration-700 delay-200" x-intersect:enter="animateIn($el, 200)">
+            <li><strong>Join</strong> the Rooted waitlist</li>
+            <li><strong>Save</strong> 15% on your first order</li>
+            <li><strong>Snack</strong> better, feel better</li>
+          </ul>
+          <!-- StoryBrand: Avoid Failure (Urgency) -->
+          <div class="mt-4 text-xs text-[color:var(--rooted-brown)/70] italic text-center">
+            Don't miss out on the healthiest snack of the year!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- === SECTION: What is a Popped Water Lily Seed? === -->
+    <section id="what-is" class="px-4 lg:px-12 py-12 bg-[var(--rooted-beige)]">
+      <div class="max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto text-center">
+        <!-- StoryBrand: Problem (Reinforcement) -->
+        <p class="mb-2 text-[var(--rooted-brown)] font-semibold text-lg md:text-xl">Say goodbye to greasy, processed snacks.</p>
+        <h2 class="text-2xl md:text-3xl font-bold mb-4 opacity-0 translate-y-8 transition-all duration-700" x-intersect:enter="animateIn($el, 0)">What is a Popped Water Lily Seed?</h2>
+        <p class="mb-6 text-[var(--rooted-brown)] opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
+          Popped water lily seeds are a light, crunchy, and ancient superfood snack, enjoyed for centuries in Asia. Naturally gluten-free, plant-based, and deliciously satisfying!
+        </p>
+        <!-- TODO: Optional Illustration -->
+        <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-200" x-intersect:enter="animateIn($el, 200)">
+          <img src="PATH_TO_ILLUSTRATION_IMAGE" alt="Illustration of water lily seeds being popped in a pan, showcasing the snack preparation process" class="w-28 h-28 object-contain" width="112" height="112" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'112\' height=\'112\'><rect width=\'112\' height=\'112\' fill=\'%23F7C9C0\'/><ellipse cx=\'56\' cy=\'56\' rx=\'36\' ry=\'32\' fill=\'%234B6A4A\'/><ellipse cx=\'56\' cy=\'60\' rx=\'24\' ry=\'18\' fill=\'%23EDE6D6\'/><ellipse cx=\'56\' cy=\'56\' rx=\'20\' ry=\'16\' fill=\'#fff\'/><ellipse cx=\'56\' cy=\'60\' rx=\'10\' ry=\'7\' fill=\'%23F7C9C0\'/></svg>'" role="img" aria-label="Rooted illustration fallback" />
+        </div>
+      </div>
+    </section>
+
+    <!-- === SECTION: Super Snack Benefits === -->
+    <section id="benefits" class="px-4 lg:px-12 py-12 bg-[var(--rooted-beige)]">
+      <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
+        <h2 class="text-2xl md:text-3xl font-extrabold tracking-wide mb-8 opacity-0 translate-y-8 transition-all duration-700" x-intersect:enter="animateIn($el, 0)">Super Snack That's Good For You</h2>
+        <div class="md:hidden text-sm font-semibold text-[var(--rooted-green)] mb-2 flex items-center justify-center gap-1 select-none" aria-hidden="true">
+          <svg class="w-4 h-4 inline-block mr-1 swipe-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-4-4 4 4-4 4"/></svg>
+          <span>Swipe to see more</span>
+        </div>
+        <div class="flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-4 mb-8 overflow-x-auto md:overflow-visible no-scrollbar scroll-smooth" role="list" aria-label="Product Benefits">
+          <!-- Card 1 -->
+          <div tabindex="0" role="listitem" aria-label="Up to 50% Less Fat. Snack guilt-free!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--rooted-green)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--rooted-green)] hover:border-[var(--rooted-green)] hover:shadow-lg focus:shadow-lg cursor-pointer">
+            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--rooted-orange)]/40">
+              <img src="PATH_TO_ICON_1" alt="Up to 50% Less Fat than regular chips" class="w-7 h-7" width="28" height="28" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'28\'><rect width=\'28\' height=\'28\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" role="img" aria-label="Up to 50% Less Fat icon" />
+            </div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--rooted-green)] mb-1">Up to 50% Less Fat*</span>
+            <span class="text-[0.95rem] text-[var(--rooted-brown)] opacity-80 font-medium">Snack guilt-free!</span>
+          </div>
+          <!-- Card 2 -->
+          <div tabindex="0" role="listitem" aria-label="Source Of Fibre. Feel fuller, longer!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--rooted-green)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--rooted-green)] hover:border-[var(--rooted-green)] hover:shadow-lg focus:shadow-lg cursor-pointer">
+            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--rooted-orange)]/40">
+              <img src="PATH_TO_ICON_2" alt="Source Of Fibre" class="w-7 h-7" width="28" height="28" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'28\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" role="img" aria-label="Source Of Fibre icon" />
+            </div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--rooted-green)] mb-1">Source Of Fibre</span>
+            <span class="text-[0.95rem] text-[var(--rooted-brown)] opacity-80 font-medium">Feel fuller, longer!</span>
+          </div>
+          <!-- Card 3 -->
+          <div tabindex="0" role="listitem" aria-label="Antioxidant Punch. Power up your day!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--rooted-green)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--rooted-green)] hover:border-[var(--rooted-green)] hover:shadow-lg focus:shadow-lg cursor-pointer">
+            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--rooted-orange)]/40">
+              <img src="PATH_TO_ICON_3" alt="Antioxidant Punch" class="w-7 h-7" width="28" height="28" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'28\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" role="img" aria-label="Antioxidant Punch icon" />
+            </div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--rooted-green)] mb-1">Antioxidant Punch</span>
+            <span class="text-[0.95rem] text-[var(--rooted-brown)] opacity-80 font-medium">Power up your day!</span>
+          </div>
+          <!-- Card 4 -->
+          <div tabindex="0" role="listitem" aria-label="Gluten Free. Snack safe, snack happy!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--rooted-green)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--rooted-green)] hover:border-[var(--rooted-green)] hover:shadow-lg focus:shadow-lg cursor-pointer">
+            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--rooted-orange)]/40">
+              <img src="PATH_TO_ICON_4" alt="Gluten Free" class="w-7 h-7" width="28" height="28" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'28\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" role="img" aria-label="Gluten Free icon" />
+            </div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--rooted-green)] mb-1">Gluten Free</span>
+            <span class="text-[0.95rem] text-[var(--rooted-brown)] opacity-80 font-medium">Snack safe, snack happy!</span>
+          </div>
+          <!-- Card 5 -->
+          <div tabindex="0" role="listitem" aria-label="Vegan. 100% plant-powered!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--rooted-green)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--rooted-green)] hover:border-[var(--rooted-green)] hover:shadow-lg focus:shadow-lg cursor-pointer">
+            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--rooted-orange)]/40">
+              <img src="PATH_TO_ICON_5" alt="Vegan" class="w-7 h-7" width="28" height="28" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'28\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" role="img" aria-label="Vegan icon" />
+            </div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--rooted-green)] mb-1">Vegan</span>
+            <span class="text-[0.95rem] text-[var(--rooted-brown)] opacity-80 font-medium">100% plant-powered!</span>
+          </div>
+        </div>
+        <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-500" x-intersect:enter="animateIn($el, 500)">
+          <img src="PATH_TO_BENEFITS_IMAGE" alt="Rooted snack product with health benefits, bowl and bag on table" class="w-40 h-40 lg:w-56 lg:h-56 xl:w-72 xl:h-72 object-contain rounded-lg shadow-lg border border-[var(--rooted-green)]/10" width="160" height="160" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'160\' height=\'160\'><rect width=\'160\' height=\'160\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Snack</text></svg>'" role="img" aria-label="Benefits image" />
+        </div>
+      </div>
+      <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .icon-bg { box-shadow: 0 2px 8px 0 rgba(31,38,135,0.07); }
+        .group:focus .icon-bg, .group:hover .icon-bg { box-shadow: 0 4px 16px 0 rgba(247,201,192,0.18), 0 2px 8px 0 rgba(31,38,135,0.07); }
+      </style>
+      <div class="flex justify-center gap-2 mt-4 md:mt-4" role="tablist" aria-label="Testimonial navigation dots">
+        <template x-for="(t, idx) in testimonials" :key="'dot-'+idx">
+          <span @click="goTo(idx)" tabindex="0" role="tab" :aria-selected="idx === current" @keydown.enter.space="goTo(idx)" :aria-label="'Go to testimonial ' + (idx+1)" :class="{'bg-[var(--rooted-green)]/60': idx === current, 'bg-[var(--rooted-orange)]/30': idx !== current }" class="w-3 h-3 rounded-full transition-colors duration-300 inline-block cursor-pointer outline-none"></span>
+        </template>
+      </div>
+    </section>
+
+    <!-- === SECTION: Our Mission (Brand Story) === -->
+    <section id="mission" class="px-4 lg:px-12 py-12 bg-[var(--rooted-beige)]">
+      <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
+        <h2 class="text-2xl md:text-3xl font-extrabold tracking-wide mb-4 text-[var(--rooted-green)]">Our Mission</h2>
+        <p class="mb-6 text-[var(--rooted-brown)] text-lg">
+          At Rooted, we believe in joyful, mindful snacking. Our mission is to bring you delicious, plant-based treats that nourish your body, respect the planet, and celebrate global flavors. We're committed to sustainability, transparency, and making healthy choices easy and delightful.
+        </p>
+        <div class="flex justify-center mt-6">
+          <img src="PATH_TO_MISSION_IMAGE" alt="Rooted team planting water lilies" class="w-40 h-40 object-contain rounded-lg shadow-lg border border-[var(--rooted-green)]/10" width="160" height="160" loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </section>
+
+    <!-- === SECTION: Our Promise (Trust & Quality) === -->
+    <section id="promise" class="px-4 lg:px-12 py-12 bg-[var(--rooted-beige)]">
+      <div class="max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--rooted-green)]/15 glass-light opacity-0 translate-y-8 transition-all duration-700" x-intersect:enter="animateIn($el, 0)">
+          <img src="PATH_TO_PROMISE_ICON_1" alt="Promise: Nutritious, plant-based protein, minerals, antioxidants icon" class="w-12 h-12 mb-3" width="48" height="48" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Promise</text></svg>'" role="img" aria-label="Promise: Nutritious icon" />
+          <h4 class="font-bold text-lg mb-1 tracking-wide">Nutritious</h4>
+          <p class="text-base text-[var(--rooted-brown)] opacity-80 font-medium">Packed with plant-based protein, minerals, and antioxidants.</p>
+        </div>
+        <div class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--rooted-green)]/15 glass-light opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
+          <img src="PATH_TO_PROMISE_ICON_2" alt="Promise: Delicious, crunchy, light, full of flavor icon" class="w-12 h-12 mb-3" width="48" height="48" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Promise</text></svg>'" role="img" aria-label="Promise: Delicious icon" />
+          <h4 class="font-bold text-lg mb-1 tracking-wide">Delicious</h4>
+          <p class="text-base text-[var(--rooted-brown)] opacity-80 font-medium">Crunchy, light, and full of flavor – a snack you'll crave.</p>
+        </div>
+        <div class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--rooted-green)]/15 glass-light opacity-0 translate-y-8 transition-all duration-700 delay-200" x-intersect:enter="animateIn($el, 200)">
+          <img src="PATH_TO_PROMISE_ICON_3" alt="Promise: Diverse, celebrates global flavors, ancient superfoods icon" class="w-12 h-12 mb-3" width="48" height="48" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Promise</text></svg>'" role="img" aria-label="Promise: Diverse icon" />
+          <h4 class="font-bold text-lg mb-1 tracking-wide">Diverse</h4>
+          <p class="text-base text-[var(--rooted-brown)] opacity-80 font-medium">Rooted celebrates global flavors and ancient superfoods.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- === SECTION: Testimonials / Social Proof === -->
+    <section id="testimonials" class="px-4 lg:px-12 py-12 bg-[color:var(--rooted-orange)/20]" x-data="testimonialCarousel()" role="region" aria-roledescription="carousel">
+      <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
+        <h3 class="text-xl font-bold mb-2 text-[var(--rooted-green)] tracking-wide">Imagine snacking guilt-free, full of energy.</h3>
+        <h2 class="text-2xl font-extrabold tracking-wide mb-8">What Snackers Are Saying</h2>
+        <div class="relative flex items-center justify-center" @mouseenter="pauseAuto" @mouseleave="startAuto" @focusin="pauseAuto" @focusout="startAuto">
+          <!-- Left Arrow -->
+          <button @click="prev" aria-label="Previous testimonial" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 border border-[var(--rooted-green)]/10 rounded-full p-2 shadow hover:bg-[var(--rooted-green)]/10 hover:text-[var(--rooted-green)] transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <!-- Testimonial Slides: Responsive Grouping -->
+          <div class="w-full min-h-[120px] flex flex-col md:flex-row justify-center items-stretch gap-6 relative mb-4 md:mb-0">
+            <template x-if="!isDesktop">
+              <template x-for="(t, idx) in testimonials" :key="idx">
+                <blockquote x-show="current === idx"
+                  :key="'testimonial-'+idx"
+                  x-transition:enter="transition-opacity duration-500"
+                  x-transition:enter-start="opacity-0"
+                  x-transition:enter-end="opacity-100"
+                  x-transition:leave="transition-opacity duration-400"
+                  x-transition:leave-start="opacity-100"
+                  x-transition:leave-end="opacity-0"
+                  class="glass-light border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-[var(--rooted-brown)] flex flex-col justify-center absolute left-0 right-0"
+                  aria-live="polite">
+                  <p class="mb-2 text-lg font-medium leading-relaxed">"<span x-text="t.quote"></span>"</p>
+                  <footer class="text-xs text-[var(--rooted-green)] font-semibold tracking-wide mt-2" x-text="'– ' + t.author"></footer>
+                </blockquote>
+              </template>
+            </template>
+            <template x-if="isDesktop">
+              <div
+                class="flex flex-row gap-6 w-full justify-center transition-opacity duration-500"
+                :class="{ 'opacity-0 pointer-events-none': groupFading, 'opacity-100': !groupFading }"
+                @transitionend="groupFading = false"
+              >
+                <template x-for="i in 3">
+                  <template x-if="testimonials[(current + i - 1 + testimonials.length) % testimonials.length]">
+                    <blockquote
+                      :key="'testimonial-group-'+((current + i - 1 + testimonials.length) % testimonials.length)"
+                      class="glass-light border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-[var(--rooted-brown)] flex-1 flex flex-col justify-center"
+                      aria-live="polite">
+                      <p class="mb-2 text-lg font-medium leading-relaxed">"<span x-text="testimonials[(current + i - 1 + testimonials.length) % testimonials.length].quote"></span>"</p>
+                      <footer class="text-xs text-[var(--rooted-green)] font-semibold tracking-wide mt-2" x-text="'– ' + testimonials[(current + i - 1 + testimonials.length) % testimonials.length].author"></footer>
+                    </blockquote>
+                  </template>
+                </template>
+              </div>
+            </template>
+          </div>
+          <!-- Right Arrow -->
+          <button @click="next" aria-label="Next testimonial" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 border border-[var(--rooted-green)]/10 rounded-full p-2 shadow hover:bg-[var(--rooted-green)]/10 hover:text-[var(--rooted-green)] transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+          </button>
+        </div>
+        <!-- Progress Dots -->
+        <div class="flex justify-center gap-2 mt-4 md:mt-4" role="tablist" aria-label="Testimonial navigation dots">
+          <template x-for="(t, idx) in testimonials" :key="'dot-'+idx">
+            <span @click="goTo(idx)" tabindex="0" role="tab" :aria-selected="idx === current" @keydown.enter.space="goTo(idx)" :aria-label="'Go to testimonial ' + (idx+1)" :class="{'bg-[var(--rooted-green)]/60': idx === current, 'bg-[var(--rooted-orange)]/30': idx !== current }" class="w-3 h-3 rounded-full transition-colors duration-300 inline-block cursor-pointer outline-none"></span>
+          </template>
+        </div>
+        <div class="md:hidden text-sm font-semibold text-[var(--rooted-green)] mb-2 flex items-center justify-center gap-1 select-none" aria-hidden="true">
+          <svg class="w-4 h-4 inline-block mr-1 swipe-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-4-4 4 4-4 4"/></svg>
+          <span>Swipe to see more</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- === SECTION: Email Capture CTA === -->
+    <section id="signup" class="px-4 lg:px-12 py-12 bg-[var(--rooted-orange)]/40 text-center">
+      <div class="max-w-xl lg:max-w-3xl xl:max-w-4xl mx-auto bg-white/95 border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow-lg">
+        <h2 class="text-2xl font-extrabold tracking-wide mb-4 opacity-0 translate-y-8 transition-all duration-700" x-intersect:enter="animateIn($el, 0)">We're Rooting for Online Soon! 🌱</h2>
+        <p class="mb-6 text-[var(--rooted-brown)] text-lg opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
+          Updates popping into your inbox + 15% off your first order. Because you deserve snacks that love you back! 💚
+        </p>
+        <button @click="openEmailPopup()" class="inline-block bg-[var(--rooted-green)] text-[var(--rooted-earth)] font-bold px-8 py-3 rounded-lg shadow-md hover:bg-[var(--rooted-orange)] hover:text-[var(--rooted-dark)] transition text-lg focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2" x-intersect:enter="delayedBounce($el)" aria-label="Join the waitlist">
+          Get Early Access Now
+        </button>
+        <div class="mt-4 text-xs text-[color:var(--rooted-brown)/70] italic">Join now to be the first to try Rooted!</div>
+      </div>
+    </section>
+
+    <!-- === SECTION: FAQ (SEO, Brand Personality) === -->
+    <section id="faq" class="px-4 lg:px-12 py-12 bg-[var(--rooted-beige)]" x-data="{ open: 0 }">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-extrabold tracking-wide mb-6 text-center">Frequently Asked Questions</h2>
+        <div itemscope itemtype="https://schema.org/FAQPage" class="divide-y divide-[var(--rooted-green)]/10">
+          <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
+            <button
+              @click="open === 0 ? open = -1 : open = 0"
+              :aria-expanded="open === 0"
+              :aria-controls="'faq-panel-0'"
+              id="faq-tab-0"
+              class="w-full text-left font-semibold flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] py-2"
+              itemprop="name"
+              itemprop="description"
+            >
+              Are popped water lily seeds really healthy?
+              <span x-text="open === 0 ? '-' : '+'" aria-hidden="true" class="ml-2"></span>
+            </button>
+            <div
+              x-show="open === 0"
+              x-transition:enter="transition duration-200 ease-out"
+              x-transition:enter-start="opacity-0 max-h-0"
+              x-transition:enter-end="opacity-100 max-h-40"
+              x-transition:leave="transition duration-150 ease-in"
+              x-transition:leave-start="opacity-100 max-h-40"
+              x-transition:leave-end="opacity-0 max-h-0"
+              id="faq-panel-0"
+              role="region"
+              :aria-labelledby="'faq-tab-0'"
+              class="overflow-hidden bg-white/90 border border-[var(--rooted-green)]/10 rounded-xl shadow p-4 mt-2"
+              itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"
+            >
+              <p itemprop="text" class="py-2 text-[var(--rooted-brown)]">Absolutely! They're naturally gluten-free, plant-based, and packed with protein, minerals, and antioxidants. Plus, they're deliciously crunchy. (Your taste buds and your body will thank you!)</p>
+            </div>
+          </div>
+          <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
+            <button
+              @click="open === 1 ? open = -1 : open = 1"
+              :aria-expanded="open === 1"
+              :aria-controls="'faq-panel-1'"
+              id="faq-tab-1"
+              class="w-full text-left font-semibold flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] py-2"
+              itemprop="name"
+              itemprop="description"
+            >
+              Is Rooted vegan and allergen-friendly?
+              <span x-text="open === 1 ? '-' : '+'" aria-hidden="true" class="ml-2"></span>
+            </button>
+            <div
+              x-show="open === 1"
+              x-transition:enter="transition duration-200 ease-out"
+              x-transition:enter-start="opacity-0 max-h-0"
+              x-transition:enter-end="opacity-100 max-h-40"
+              x-transition:leave="transition duration-150 ease-in"
+              x-transition:leave-start="opacity-100 max-h-40"
+              x-transition:leave-end="opacity-0 max-h-0"
+              id="faq-panel-1"
+              role="region"
+              :aria-labelledby="'faq-tab-1'"
+              class="overflow-hidden bg-white/90 border border-[var(--rooted-green)]/10 rounded-xl shadow p-4 mt-2"
+              itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"
+            >
+              <p itemprop="text" class="py-2 text-[var(--rooted-brown)]">Yes! Rooted snacks are 100% vegan and free from gluten, soy, and artificial nasties. Snack happy, snack safe.</p>
+            </div>
+          </div>
+          <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
+            <button
+              @click="open === 2 ? open = -1 : open = 2"
+              :aria-expanded="open === 2"
+              :aria-controls="'faq-panel-2'"
+              id="faq-tab-2"
+              class="w-full text-left font-semibold flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] py-2"
+              itemprop="name"
+              itemprop="description"
+            >
+              How do I get early access and my 15% off?
+              <span x-text="open === 2 ? '-' : '+'" aria-hidden="true" class="ml-2"></span>
+            </button>
+            <div
+              x-show="open === 2"
+              x-transition:enter="transition duration-200 ease-out"
+              x-transition:enter-start="opacity-0 max-h-0"
+              x-transition:enter-end="opacity-100 max-h-40"
+              x-transition:leave="transition duration-150 ease-in"
+              x-transition:leave-start="opacity-100 max-h-40"
+              x-transition:leave-end="opacity-0 max-h-0"
+              id="faq-panel-2"
+              role="region"
+              :aria-labelledby="'faq-tab-2'"
+              class="overflow-hidden bg-white/90 border border-[var(--rooted-green)]/10 rounded-xl shadow p-4 mt-2"
+              itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"
+            >
+              <p itemprop="text" class="py-2 text-[var(--rooted-brown)]">Just join our waitlist above! We'll send you a code as soon as we launch. Welcome to the Rooted fam! 🌱</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center mt-8" aria-hidden="true">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow">
+            <ellipse cx="40" cy="40" rx="36" ry="32" fill="#F7C9C0" />
+            <ellipse cx="40" cy="44" rx="24" ry="18" fill="#EDE6D6" />
+            <ellipse cx="40" cy="40" rx="20" ry="16" fill="#fff" />
+            <ellipse cx="40" cy="44" rx="10" ry="7" fill="#F7C9C0" />
+            <circle cx="34" cy="38" r="2" fill="#4B6A4A" />
+            <circle cx="46" cy="38" r="2" fill="#4B6A4A" />
+            <path d="M36 46 Q40 50 44 46" stroke="#4B6A4A" stroke-width="2" fill="none" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- === SECTION: Footer (Glassmorphic on Mobile) === -->
+    <footer class="bg-white/95 text-[var(--rooted-brown)] py-6 px-4 lg:px-12 text-center sticky bottom-0 md:static z-30 border-t border-[var(--rooted-green)]/15 md:pb-0 shadow-lg" role="contentinfo">
+      <div class="mb-4">
+        <div class="text-xs font-semibold mb-2 text-[var(--rooted-green)] tracking-wide">As seen in</div>
+        <div class="flex justify-center items-center gap-4 opacity-80">
+          <img src="PATH_TO_PRESS_LOGO_1" alt="Press Logo 1" class="h-6 w-auto grayscale hover:grayscale-0 transition" width="72" height="24" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'72\' height=\'24\'><rect width=\'72\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Logo</text></svg>'" role="img" aria-label="Press logo 1" />
+          <img src="PATH_TO_PRESS_LOGO_2" alt="Press Logo 2" class="h-6 w-auto grayscale hover:grayscale-0 transition" width="72" height="24" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'72\' height=\'24\'><rect width=\'72\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Logo</text></svg>'" role="img" aria-label="Press logo 2" />
+          <img src="PATH_TO_PRESS_LOGO_3" alt="Press Logo 3" class="h-6 w-auto grayscale hover:grayscale-0 transition" width="72" height="24" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'72\' height=\'24\'><rect width=\'72\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Logo</text></svg>'" role="img" aria-label="Press logo 3" />
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row items-center justify-between max-w-4xl mx-auto gap-2">
+        <div class="flex flex-col items-center gap-2 w-full">
+          <div class="flex items-center justify-center gap-4 mb-2">
+            <a href="https://instagram.com/yourbrand" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-[var(--rooted-green)]">
+              <img src="PATH_TO_INSTAGRAM_ICON" alt="Instagram social icon, link to Rooted Instagram" class="w-6 h-6 inline grayscale hover:grayscale-0 transition" width="24" height="24" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\'><rect width=\'24\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>IG</text></svg>'" role="img" aria-label="Instagram icon" />
+            </a>
+            <a href="mailto:hello@rootedsnacks.com" class="hover:text-[var(--rooted-green)] underline" aria-label="Contact Rooted">hello@rootedsnacks.com</a>
+          </div>
+          <div class="text-xs text-[var(--rooted-green)] text-center tracking-wide">Rooted is committed to plant-based nutrition, sustainability, and global flavors. Certified vegan. Made with love.</div>
+          <div class="text-xs text-center">&copy; <span x-text="new Date().getFullYear()"></span> Rooted. All rights reserved.</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- === REUSABLE ANIMATION LIBRARY & ALPINE.JS APP LOGIC === -->
+  <script>
+    // === GLOBAL DEBOUNCE UTILITY ===
+    function debounce(fn, delay) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn.apply(this, args), delay);
+      };
+    }
+    // === GLOBAL STICKY CTA OBSERVER ===
+    let stickyCtaObserver = null;
+
+    function rootedApp() {
+      return {
+        showEmailPopup: false,
+        mobileNavOpen: false,
+        ctaVisible: true,
+        lastFocused: null,
+        scrollToSection(id) {
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        },
+        openEmailPopup() {
+          this.showEmailPopup = true;
+          document.body.classList.add('overflow-hidden');
+          setTimeout(() => {
+            const popup = this.$refs && this.$refs.popup ? this.$refs.popup : document.querySelector('[x-show=showEmailPopup] .glass-light');
+            if (popup) popup.focus();
+            this.lastFocused = document.activeElement;
+          }, 100);
+        },
+        closeEmailPopup() {
+          this.showEmailPopup = false;
+          document.body.classList.remove('overflow-hidden');
+          if (this.lastFocused && typeof this.lastFocused.focus === 'function') {
+            setTimeout(() => this.lastFocused.focus(), 100);
+          }
+        },
+        focusTrap(e) {
+          const popup = this.$refs && this.$refs.popup ? this.$refs.popup : document.querySelector('[x-show=showEmailPopup] .glass-light');
+          const focusable = Array.from(popup.querySelectorAll('button, input, [tabindex]:not([tabindex="-1"])')).filter(el => !el.disabled && el.offsetParent !== null);
+          if (!focusable.length) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        },
+        init() {
+          // Accessibility: Close popup on Escape
+          window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.showEmailPopup) this.closeEmailPopup();
+          });
+          // Sticky CTA observer (mobile)
+          const cta = document.querySelector('.sticky-cta-mobile');
+          const footer = document.querySelector('footer');
+          if (cta && footer) {
+            if (stickyCtaObserver) stickyCtaObserver.disconnect();
+            stickyCtaObserver = new IntersectionObserver(entries => {
+              entries.forEach(entry => {
+                this.ctaVisible = !entry.isIntersecting;
+              });
+            }, { threshold: 0.01 });
+            stickyCtaObserver.observe(footer);
+          }
+        }
+      }
+    }
+    // === HERO SPOTLIGHT LOGIC ===
+    function heroSpotlight() {
+      return {
+        useCases: [
+          'Lunchbox Snack',
+          'Post-Yoga Fuel',
+          'Movie Night',
+          'On-the-Go',
+          'Plant-Based Protein',
+          'Gluten-Free Treat'
+        ],
+        currentUseCase: 0,
+        showChip: true,
+        isDesktop: window.innerWidth >= 768,
+        parallaxY: 0,
+        prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+        get parallaxStyle() {
+          return (this.isDesktop || this.prefersReducedMotion) ? '' : `transform: translateY(${this.parallaxY}px)`;
+        },
+        rotateInterval: null,
+        _debouncedResize: null,
+        handleScroll() {
+          if (!this.isDesktop && !this.prefersReducedMotion) {
+            requestAnimationFrame(() => {
+              const el = this.$refs.spotlight;
+              if (el) {
+                const rect = el.getBoundingClientRect();
+                const offset = Math.max(0, 80 - rect.top);
+                this.parallaxY = Math.min(offset, 30);
+              }
+            });
+          }
+        },
+        rotateChip() {
+          if (this.prefersReducedMotion) {
+            this.currentUseCase = (this.currentUseCase + 1) % this.useCases.length;
+            this.showChip = true;
+          } else {
+            this.showChip = false;
+            setTimeout(() => {
+              this.currentUseCase = (this.currentUseCase + 1) % this.useCases.length;
+              this.showChip = true;
+            }, 300);
+          }
+        },
+        startRotation() {
+          this.rotateInterval = setInterval(() => {
+            this.rotateChip();
+          }, 2200);
+        },
+        stopRotation() {
+          clearInterval(this.rotateInterval);
+        },
+        _debouncedScroll: null,
+        init() {
+          this.isDesktop = window.innerWidth >= 768;
+          this._debouncedResize = debounce(() => {
+            this.isDesktop = window.innerWidth >= 768;
+          }, 100);
+          window.addEventListener('resize', this._debouncedResize);
+          this.startRotation();
+          this._debouncedScroll = debounce(this.handleScroll.bind(this), 30);
+          if (!this.prefersReducedMotion) {
+            window.addEventListener('scroll', this._debouncedScroll);
+          }
+        },
+        destroy() {
+          this.stopRotation();
+          if (!this.prefersReducedMotion) {
+            window.removeEventListener('scroll', this._debouncedScroll);
+          }
+          window.removeEventListener('resize', this._debouncedResize);
+        }
+      }
+    }
+    // === TESTIMONIAL CAROUSEL LOGIC ===
+    function testimonialCarousel() {
+      return {
+        testimonials: [
+          { quote: 'Absolutely delicious and guilt-free. My new go-to snack!', author: 'Alex, Yoga Instructor' },
+          { quote: 'Perfect for my lunchbox and post-workout cravings.', author: 'Jamie, Student' },
+          { quote: 'Crispy, light, and so satisfying. Love the Himalayan salt flavor!', author: 'Priya, Designer' },
+          { quote: 'Finally, a snack that fits my plant-based lifestyle.', author: 'Morgan, Runner' }
+        ],
+        current: 0,
+        autoInterval: null,
+        isDesktop: window.innerWidth >= 768,
+        groupFading: false,
+        _debouncedResize: null,
+        updateIsDesktop() {
+          this.isDesktop = window.innerWidth >= 768;
+        },
+        next() {
+          if (this.isDesktop) {
+            this.groupFading = true;
+            setTimeout(() => {
+              this.current = (this.current + 1) % this.testimonials.length;
+              this.groupFading = false;
+            }, 150);
+          } else {
+            this.current = (this.current + 1) % this.testimonials.length;
+          }
+        },
+        prev() {
+          if (this.isDesktop) {
+            this.groupFading = true;
+            setTimeout(() => {
+              this.current = (this.current - 1 + this.testimonials.length) % this.testimonials.length;
+              this.groupFading = false;
+            }, 150);
+          } else {
+            this.current = (this.current - 1 + this.testimonials.length) % this.testimonials.length;
+          }
+        },
+        goTo(idx) {
+          if (this.isDesktop) {
+            this.groupFading = true;
+            setTimeout(() => {
+              this.current = idx;
+              this.groupFading = false;
+            }, 150);
+          } else {
+            this.current = idx;
+          }
+        },
+        startAuto() {
+          if (this.autoInterval) clearInterval(this.autoInterval);
+          this.autoInterval = setInterval(() => { this.next(); }, 4000);
+        },
+        pauseAuto() {
+          if (this.autoInterval) clearInterval(this.autoInterval);
+        },
+        init() {
+          this.startAuto();
+          this.updateIsDesktop();
+          this._debouncedResize = debounce(this.updateIsDesktop.bind(this), 100);
+          window.addEventListener('resize', this._debouncedResize);
+        },
+        destroy() {
+          window.removeEventListener('resize', this._debouncedResize);
+          this.pauseAuto();
+        }
+      }
+    }
+    // === SNACK JOURNEY LOGIC (Responsive) ===
+    function snackJourney() {
+      return {
+        steps: [
+          { icon: 'PATH_TO_JOURNEY_ICON_1', label: 'Seed', alt: 'Step 1: Water lily seed' },
+          { icon: 'PATH_TO_JOURNEY_ICON_2', label: 'Harvest', alt: 'Step 2: Harvesting the seed' },
+          { icon: 'PATH_TO_JOURNEY_ICON_3', label: 'Pop', alt: 'Step 3: Seeds being popped' },
+          { icon: 'PATH_TO_JOURNEY_ICON_4', label: 'Pack', alt: 'Step 4: Snack being packed' },
+          { icon: 'PATH_TO_JOURNEY_ICON_5', label: 'Snack', alt: 'Step 5: Ready to snack' }
+        ],
+        current: 0,
+        atStart: true,
+        atEnd: false,
+        isMobile: window.innerWidth < 768,
+        scrollRow: null,
+        pageCount: 1,
+        itemsPerPage: 1,
+        _debouncedResize: null,
+        scrollTo(idx) {
+          this.$nextTick(() => {
+            if (!this.scrollRow) this.scrollRow = this.$refs.scrollRow;
+            if (!this.scrollRow) return;
+            const stepWidth = 120 + 24;
+            const maxPage = this.pageCount - 1;
+            const targetPage = Math.max(0, Math.min(idx, maxPage));
+            if (targetPage === maxPage) {
+              const maxScroll = this.scrollRow.scrollWidth - this.scrollRow.clientWidth;
+              this.scrollRow.scrollTo({ left: maxScroll, behavior: 'smooth' });
+            } else {
+              this.scrollRow.scrollTo({ left: targetPage * stepWidth, behavior: 'smooth' });
+            }
+            setTimeout(() => this.onScroll(), 350);
+          });
+        },
+        onScroll() {
+          if (!this.scrollRow) this.scrollRow = this.$refs.scrollRow;
+          if (!this.scrollRow) return;
+          const el = this.scrollRow;
+          this.atStart = el.scrollLeft <= 5;
+          this.atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 5;
+          const stepWidth = 120 + 24;
+          if (this.atEnd) {
+            this.current = this.pageCount - 1;
+          } else {
+            this.current = Math.round(el.scrollLeft / stepWidth);
+          }
+        },
+        updatePagination() {
+          this.$nextTick(() => {
+            if (!this.scrollRow) this.scrollRow = this.$refs.scrollRow;
+            if (!this.scrollRow) return;
+            const el = this.scrollRow;
+            const stepWidth = 120 + 24;
+            this.itemsPerPage = Math.floor(el.clientWidth / stepWidth) || 1;
+            this.pageCount = Math.max(1, this.steps.length - this.itemsPerPage + 1);
+            if (this.current > this.pageCount - 1) this.current = this.pageCount - 1;
+          });
+        },
+        handleResize() {
+          const wasMobile = this.isMobile;
+          this.isMobile = window.innerWidth < 768;
+          if (this.isMobile && !wasMobile) {
+            this.$nextTick(() => {
+              this.scrollRow = this.$refs.scrollRow;
+              if (this.scrollRow) {
+                this.onScroll();
+                this.scrollRow.addEventListener('scroll', this.onScroll.bind(this));
+                this.updatePagination();
+              }
+            });
+          }
+          if (this.isMobile) this.updatePagination();
+        },
+        init() {
+          this.handleResize();
+          this._debouncedResize = debounce(this.handleResize.bind(this), 100);
+          window.addEventListener('resize', this._debouncedResize);
+          this.$nextTick(() => {
+            if (this.isMobile) {
+              this.scrollRow = this.$refs.scrollRow;
+              if (this.scrollRow) {
+                this.onScroll();
+                this.scrollRow.addEventListener('scroll', this.onScroll.bind(this));
+                this.updatePagination();
+              }
+            }
+          });
+        },
+        destroy() {
+          window.removeEventListener('resize', this._debouncedResize);
+          if (this.scrollRow) {
+            this.scrollRow.removeEventListener('scroll', this.onScroll.bind(this));
+          }
+        }
+      }
+    }
+    // === Animation Library ===
+    function animateIn(el, delay = 0, opts = {}) {
+      setTimeout(() => {
+        el.classList.remove('opacity-0', 'translate-y-8', 'translate-x-8', 'scale-95', 'scale-90');
+        el.classList.add('opacity-100', 'translate-y-0', 'translate-x-0', 'scale-100');
+        if (opts.stagger && el.children.length) {
+          Array.from(el.children).forEach((child, i) => {
+            setTimeout(() => {
+              child.classList.remove('opacity-0', 'translate-y-8', 'scale-95');
+              child.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+            }, i * opts.stagger);
+          });
+        }
+      }, delay);
+    }
+    function delayedBounce(el) {
+      setTimeout(() => {
+        el.classList.add('animate-bounce');
+      }, 600);
+    }
+    // Alpine.js plugin for x-intersect (scroll into view)
+    document.addEventListener('alpine:init', () => {
+      Alpine.directive('intersect', (el, { expression }, { evaluateLater, cleanup }) => {
+        let evaluate = evaluateLater(expression)
+        let observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              evaluate()
+              observer.disconnect()
+            }
+          })
+        })
+        observer.observe(el)
+        cleanup(() => observer.disconnect())
+      })
+    })
+  </script>
+  <!--
+    === ASSET PLACEHOLDERS ===
+    - Replace ./assets/logos/logo_rooted_green.png, PATH_TO_PRODUCT_IMAGE_1, etc. with actual image URLs
+    - Replace PATH_TO_ICON_X, PATH_TO_PROMISE_ICON_X, PATH_TO_INSTAGRAM_ICON, etc. with actual asset URLs
+    - Insert custom font @font-face or <link> in <head>
+    - Insert MailerLite embed code in the popup div
+    - Replace brand color values in :root and Tailwind config if customizing
+    - Add favicon and OG image
+  -->
+  <!-- === SCROLL-TO-TOP BUTTON (Persistent, Accessible) === -->
+  <div x-data="{ show: false }" x-init="window.addEventListener('scroll', () => { show = window.scrollY > 200 })" x-show="show" x-transition.opacity class="fixed bottom-32 right-4 z-50">
+    <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Scroll to top" class="glass-light border border-[var(--rooted-green)] shadow-lg rounded-full p-3 text-[var(--rooted-green)] hover:bg-[var(--rooted-green)] hover:text-[var(--rooted-earth)] focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>
+    </button>
+  </div>
+</body>
+</html> 
