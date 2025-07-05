@@ -32,15 +32,20 @@
   <style>
     /* Brand color palette (replace with actual values) */
     :root {
-      --rooted-green: #2C6752;
-      --rooted-beige: #FFEEC9;
-      --rooted-yellow: #FFC344;
-      --rooted-brown: #87473F;
-      --rooted-orange: #F35C37;
-      --rooted-green-alpha-10: rgba(44, 103, 82, 0.10);
-      --rooted-green-alpha-40: rgba(44, 103, 82, 0.40);
-      --rooted-brown-alpha-10: rgba(135, 71, 63, 0.10);
-      --rooted-orange-alpha-10: rgba(243, 92, 55, 0.10);
+      --color-primary: #2C6752;         /* Rooted Green */
+      --color-primary-10: rgba(44,103,82,0.10);
+      --color-primary-40: rgba(44,103,82,0.40);
+      --color-bg: #FFEEC9;              /* Rooted Beige */
+      --color-accent: #F35C37;          /* Rooted Orange */
+      --color-accent-alt: #FFC344;      /* Rooted Yellow */
+      --color-text: #87473F;            /* Rooted Brown */
+      --color-success: #2C6752;
+      --color-error: #F35C37;
+      --color-warning: #FFC344;
+      --color-surface: #fff;
+      --color-glass-light: rgba(255,255,255,0.65);
+      --color-glass-dark: rgba(34,34,34,0.45);
+      --color-glass-accent: rgba(243,92,55,0.10); /* Orange */
     }
     /* Hide [x-cloak] elements until Alpine initializes */
     [x-cloak] { display: none !important; }
@@ -51,27 +56,34 @@
     }
     /* Example for custom font usage */
     body {
-      font-family: 'YourFont', system-ui, sans-serif;
+      font-family: 'Jost', system-ui, sans-serif;
+      color: var(--color-text);
+      background: var(--color-bg);
+    }
+    h1, h2, h3, h4, h5, h6, .brand-headline {
+      font-family: 'Transcity', serif;
+      letter-spacing: 0.01em;
     }
     /* Glassmorphism card effect (more transparent, softer) */
     .glass {
       border-radius: 1rem;
-      border: 1px solid var(--rooted-green-alpha-10);
+      border: 1px solid var(--color-primary-10);
       backdrop-filter: blur(14px) saturate(180%);
       -webkit-backdrop-filter: blur(14px) saturate(180%);
       box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+      background: var(--color-glass-light);
       transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
     }
     .glass-light {
-      background: rgba(255,255,255,0.65);
+      background: var(--color-glass-light);
       border-radius: 1rem;
-      border: 1px solid var(--rooted-green-alpha-10);
+      border: 1px solid var(--color-primary-10);
       backdrop-filter: blur(14px) saturate(180%);
       -webkit-backdrop-filter: blur(14px) saturate(180%);
       box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
     }
     .glass-dark {
-      background: rgba(34,34,34,0.45);
+      background: var(--color-glass-dark);
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.125);
       backdrop-filter: blur(11px) saturate(180%);
@@ -79,7 +91,7 @@
       box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
     }
     .glass-colored {
-      background: rgba(247,201,192,0.35);
+      background: var(--color-glass-accent);
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.125);
       backdrop-filter: blur(11px) saturate(180%);
@@ -91,7 +103,7 @@
       box-shadow: 0 2px 16px 0 rgba(31, 38, 135, 0.08);
     }
     .glass-colored-btn {
-      background: rgba(247,201,192,0.35);
+      background: var(--color-glass-accent);
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.125);
       backdrop-filter: blur(11px) saturate(180%);
@@ -101,8 +113,8 @@
     }
     .glass-colored-btn:hover,
     .glass-colored-btn:focus {
-      background: var(--rooted-green) !important;
-      color: var(--rooted-earth) !important;
+      background: var(--color-primary) !important;
+      color: var(--color-surface) !important;
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
     }
@@ -115,11 +127,11 @@
     .glass-light:focus,
     .glass-light:active {
       outline: none;
-      box-shadow: 0 0 0 2px var(--rooted-green), 0 0 0 4px #fff;
+      box-shadow: 0 0 0 2px var(--color-primary), 0 0 0 4px #fff;
     }
     .glass-light:hover,
     .glass-light:focus {
-      background: rgba(255,255,255,0.65) !important;
+      background: var(--color-glass-light) !important;
       color: inherit !important;
       box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
     }
@@ -132,15 +144,15 @@
       transition: box-shadow 0.2s, border-color 0.2s;
     }
     .card-hover:hover, .card-hover:focus {
-      border-color: var(--rooted-green-alpha-40) !important;
+      border-color: var(--color-primary-40) !important;
       box-shadow: 0 8px 32px 0 rgba(31,38,135,0.13);
       background: inherit !important;
       color: inherit !important;
     }
     /* Only buttons/CTAs get strong green on hover */
     .cta-btn:hover, .cta-btn:focus {
-      background: var(--rooted-green) !important;
-      color: var(--rooted-earth) !important;
+      background: var(--color-primary) !important;
+      color: var(--color-surface) !important;
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
       box-shadow: 0 6px 32px 0 rgba(31,38,135,0.13);
@@ -162,32 +174,51 @@
   <link rel="canonical" href="https://rootedsnacks.com" />
   <!-- Cache control for static assets -->
   <meta http-equiv="Cache-Control" content="public, max-age=31536000" />
+  <!-- Preload Fonts & Favicon -->
+  <link rel="preload" href="./assets/fonts/Transcity.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="./assets/fonts/Jost-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="icon" type="image/png" href="./assets/monograms/monogram_rooted_green_beige.png" />
+  <style>
+    @font-face {
+      font-family: 'Transcity';
+      src: url('./assets/fonts/Transcity.otf') format('opentype');
+      font-display: swap;
+      font-weight: normal;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Jost';
+      src: url('./assets/fonts/Jost-VariableFont_wght.ttf') format('truetype');
+      font-display: swap;
+      font-weight: 100 900;
+      font-style: normal;
+    }
+  </style>
 </head>
-<body class="bg-[var(--rooted-beige)] text-[var(--rooted-brown)] antialiased scroll-smooth">
+<body class="bg-[var(--color-bg)] text-[var(--color-text)] antialiased scroll-smooth">
   <!-- === NAVBAR: Glassmorphic Sticky Top === -->
-  <header x-cloak class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-light border-b border-[var(--rooted-green)]/20 shadow-lg rounded-b-xl md:rounded-b-2xl" role="banner">
+  <header x-cloak class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-light border-b border-[var(--color-primary)]/20 shadow-lg rounded-b-xl md:rounded-b-2xl" role="banner">
     <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-2" aria-label="Main navigation" x-data="{ mobileNavOpen: false, navLinks: [ {href:'#hero',label:'Home'}, {href:'#benefits',label:'Benefits'}, {href:'#mission',label:'Mission'}, {href:'#signup',label:'Sign Up'} ] }">
       <!-- Logo -->
-      <a href="#hero" class="flex items-center gap-2" @click.prevent="scrollToSection('hero')">
-        <img src="./assets/logos/logo_rooted_green.png" alt="Rooted Snacks logo, link to homepage" class="h-8 w-auto" width="64" height="32" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'32\'><rect width=\'64\' height=\'32\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'12\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Rooted</text></svg>'" role="img" aria-label="Rooted Snacks logo" />
-        <span class="font-extrabold text-lg tracking-wider text-[var(--rooted-green)]">Rooted</span>
+      <a href="#hero" class="flex items-center" @click.prevent="scrollToSection('hero')">
+        <img src="./assets/logos/logo_rooted_green.png" alt="Rooted Snacks logo" class="h-8 w-auto" width="64" height="32" decoding="async" fetchpriority="high" role="img" />
       </a>
       <!-- Desktop Nav Links -->
-      <ul class="hidden md:flex gap-6 text-[var(--rooted-brown)] font-semibold tracking-wide">
+      <ul class="hidden md:flex gap-6 text-[var(--color-text)] font-semibold tracking-wide">
         <template x-for="link in navLinks" :key="link.href">
-          <li><a :href="link.href" class="relative px-2 py-1 transition hover:text-[var(--rooted-green)] focus:text-[var(--rooted-green)] hover:underline focus:underline underline-offset-8 decoration-[var(--rooted-green)]/60 outline-none" @click.prevent="scrollToSection(link.href.substring(1))" x-text="link.label"></a></li>
+          <li><a :href="link.href" class="relative px-2 py-1 transition hover:text-[var(--color-primary)] focus:text-[var(--color-primary)] hover:underline focus:underline underline-offset-8 decoration-[var(--color-primary)]/60 outline-none" @click.prevent="scrollToSection(link.href.substring(1))" x-text="link.label"></a></li>
         </template>
       </ul>
       <!-- Mobile Hamburger -->
-      <button @click="mobileNavOpen = !mobileNavOpen" :aria-expanded="mobileNavOpen" aria-label="Toggle mobile navigation" class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)]">
+      <button @click="mobileNavOpen = !mobileNavOpen" :aria-expanded="mobileNavOpen" aria-label="Toggle mobile navigation" class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]">
         <svg x-show="!mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
         <svg x-show="mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
       </button>
       <!-- Mobile Nav Drawer -->
-      <div x-show="mobileNavOpen" x-transition class="md:hidden absolute top-full left-0 w-full bg-white/95 border-b border-[var(--rooted-green)]/20 shadow-2xl rounded-b-xl">
-        <ul class="flex flex-col gap-4 py-4 px-6 text-[var(--rooted-brown)] font-semibold tracking-wide">
+      <div x-show="mobileNavOpen" x-transition class="md:hidden absolute top-full left-0 w-full bg-white/95 border-b border-[var(--color-primary)]/20 shadow-2xl rounded-b-xl">
+        <ul class="flex flex-col gap-4 py-4 px-6 text-[var(--color-text)] font-semibold tracking-wide">
           <template x-for="link in navLinks" :key="'mobile-'+link.href">
-            <li><a :href="link.href" @click.prevent="scrollToSection(link.href.substring(1)); mobileNavOpen = false" class="hover:text-[var(--rooted-green)] focus:text-[var(--rooted-green)] transition px-2 py-2 hover:underline focus:underline underline-offset-8 decoration-[var(--rooted-green)]/60 outline-none" x-text="link.label"></a></li>
+            <li><a :href="link.href" @click.prevent="scrollToSection(link.href.substring(1)); mobileNavOpen = false" class="hover:text-[var(--color-primary)] focus:text-[var(--color-primary)] transition px-2 py-2 hover:underline focus:underline underline-offset-8 decoration-[var(--color-primary)]/60 outline-none" x-text="link.label"></a></li>
           </template>
         </ul>
       </div>
@@ -196,7 +227,7 @@
   <div class="h-4 md:h-8"></div> <!-- Spacer for sticky nav -->
 
   <!-- === STICKY CTA BAR (Mobile, Glassmorphic) === -->
-  <div class="sticky-cta-mobile fixed bottom-0 left-0 right-0 z-40 md:hidden glass-light border-t border-[var(--rooted-green)]/15 shadow-lg flex items-center justify-between px-4 py-3 transition-transform duration-300 rounded-t-xl" x-data="{ visible: true }" x-init="
+  <div class="sticky-cta-mobile fixed bottom-0 left-0 right-0 z-40 md:hidden glass-light border-t border-[var(--color-primary)]/15 shadow-lg flex items-center justify-between px-4 py-3 transition-transform duration-300 rounded-t-xl" x-data="{ visible: true }" x-init="
     const footer = document.querySelector('footer');
     const cta = $el;
     if (footer && cta) {
@@ -208,32 +239,33 @@
       observer.observe(footer);
     }
   " x-show="!showEmailPopup && visible" x-transition>
-    <span class="font-semibold text-base md:text-lg text-[var(--rooted-green)]">Get 15% Off – Join the Waitlist!</span>
-    <button @click="openEmailPopup()" class="ml-4 glass-light text-[var(--rooted-green)] font-bold px-6 py-2 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2 border border-[var(--rooted-green)]/20 transition hover:bg-[var(--rooted-green)] hover:text-[var(--rooted-earth)]" aria-label="Open email signup">Sign Up</button>
+    <span class="font-semibold text-base md:text-lg text-[var(--color-primary)]">Get 15% Off – Join the Waitlist!</span>
+    <button @click="openEmailPopup()" class="ml-4 glass-light text-[var(--color-primary)] font-bold px-6 py-2 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 border border-[var(--color-primary)]/20 transition hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)]" aria-label="Open email signup">Sign Up</button>
   </div>
 
   <!-- === EMAIL POPUP (Glassmorphic, Focus Trap) === -->
   <div x-show="showEmailPopup === true" x-cloak x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center glass-dark bg-black/40" @mousedown.self="closeEmailPopup()" @keydown.escape.window="closeEmailPopup()">
-    <div class="glass-light rounded-2xl shadow-2xl border border-[var(--rooted-green)]/15 max-w-md w-full p-8 relative focus:outline-none" tabindex="-1" @keydown.tab.prevent="focusTrap($event)" x-ref="popup">
-      <button @click="closeEmailPopup()" class="absolute top-2 right-2 glass-light text-gray-400 hover:text-[var(--rooted-green)] text-2xl focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2 rounded-full w-10 h-10 flex items-center justify-center" aria-label="Close popup">&times;</button>
+    <div class="glass-light rounded-2xl shadow-2xl border border-[var(--color-primary)]/15 max-w-md w-full p-8 relative focus:outline-none" tabindex="-1" @keydown.tab.prevent="focusTrap($event)" x-ref="popup">
+      <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="" class="absolute opacity-10 w-24 h-24 -top-8 -right-8 pointer-events-none select-none" aria-hidden="true" />
+      <button @click="closeEmailPopup()" class="absolute top-2 right-2 glass-light text-gray-400 hover:text-[var(--color-primary)] text-2xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 rounded-full w-10 h-10 flex items-center justify-center" aria-label="Close popup">&times;</button>
       <div class="text-center">
-        <h2 class="text-2xl font-extrabold tracking-wide mb-2 text-[var(--rooted-green)]">Join the Rooted Waitlist</h2>
-        <p class="mb-4 text-[var(--rooted-brown)] text-lg">Get 15% off your first order and early access!</p>
-        <div class="glass-light rounded-xl p-4 text-[var(--rooted-brown)] border border-[var(--rooted-green)]/10">[MailerLite Form Placeholder]</div>
+        <h2 class="text-2xl font-extrabold tracking-wide mb-2 text-[var(--color-primary)]">Join the Rooted Waitlist</h2>
+        <p class="mb-4 text-[var(--color-text)] text-lg">Get 15% off your first order and early access!</p>
+        <div class="glass-light rounded-xl p-4 text-[var(--color-text)] border border-[var(--color-primary)]/10">[MailerLite Form Placeholder]</div>
       </div>
     </div>
   </div>
 
   <!-- === DESKTOP FLOATING CTA BUTTON (Glassmorphic) === -->
   <div class="hidden md:block fixed bottom-8 right-8 z-40" x-show="!showEmailPopup" x-transition>
-    <button @click="openEmailPopup()" class="glass-light text-[var(--rooted-green)] font-bold px-10 py-4 rounded-full shadow-lg border border-[var(--rooted-green)]/20 focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2 transition-colors duration-200 hover:bg-[var(--rooted-green)] hover:text-[var(--rooted-earth)] hover:glass-none hover:shadow-xl" aria-label="Get 15% Off – Join Waitlist">
+    <button @click="openEmailPopup()" class="glass-light text-[var(--color-primary)] font-bold px-10 py-4 rounded-full shadow-lg border border-[var(--color-primary)]/20 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 transition-colors duration-200 hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] hover:glass-none hover:shadow-xl" aria-label="Get 15% Off – Join Waitlist">
       Get 15% Off – Join Waitlist
     </button>
   </div>
 
   <main class="overflow-x-hidden" role="main" id="main-content">
     <!-- === SECTION: Hero Product Spotlight === -->
-    <section id="hero" class="relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 pt-4 pb-10 bg-[var(--rooted-beige)] text-center lg:text-left" x-data="heroSpotlight()">
+    <section id="hero" class="relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 pt-4 pb-10 bg-[var(--color-bg)] text-center lg:text-left" x-data="heroSpotlight()">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-start gap-12">
         <!-- Product Image (left on desktop, top on mobile) -->
         <div class="flex-shrink-0 flex justify-center items-center mb-6 lg:mb-0 lg:mr-8 w-full lg:w-auto">
@@ -241,7 +273,7 @@
                x-intersect:enter="animateIn($el, 200)"
                :class="{ 'md:sticky md:top-28': isDesktop }"
                x-ref="spotlight">
-            <div class="absolute inset-0 rounded-full bg-[var(--rooted-orange)] opacity-40 blur-2xl animate-pulse"></div>
+            <div class="absolute inset-0 rounded-full bg-[var(--color-accent)] opacity-40 blur-2xl animate-pulse"></div>
             <img src="PATH_TO_PRODUCT_IMAGE_1"
                  :style="parallaxStyle"
                  alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, front view, on spotlight, with pink halo"
@@ -258,10 +290,10 @@
             Your New Healthy Snack Awaits: Popped Water Lily Seeds
           </h1>
           <!-- StoryBrand: Problem (Subheadline) -->
-          <p class="text-lg sm:text-xl mb-2 text-[var(--rooted-green)] opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
+          <p class="text-lg sm:text-xl mb-2 text-[var(--color-primary)] opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
             Tired of unhealthy snacks that don't fit your lifestyle?
           </p>
-          <p class="text-lg sm:text-xl mb-6 text-[var(--rooted-green)] opacity-0 translate-y-8 transition-all duration-700 delay-150" x-intersect:enter="animateIn($el, 120)">
+          <p class="text-lg sm:text-xl mb-6 text-[var(--color-primary)] opacity-0 translate-y-8 transition-all duration-700 delay-150" x-intersect:enter="animateIn($el, 120)">
             Tastier, Crunchier And Better For You
           </p>
           <!-- === PRODUCT USE CASES MICROCOPY (Dynamic, Animated, True Fade) === -->
@@ -275,14 +307,14 @@
               x-transition:leave-start="opacity-100 scale-100"
               x-transition:leave-end="opacity-0 scale-95"
               :class="[
-                'inline-flex items-center gap-2 px-5 py-1.5 rounded-full font-bold text-lg border border-[var(--rooted-green)]/15 shadow-sm',
-                'bg-[var(--rooted-orange)]/70',
+                'inline-flex items-center gap-2 px-5 py-1.5 rounded-full font-bold text-lg border border-[var(--color-primary)]/15 shadow-sm',
+                'bg-[var(--color-accent)]/70',
                 'transition-all duration-300',
                 'usecase-chip-animate-luxury'
               ]"
               style="will-change: opacity, transform"
             >
-              <template x-if="useCases[currentUseCase] === 'Movie Night'"><span class="text-base opacity-70">��</span></template>
+              <template x-if="useCases[currentUseCase] === 'Movie Night'"><span class="text-base opacity-70"></span></template>
               <template x-if="useCases[currentUseCase] === 'Post-Yoga Fuel'"><span class="text-base opacity-70">🧘‍♂️</span></template>
               <template x-if="useCases[currentUseCase] === 'Lunchbox Snack'"><span class="text-base opacity-70">🥪</span></template>
               <template x-if="useCases[currentUseCase] === 'On-the-Go'"><span class="text-base opacity-70">🚗</span></template>
@@ -295,17 +327,17 @@
             .usecase-chip-animate-luxury { box-shadow: 0 2px 8px 0 rgba(31,38,135,0.07); animation: chipPop 0.5s cubic-bezier(.4,2,.6,1) 1; }
             @keyframes chipPop { 0% { transform: scale(0.95); } 60% { transform: scale(1.04); } 100% { transform: scale(1); } }
           </style>
-          <button @click="openEmailPopup()" class="inline-block bg-[var(--rooted-green)] text-[var(--rooted-earth)] font-bold px-4 py-2 md:px-8 md:py-3 rounded-full shadow-lg hover:bg-[var(--rooted-orange)] hover:text-[var(--rooted-dark)] transition text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2 mx-auto" aria-label="Join waitlist">
+          <button @click="openEmailPopup()" class="inline-block bg-[var(--color-primary)] text-[var(--color-surface)] font-bold px-4 py-2 md:px-8 md:py-3 rounded-full shadow-lg hover:bg-[var(--color-accent)] hover:text-[var(--color-success)] transition text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 mx-auto" aria-label="Join waitlist">
             🎉 Get 15% Off – Snack Smarter!
           </button>
           <!-- StoryBrand: Plan (3-Step) -->
-          <ul class="list-decimal list-inside mt-4 mb-2 text-center mx-auto max-w-xs text-[var(--rooted-brown)] glass-light rounded-lg p-4 shadow opacity-0 translate-y-8 transition-all duration-700 delay-200" x-intersect:enter="animateIn($el, 200)">
+          <ul class="list-decimal list-inside mt-4 mb-2 text-center mx-auto max-w-xs text-[var(--color-text)] glass-light rounded-lg p-4 shadow opacity-0 translate-y-8 transition-all duration-700 delay-200" x-intersect:enter="animateIn($el, 200)">
             <li><strong>Join</strong> the Rooted waitlist</li>
             <li><strong>Save</strong> 15% on your first order</li>
             <li><strong>Snack</strong> better, feel better</li>
           </ul>
           <!-- StoryBrand: Avoid Failure (Urgency) -->
-          <div class="mt-4 text-xs text-[color:var(--rooted-brown)/70] italic text-center">
+          <div class="mt-4 text-xs text-[color:var(--color-text)/70] italic text-center">
             Don't miss out on the healthiest snack of the year!
           </div>
         </div>
@@ -313,12 +345,12 @@
     </section>
 
     <!-- === SECTION: What is a Popped Water Lily Seed? === -->
-    <section id="what-is" class="px-4 lg:px-12 py-12 bg-[var(--rooted-beige)]">
+    <section id="what-is" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]">
       <div class="max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto text-center">
         <!-- StoryBrand: Problem (Reinforcement) -->
-        <p class="mb-2 text-[var(--rooted-brown)] font-semibold text-lg md:text-xl">Say goodbye to greasy, processed snacks.</p>
+        <p class="mb-2 text-[var(--color-text)] font-semibold text-lg md:text-xl">Say goodbye to greasy, processed snacks.</p>
         <h2 class="text-2xl md:text-3xl font-bold mb-4 opacity-0 translate-y-8 transition-all duration-700" x-intersect:enter="animateIn($el, 0)">What is a Popped Water Lily Seed?</h2>
-        <p class="mb-6 text-[var(--rooted-brown)] opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
+        <p class="mb-6 text-[var(--color-text)] opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
           Popped water lily seeds are a light, crunchy, and ancient superfood snack, enjoyed for centuries in Asia. Naturally gluten-free, plant-based, and deliciously satisfying!
         </p>
         <!-- TODO: Optional Illustration -->
@@ -329,57 +361,57 @@
     </section>
 
     <!-- === SECTION: Super Snack Benefits === -->
-    <section id="benefits" class="px-4 lg:px-12 py-12 bg-[var(--rooted-beige)]">
+    <section id="benefits" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
         <h2 class="text-2xl md:text-3xl font-extrabold tracking-wide mb-8 opacity-0 translate-y-8 transition-all duration-700" x-intersect:enter="animateIn($el, 0)">Super Snack That's Good For You</h2>
-        <div class="md:hidden text-sm font-semibold text-[var(--rooted-green)] mb-2 flex items-center justify-center gap-1 select-none" aria-hidden="true">
+        <div class="md:hidden text-sm font-semibold text-[var(--color-primary)] mb-2 flex items-center justify-center gap-1 select-none" aria-hidden="true">
           <svg class="w-4 h-4 inline-block mr-1 swipe-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-4-4 4 4-4 4"/></svg>
           <span>Swipe to see more</span>
         </div>
         <div class="flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-4 mb-8 overflow-x-auto md:overflow-visible no-scrollbar scroll-smooth" role="list" aria-label="Product Benefits">
           <!-- Card 1 -->
-          <div tabindex="0" role="listitem" aria-label="Up to 50% Less Fat. Snack guilt-free!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--rooted-green)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--rooted-green)] hover:border-[var(--rooted-green)] hover:shadow-lg focus:shadow-lg cursor-pointer">
-            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--rooted-orange)]/40">
+          <div tabindex="0" role="listitem" aria-label="Up to 50% Less Fat. Snack guilt-free!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--color-primary)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--color-primary)] hover:border-[var(--color-primary)] hover:shadow-lg focus:shadow-lg cursor-pointer">
+            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--color-accent)]/40">
               <img src="PATH_TO_ICON_1" alt="Up to 50% Less Fat than regular chips" class="w-7 h-7" width="28" height="28" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'28\'><rect width=\'28\' height=\'28\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" role="img" aria-label="Up to 50% Less Fat icon" />
             </div>
-            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--rooted-green)] mb-1">Up to 50% Less Fat*</span>
-            <span class="text-[0.95rem] text-[var(--rooted-brown)] opacity-80 font-medium">Snack guilt-free!</span>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--color-primary)] mb-1">Up to 50% Less Fat*</span>
+            <span class="text-[0.95rem] text-[var(--color-text)] opacity-80 font-medium">Snack guilt-free!</span>
           </div>
           <!-- Card 2 -->
-          <div tabindex="0" role="listitem" aria-label="Source Of Fibre. Feel fuller, longer!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--rooted-green)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--rooted-green)] hover:border-[var(--rooted-green)] hover:shadow-lg focus:shadow-lg cursor-pointer">
-            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--rooted-orange)]/40">
+          <div tabindex="0" role="listitem" aria-label="Source Of Fibre. Feel fuller, longer!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--color-primary)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--color-primary)] hover:border-[var(--color-primary)] hover:shadow-lg focus:shadow-lg cursor-pointer">
+            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--color-accent)]/40">
               <img src="PATH_TO_ICON_2" alt="Source Of Fibre" class="w-7 h-7" width="28" height="28" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'28\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" role="img" aria-label="Source Of Fibre icon" />
             </div>
-            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--rooted-green)] mb-1">Source Of Fibre</span>
-            <span class="text-[0.95rem] text-[var(--rooted-brown)] opacity-80 font-medium">Feel fuller, longer!</span>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--color-primary)] mb-1">Source Of Fibre</span>
+            <span class="text-[0.95rem] text-[var(--color-text)] opacity-80 font-medium">Feel fuller, longer!</span>
           </div>
           <!-- Card 3 -->
-          <div tabindex="0" role="listitem" aria-label="Antioxidant Punch. Power up your day!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--rooted-green)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--rooted-green)] hover:border-[var(--rooted-green)] hover:shadow-lg focus:shadow-lg cursor-pointer">
-            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--rooted-orange)]/40">
+          <div tabindex="0" role="listitem" aria-label="Antioxidant Punch. Power up your day!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--color-primary)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--color-primary)] hover:border-[var(--color-primary)] hover:shadow-lg focus:shadow-lg cursor-pointer">
+            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--color-accent)]/40">
               <img src="PATH_TO_ICON_3" alt="Antioxidant Punch" class="w-7 h-7" width="28" height="28" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'28\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" role="img" aria-label="Antioxidant Punch icon" />
             </div>
-            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--rooted-green)] mb-1">Antioxidant Punch</span>
-            <span class="text-[0.95rem] text-[var(--rooted-brown)] opacity-80 font-medium">Power up your day!</span>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--color-primary)] mb-1">Antioxidant Punch</span>
+            <span class="text-[0.95rem] text-[var(--color-text)] opacity-80 font-medium">Power up your day!</span>
           </div>
           <!-- Card 4 -->
-          <div tabindex="0" role="listitem" aria-label="Gluten Free. Snack safe, snack happy!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--rooted-green)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--rooted-green)] hover:border-[var(--rooted-green)] hover:shadow-lg focus:shadow-lg cursor-pointer">
-            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--rooted-orange)]/40">
+          <div tabindex="0" role="listitem" aria-label="Gluten Free. Snack safe, snack happy!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--color-primary)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--color-primary)] hover:border-[var(--color-primary)] hover:shadow-lg focus:shadow-lg cursor-pointer">
+            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--color-accent)]/40">
               <img src="PATH_TO_ICON_4" alt="Gluten Free" class="w-7 h-7" width="28" height="28" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'28\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" role="img" aria-label="Gluten Free icon" />
             </div>
-            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--rooted-green)] mb-1">Gluten Free</span>
-            <span class="text-[0.95rem] text-[var(--rooted-brown)] opacity-80 font-medium">Snack safe, snack happy!</span>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--color-primary)] mb-1">Gluten Free</span>
+            <span class="text-[0.95rem] text-[var(--color-text)] opacity-80 font-medium">Snack safe, snack happy!</span>
           </div>
           <!-- Card 5 -->
-          <div tabindex="0" role="listitem" aria-label="Vegan. 100% plant-powered!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--rooted-green)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--rooted-green)] hover:border-[var(--rooted-green)] hover:shadow-lg focus:shadow-lg cursor-pointer">
-            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--rooted-orange)]/40">
+          <div tabindex="0" role="listitem" aria-label="Vegan. 100% plant-powered!" class="group flex flex-col items-center w-40 min-w-[9.5rem] glass-light border border-[var(--color-primary)]/15 rounded-xl shadow-md p-5 transition-all duration-200 outline-none focus:border-[var(--color-primary)] hover:border-[var(--color-primary)] hover:shadow-lg focus:shadow-lg cursor-pointer">
+            <div class="icon-bg flex items-center justify-center w-14 h-14 rounded-full mb-2 bg-[var(--color-accent)]/40">
               <img src="PATH_TO_ICON_5" alt="Vegan" class="w-7 h-7" width="28" height="28" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'28\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" role="img" aria-label="Vegan icon" />
             </div>
-            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--rooted-green)] mb-1">Vegan</span>
-            <span class="text-[0.95rem] text-[var(--rooted-brown)] opacity-80 font-medium">100% plant-powered!</span>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[var(--color-primary)] mb-1">Vegan</span>
+            <span class="text-[0.95rem] text-[var(--color-text)] opacity-80 font-medium">100% plant-powered!</span>
           </div>
         </div>
         <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-500" x-intersect:enter="animateIn($el, 500)">
-          <img src="PATH_TO_BENEFITS_IMAGE" alt="Rooted snack product with health benefits, bowl and bag on table" class="w-40 h-40 lg:w-56 lg:h-56 xl:w-72 xl:h-72 object-contain rounded-lg shadow-lg border border-[var(--rooted-green)]/10" width="160" height="160" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'160\' height=\'160\'><rect width=\'160\' height=\'160\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Snack</text></svg>'" role="img" aria-label="Benefits image" />
+          <img src="PATH_TO_BENEFITS_IMAGE" alt="Rooted snack product with health benefits, bowl and bag on table" class="w-40 h-40 lg:w-56 lg:h-56 xl:w-72 xl:h-72 object-contain rounded-lg shadow-lg border border-[var(--color-primary)]/10" width="160" height="160" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'160\' height=\'160\'><rect width=\'160\' height=\'160\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Snack</text></svg>'" role="img" aria-label="Benefits image" />
         </div>
       </div>
       <style>
@@ -390,53 +422,53 @@
       </style>
       <div class="flex justify-center gap-2 mt-4 md:mt-4" role="tablist" aria-label="Testimonial navigation dots">
         <template x-for="(t, idx) in testimonials" :key="'dot-'+idx">
-          <span @click="goTo(idx)" tabindex="0" role="tab" :aria-selected="idx === current" @keydown.enter.space="goTo(idx)" :aria-label="'Go to testimonial ' + (idx+1)" :class="{'bg-[var(--rooted-green)]/60': idx === current, 'bg-[var(--rooted-orange)]/30': idx !== current }" class="w-3 h-3 rounded-full transition-colors duration-300 inline-block cursor-pointer outline-none"></span>
+          <span @click="goTo(idx)" tabindex="0" role="tab" :aria-selected="idx === current" @keydown.enter.space="goTo(idx)" :aria-label="'Go to testimonial ' + (idx+1)" :class="{'bg-[var(--color-primary)]/60': idx === current, 'bg-[var(--color-accent)]/30': idx !== current }" class="w-3 h-3 rounded-full transition-colors duration-300 inline-block cursor-pointer outline-none"></span>
         </template>
       </div>
     </section>
 
     <!-- === SECTION: Our Mission (Brand Story) === -->
-    <section id="mission" class="px-4 lg:px-12 py-12 bg-[var(--rooted-beige)]">
+    <section id="mission" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
-        <h2 class="text-2xl md:text-3xl font-extrabold tracking-wide mb-4 text-[var(--rooted-green)]">Our Mission</h2>
-        <p class="mb-6 text-[var(--rooted-brown)] text-lg">
+        <h2 class="text-2xl md:text-3xl font-extrabold tracking-wide mb-4 text-[var(--color-primary)]">Our Mission</h2>
+        <p class="mb-6 text-[var(--color-text)] text-lg">
           At Rooted, we believe in joyful, mindful snacking. Our mission is to bring you delicious, plant-based treats that nourish your body, respect the planet, and celebrate global flavors. We're committed to sustainability, transparency, and making healthy choices easy and delightful.
         </p>
         <div class="flex justify-center mt-6">
-          <img src="PATH_TO_MISSION_IMAGE" alt="Rooted team planting water lilies" class="w-40 h-40 object-contain rounded-lg shadow-lg border border-[var(--rooted-green)]/10" width="160" height="160" loading="lazy" decoding="async" />
+          <img src="PATH_TO_MISSION_IMAGE" alt="Rooted team planting water lilies" class="w-40 h-40 object-contain rounded-lg shadow-lg border border-[var(--color-primary)]/10" width="160" height="160" loading="lazy" decoding="async" />
         </div>
       </div>
     </section>
 
     <!-- === SECTION: Our Promise (Trust & Quality) === -->
-    <section id="promise" class="px-4 lg:px-12 py-12 bg-[var(--rooted-beige)]">
+    <section id="promise" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]">
       <div class="max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--rooted-green)]/15 glass-light opacity-0 translate-y-8 transition-all duration-700" x-intersect:enter="animateIn($el, 0)">
+        <div class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--color-primary)]/15 glass-light opacity-0 translate-y-8 transition-all duration-700" x-intersect:enter="animateIn($el, 0)">
           <img src="PATH_TO_PROMISE_ICON_1" alt="Promise: Nutritious, plant-based protein, minerals, antioxidants icon" class="w-12 h-12 mb-3" width="48" height="48" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Promise</text></svg>'" role="img" aria-label="Promise: Nutritious icon" />
           <h4 class="font-bold text-lg mb-1 tracking-wide">Nutritious</h4>
-          <p class="text-base text-[var(--rooted-brown)] opacity-80 font-medium">Packed with plant-based protein, minerals, and antioxidants.</p>
+          <p class="text-base text-[var(--color-text)] opacity-80 font-medium">Packed with plant-based protein, minerals, and antioxidants.</p>
         </div>
-        <div class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--rooted-green)]/15 glass-light opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
+        <div class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--color-primary)]/15 glass-light opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
           <img src="PATH_TO_PROMISE_ICON_2" alt="Promise: Delicious, crunchy, light, full of flavor icon" class="w-12 h-12 mb-3" width="48" height="48" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Promise</text></svg>'" role="img" aria-label="Promise: Delicious icon" />
           <h4 class="font-bold text-lg mb-1 tracking-wide">Delicious</h4>
-          <p class="text-base text-[var(--rooted-brown)] opacity-80 font-medium">Crunchy, light, and full of flavor – a snack you'll crave.</p>
+          <p class="text-base text-[var(--color-text)] opacity-80 font-medium">Crunchy, light, and full of flavor – a snack you'll crave.</p>
         </div>
-        <div class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--rooted-green)]/15 glass-light opacity-0 translate-y-8 transition-all duration-700 delay-200" x-intersect:enter="animateIn($el, 200)">
+        <div class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--color-primary)]/15 glass-light opacity-0 translate-y-8 transition-all duration-700 delay-200" x-intersect:enter="animateIn($el, 200)">
           <img src="PATH_TO_PROMISE_ICON_3" alt="Promise: Diverse, celebrates global flavors, ancient superfoods icon" class="w-12 h-12 mb-3" width="48" height="48" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Promise</text></svg>'" role="img" aria-label="Promise: Diverse icon" />
           <h4 class="font-bold text-lg mb-1 tracking-wide">Diverse</h4>
-          <p class="text-base text-[var(--rooted-brown)] opacity-80 font-medium">Rooted celebrates global flavors and ancient superfoods.</p>
+          <p class="text-base text-[var(--color-text)] opacity-80 font-medium">Rooted celebrates global flavors and ancient superfoods.</p>
         </div>
       </div>
     </section>
 
     <!-- === SECTION: Testimonials / Social Proof === -->
-    <section id="testimonials" class="px-4 lg:px-12 py-12 bg-[color:var(--rooted-orange)/20]" x-data="testimonialCarousel()" role="region" aria-roledescription="carousel">
+    <section id="testimonials" class="px-4 lg:px-12 py-12 bg-[color:var(--color-accent)/20]" x-data="testimonialCarousel()" role="region" aria-roledescription="carousel">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
-        <h3 class="text-xl font-bold mb-2 text-[var(--rooted-green)] tracking-wide">Imagine snacking guilt-free, full of energy.</h3>
+        <h3 class="text-xl font-bold mb-2 text-[var(--color-primary)] tracking-wide">Imagine snacking guilt-free, full of energy.</h3>
         <h2 class="text-2xl font-extrabold tracking-wide mb-8">What Snackers Are Saying</h2>
         <div class="relative flex items-center justify-center" @mouseenter="pauseAuto" @mouseleave="startAuto" @focusin="pauseAuto" @focusout="startAuto">
           <!-- Left Arrow -->
-          <button @click="prev" aria-label="Previous testimonial" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 border border-[var(--rooted-green)]/10 rounded-full p-2 shadow hover:bg-[var(--rooted-green)]/10 hover:text-[var(--rooted-green)] transition">
+          <button @click="prev" aria-label="Previous testimonial" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 border border-[var(--color-primary)]/10 rounded-full p-2 shadow hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)] transition">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
           </button>
           <!-- Testimonial Slides: Responsive Grouping -->
@@ -451,10 +483,11 @@
                   x-transition:leave="transition-opacity duration-400"
                   x-transition:leave-start="opacity-100"
                   x-transition:leave-end="opacity-0"
-                  class="glass-light border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-[var(--rooted-brown)] flex flex-col justify-center absolute left-0 right-0"
+                  class="glass-light border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow text-[var(--color-text)] flex flex-col justify-center absolute left-0 right-0 relative"
                   aria-live="polite">
+                  <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="" class="absolute bottom-2 right-2 w-6 h-6 opacity-20 pointer-events-none" aria-hidden="true" />
                   <p class="mb-2 text-lg font-medium leading-relaxed">"<span x-text="t.quote"></span>"</p>
-                  <footer class="text-xs text-[var(--rooted-green)] font-semibold tracking-wide mt-2" x-text="'– ' + t.author"></footer>
+                  <footer class="text-xs text-[var(--color-primary)] font-semibold tracking-wide mt-2" x-text="'– ' + t.author"></footer>
                 </blockquote>
               </template>
             </template>
@@ -468,10 +501,10 @@
                   <template x-if="testimonials[(current + i - 1 + testimonials.length) % testimonials.length]">
                     <blockquote
                       :key="'testimonial-group-'+((current + i - 1 + testimonials.length) % testimonials.length)"
-                      class="glass-light border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-[var(--rooted-brown)] flex-1 flex flex-col justify-center"
+                      class="glass-light border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow text-[var(--color-text)] flex-1 flex flex-col justify-center"
                       aria-live="polite">
                       <p class="mb-2 text-lg font-medium leading-relaxed">"<span x-text="testimonials[(current + i - 1 + testimonials.length) % testimonials.length].quote"></span>"</p>
-                      <footer class="text-xs text-[var(--rooted-green)] font-semibold tracking-wide mt-2" x-text="'– ' + testimonials[(current + i - 1 + testimonials.length) % testimonials.length].author"></footer>
+                      <footer class="text-xs text-[var(--color-primary)] font-semibold tracking-wide mt-2" x-text="'– ' + testimonials[(current + i - 1 + testimonials.length) % testimonials.length].author"></footer>
                     </blockquote>
                   </template>
                 </template>
@@ -479,17 +512,17 @@
             </template>
           </div>
           <!-- Right Arrow -->
-          <button @click="next" aria-label="Next testimonial" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 border border-[var(--rooted-green)]/10 rounded-full p-2 shadow hover:bg-[var(--rooted-green)]/10 hover:text-[var(--rooted-green)] transition">
+          <button @click="next" aria-label="Next testimonial" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 border border-[var(--color-primary)]/10 rounded-full p-2 shadow hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)] transition">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
         <!-- Progress Dots -->
         <div class="flex justify-center gap-2 mt-4 md:mt-4" role="tablist" aria-label="Testimonial navigation dots">
           <template x-for="(t, idx) in testimonials" :key="'dot-'+idx">
-            <span @click="goTo(idx)" tabindex="0" role="tab" :aria-selected="idx === current" @keydown.enter.space="goTo(idx)" :aria-label="'Go to testimonial ' + (idx+1)" :class="{'bg-[var(--rooted-green)]/60': idx === current, 'bg-[var(--rooted-orange)]/30': idx !== current }" class="w-3 h-3 rounded-full transition-colors duration-300 inline-block cursor-pointer outline-none"></span>
+            <span @click="goTo(idx)" tabindex="0" role="tab" :aria-selected="idx === current" @keydown.enter.space="goTo(idx)" :aria-label="'Go to testimonial ' + (idx+1)" :class="{'bg-[var(--color-primary)]/60': idx === current, 'bg-[var(--color-accent)]/30': idx !== current }" class="w-3 h-3 rounded-full transition-colors duration-300 inline-block cursor-pointer outline-none"></span>
           </template>
         </div>
-        <div class="md:hidden text-sm font-semibold text-[var(--rooted-green)] mb-2 flex items-center justify-center gap-1 select-none" aria-hidden="true">
+        <div class="md:hidden text-sm font-semibold text-[var(--color-primary)] mb-2 flex items-center justify-center gap-1 select-none" aria-hidden="true">
           <svg class="w-4 h-4 inline-block mr-1 swipe-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-4-4 4 4-4 4"/></svg>
           <span>Swipe to see more</span>
         </div>
@@ -497,31 +530,31 @@
     </section>
 
     <!-- === SECTION: Email Capture CTA === -->
-    <section id="signup" class="px-4 lg:px-12 py-12 bg-[var(--rooted-orange)]/40 text-center">
-      <div class="max-w-xl lg:max-w-3xl xl:max-w-4xl mx-auto bg-white/95 border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow-lg">
+    <section id="signup" class="px-4 lg:px-12 py-12 bg-[var(--color-accent)/40] text-center">
+      <div class="max-w-xl lg:max-w-3xl xl:max-w-4xl mx-auto bg-white/95 border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow-lg">
         <h2 class="text-2xl font-extrabold tracking-wide mb-4 opacity-0 translate-y-8 transition-all duration-700" x-intersect:enter="animateIn($el, 0)">We're Rooting for Online Soon! 🌱</h2>
-        <p class="mb-6 text-[var(--rooted-brown)] text-lg opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
+        <p class="mb-6 text-[var(--color-text)] text-lg opacity-0 translate-y-8 transition-all duration-700 delay-100" x-intersect:enter="animateIn($el, 100)">
           Updates popping into your inbox + 15% off your first order. Because you deserve snacks that love you back! 💚
         </p>
-        <button @click="openEmailPopup()" class="inline-block bg-[var(--rooted-green)] text-[var(--rooted-earth)] font-bold px-8 py-3 rounded-lg shadow-md hover:bg-[var(--rooted-orange)] hover:text-[var(--rooted-dark)] transition text-lg focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2" x-intersect:enter="delayedBounce($el)" aria-label="Join the waitlist">
+        <button @click="openEmailPopup()" class="inline-block bg-[var(--color-primary)] text-[var(--color-surface)] font-bold px-8 py-3 rounded-lg shadow-md hover:bg-[var(--color-accent)] hover:text-[var(--color-success)] transition text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2" x-intersect:enter="delayedBounce($el)" aria-label="Join the waitlist">
           Get Early Access Now
         </button>
-        <div class="mt-4 text-xs text-[color:var(--rooted-brown)/70] italic">Join now to be the first to try Rooted!</div>
+        <div class="mt-4 text-xs text-[color:var(--color-text)/70] italic">Join now to be the first to try Rooted!</div>
       </div>
     </section>
 
     <!-- === SECTION: FAQ (SEO, Brand Personality) === -->
-    <section id="faq" class="px-4 lg:px-12 py-12 bg-[var(--rooted-beige)]" x-data="{ open: 0 }">
+    <section id="faq" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]" x-data="{ open: 0 }">
       <div class="max-w-3xl mx-auto">
         <h2 class="text-2xl md:text-3xl font-extrabold tracking-wide mb-6 text-center">Frequently Asked Questions</h2>
-        <div itemscope itemtype="https://schema.org/FAQPage" class="divide-y divide-[var(--rooted-green)]/10">
+        <div itemscope itemtype="https://schema.org/FAQPage" class="divide-y divide-[var(--color-primary)]/10">
           <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
             <button
               @click="open === 0 ? open = -1 : open = 0"
               :aria-expanded="open === 0"
               :aria-controls="'faq-panel-0'"
               id="faq-tab-0"
-              class="w-full text-left font-semibold flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] py-2"
+              class="w-full text-left font-semibold flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] py-2"
               itemprop="name"
               itemprop="description"
             >
@@ -539,10 +572,10 @@
               id="faq-panel-0"
               role="region"
               :aria-labelledby="'faq-tab-0'"
-              class="overflow-hidden bg-white/90 border border-[var(--rooted-green)]/10 rounded-xl shadow p-4 mt-2"
+              class="overflow-hidden bg-white/90 border border-[var(--color-primary)]/10 rounded-xl shadow p-4 mt-2"
               itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"
             >
-              <p itemprop="text" class="py-2 text-[var(--rooted-brown)]">Absolutely! They're naturally gluten-free, plant-based, and packed with protein, minerals, and antioxidants. Plus, they're deliciously crunchy. (Your taste buds and your body will thank you!)</p>
+              <p itemprop="text" class="py-2 text-[var(--color-text)]">Absolutely! They're naturally gluten-free, plant-based, and packed with protein, minerals, and antioxidants. Plus, they're deliciously crunchy. (Your taste buds and your body will thank you!)</p>
             </div>
           </div>
           <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
@@ -551,7 +584,7 @@
               :aria-expanded="open === 1"
               :aria-controls="'faq-panel-1'"
               id="faq-tab-1"
-              class="w-full text-left font-semibold flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] py-2"
+              class="w-full text-left font-semibold flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] py-2"
               itemprop="name"
               itemprop="description"
             >
@@ -569,10 +602,10 @@
               id="faq-panel-1"
               role="region"
               :aria-labelledby="'faq-tab-1'"
-              class="overflow-hidden bg-white/90 border border-[var(--rooted-green)]/10 rounded-xl shadow p-4 mt-2"
+              class="overflow-hidden bg-white/90 border border-[var(--color-primary)]/10 rounded-xl shadow p-4 mt-2"
               itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"
             >
-              <p itemprop="text" class="py-2 text-[var(--rooted-brown)]">Yes! Rooted snacks are 100% vegan and free from gluten, soy, and artificial nasties. Snack happy, snack safe.</p>
+              <p itemprop="text" class="py-2 text-[var(--color-text)]">Yes! Rooted snacks are 100% vegan and free from gluten, soy, and artificial nasties. Snack happy, snack safe.</p>
             </div>
           </div>
           <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
@@ -581,7 +614,7 @@
               :aria-expanded="open === 2"
               :aria-controls="'faq-panel-2'"
               id="faq-tab-2"
-              class="w-full text-left font-semibold flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] py-2"
+              class="w-full text-left font-semibold flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] py-2"
               itemprop="name"
               itemprop="description"
             >
@@ -599,10 +632,10 @@
               id="faq-panel-2"
               role="region"
               :aria-labelledby="'faq-tab-2'"
-              class="overflow-hidden bg-white/90 border border-[var(--rooted-green)]/10 rounded-xl shadow p-4 mt-2"
+              class="overflow-hidden bg-white/90 border border-[var(--color-primary)]/10 rounded-xl shadow p-4 mt-2"
               itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"
             >
-              <p itemprop="text" class="py-2 text-[var(--rooted-brown)]">Just join our waitlist above! We'll send you a code as soon as we launch. Welcome to the Rooted fam! 🌱</p>
+              <p itemprop="text" class="py-2 text-[var(--color-text)]">Just join our waitlist above! We'll send you a code as soon as we launch. Welcome to the Rooted fam! 🌱</p>
             </div>
           </div>
         </div>
@@ -621,9 +654,9 @@
     </section>
 
     <!-- === SECTION: Footer (Glassmorphic on Mobile) === -->
-    <footer class="bg-white/95 text-[var(--rooted-brown)] py-6 px-4 lg:px-12 text-center sticky bottom-0 md:static z-30 border-t border-[var(--rooted-green)]/15 md:pb-0 shadow-lg" role="contentinfo">
+    <footer class="bg-white/95 text-[var(--color-text)] py-6 px-4 lg:px-12 text-center sticky bottom-0 md:static z-30 border-t border-[var(--color-primary)]/15 md:pb-0 shadow-lg brand-footer" role="contentinfo">
       <div class="mb-4">
-        <div class="text-xs font-semibold mb-2 text-[var(--rooted-green)] tracking-wide">As seen in</div>
+        <div class="text-xs font-semibold mb-2 text-[var(--color-primary)] tracking-wide">As seen in</div>
         <div class="flex justify-center items-center gap-4 opacity-80">
           <img src="PATH_TO_PRESS_LOGO_1" alt="Press Logo 1" class="h-6 w-auto grayscale hover:grayscale-0 transition" width="72" height="24" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'72\' height=\'24\'><rect width=\'72\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Logo</text></svg>'" role="img" aria-label="Press logo 1" />
           <img src="PATH_TO_PRESS_LOGO_2" alt="Press Logo 2" class="h-6 w-auto grayscale hover:grayscale-0 transition" width="72" height="24" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'72\' height=\'24\'><rect width=\'72\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Logo</text></svg>'" role="img" aria-label="Press logo 2" />
@@ -633,14 +666,17 @@
       <div class="flex flex-col md:flex-row items-center justify-between max-w-4xl mx-auto gap-2">
         <div class="flex flex-col items-center gap-2 w-full">
           <div class="flex items-center justify-center gap-4 mb-2">
-            <a href="https://instagram.com/yourbrand" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-[var(--rooted-green)]">
+            <a href="https://instagram.com/yourbrand" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-[var(--color-primary)]">
               <img src="PATH_TO_INSTAGRAM_ICON" alt="Instagram social icon, link to Rooted Instagram" class="w-6 h-6 inline grayscale hover:grayscale-0 transition" width="24" height="24" loading="lazy" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\'><rect width=\'24\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>IG</text></svg>'" role="img" aria-label="Instagram icon" />
             </a>
-            <a href="mailto:hello@rootedsnacks.com" class="hover:text-[var(--rooted-green)] underline" aria-label="Contact Rooted">hello@rootedsnacks.com</a>
+            <a href="mailto:hello@rootedsnacks.com" class="hover:text-[var(--color-primary)] underline" aria-label="Contact Rooted">hello@rootedsnacks.com</a>
           </div>
-          <div class="text-xs text-[var(--rooted-green)] text-center tracking-wide">Rooted is committed to plant-based nutrition, sustainability, and global flavors. Certified vegan. Made with love.</div>
+          <div class="text-xs text-[var(--color-primary)] text-center tracking-wide">Rooted is committed to plant-based nutrition, sustainability, and global flavors. Certified vegan. Made with love.</div>
           <div class="text-xs text-center">&copy; <span x-text="new Date().getFullYear()"></span> Rooted. All rights reserved.</div>
         </div>
+      </div>
+      <div class="flex justify-center mt-6" aria-hidden="true">
+        <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram" class="w-12 h-12 opacity-60" width="48" height="48" loading="lazy" />
       </div>
     </footer>
   </main>
@@ -1008,7 +1044,7 @@
   -->
   <!-- === SCROLL-TO-TOP BUTTON (Persistent, Accessible) === -->
   <div x-data="{ show: false }" x-init="window.addEventListener('scroll', () => { show = window.scrollY > 200 })" x-show="show" x-transition.opacity class="fixed bottom-32 right-4 z-50">
-    <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Scroll to top" class="glass-light border border-[var(--rooted-green)] shadow-lg rounded-full p-3 text-[var(--rooted-green)] hover:bg-[var(--rooted-green)] hover:text-[var(--rooted-earth)] focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] focus:ring-offset-2 transition">
+    <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Scroll to top" class="glass-light border border-[var(--color-primary)] shadow-lg rounded-full p-3 text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 transition">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>
     </button>
   </div>
