@@ -61,6 +61,8 @@
       font-family: 'Jost', system-ui, sans-serif;
       color: var(--color-text);
       background: var(--color-bg);
+      font-size: 1.18rem;
+      line-height: 1.7;
     }
 
     h1,
@@ -71,7 +73,25 @@
     h6,
     .brand-headline {
       font-family: 'Transcity', serif;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.1em;
+    }
+    h1,
+    .brand-headline {
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+    }
+    h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
+    h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+    h4, h5, h6 {
+      font-size: 1.2rem;
+      font-weight: 700;
     }
 
     [x-cloak] {
@@ -93,7 +113,9 @@
     }
 
     /* === 4. Button Utilities === */
-    .btn {
+    .btn, .btn--primary, .btn--secondary {
+      font-size: 1rem;
+      padding: 0.5rem 1.25rem;
       font-weight: bold;
       border-radius: 9999px;
       border: 1px solid var(--color-primary);
@@ -103,11 +125,16 @@
       align-items: center;
       justify-content: center;
     }
+    @media (min-width: 768px) {
+      .btn, .btn--primary, .btn--secondary {
+        font-size: 1.18rem;
+        padding: 1rem 2.75rem;
+      }
+    }
     .btn--primary {
       color: var(--color-surface);
       background: var(--color-primary);
       box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
-      padding: 0.75rem 2.5rem;
     }
     .btn--primary:hover,
     .btn--primary:focus {
@@ -119,7 +146,6 @@
       color: var(--color-primary);
       background: var(--color-surface);
       box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.07);
-      padding: 0.75rem 2.5rem;
     }
     .btn--secondary:hover,
     .btn--secondary:focus {
@@ -183,9 +209,12 @@
     }
 
     /* === 6. Animation Utilities === */
-    .usecase-chip-animate-luxury {
-      box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.07);
-      animation: chipPop 0.5s cubic-bezier(.4, 2, .6, 1) 1;
+    .usecase-chip-animate-luxury,
+    .chip-min-w,
+    .chip-max-w {
+      font-size: 1.13rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
     }
 
     @keyframes chipPop {
@@ -375,6 +404,29 @@
     .chip-max-w {
       max-width: 100%;
     }
+    /* Add this to the <style> section: */
+    .chip-pop-anim {
+      animation: chipPop 0.5s cubic-bezier(.4, 2, .6, 1) 1;
+    }
+    #journey-steps {
+      position: relative;
+      height: 120px;
+      min-height: 120px;
+    }
+    @keyframes journeyWobble {
+      0% { transform: rotate(0deg) scale(1); }
+      20% { transform: rotate(-8deg) scale(1.08); }
+      40% { transform: rotate(8deg) scale(1.08); }
+      60% { transform: rotate(-6deg) scale(1.04); }
+      80% { transform: rotate(6deg) scale(1.04); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+    .journey-step-wobble {
+      animation: journeyWobble 0.5s cubic-bezier(.4,2,.6,1) 1;
+    }
+    #journey {
+      overflow: clip;
+    }
   </style>
   <!-- Preload critical images -->
   <link rel="preload" href="./assets/logos/logo_rooted_green.png" as="image" />
@@ -392,8 +444,11 @@
 <body class="bg-[var(--color-bg)] text-[var(--color-text)] antialiased scroll-smooth">
   <!-- === NAVBAR: Glassmorphic Sticky Top === -->
   <header x-cloak
-    class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-base md:glass-light border-b border-[var(--color-primary)]/20 shadow-lg rounded-b-xl md:rounded-b-2xl"
-    role="banner">
+    class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-base md:glass-light border-b border-[var(--color-primary)]/20 shadow-lg rounded-b-xl md:rounded-b-2xl transition-transform duration-500 ease-in-out"
+    role="banner"
+    x-transition:enter="transition-transform duration-500"
+    x-transition:enter-start="-translate-y-12 opacity-0"
+    x-transition:enter-end="translate-y-0 opacity-100">
     <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-2" aria-label="Main navigation"
       x-data="navBar()">
       <!-- Logo -->
@@ -434,13 +489,13 @@
       </div>
     </nav>
   </header>
-  <div class="h-4 md:h-8"></div> <!-- Spacer for sticky nav -->
+  <div class="h-16 md:h-8"></div> <!-- Spacer for sticky nav -->
 
   <!-- === STICKY CTA BAR (Mobile, Glassmorphic) === -->
   <div
-    class="fixed bottom-0 left-0 right-0 z-40 md:hidden glass-base glass-light border-t border-[var(--color-primary)]/15 shadow-lg flex items-center justify-between px-4 py-4 text-base md:text-lg transition-transform duration-300 rounded-t-xl"
+    class="fixed bottom-0 left-0 right-0 z-40 md:hidden glass-base glass-light border-t border-[var(--color-primary)]/15 shadow-lg flex items-center justify-between px-4 py-2 text-sm md:text-lg transition-transform duration-300 rounded-t-xl"
     x-data="stickyCtaBar()" x-init="init()" x-show="!showEmailPopup && visible" x-transition>
-    <span class="font-semibold text-lg md:text-xl text-[var(--color-primary)]" x-text="ctaText"></span>
+    <span class="font-semibold text-base md:text-xl text-[var(--color-primary)]" x-text="ctaText"></span>
     <button @click="openEmailPopup()" :class="buttonClass" aria-label="Open email signup" x-text="buttonLabel"></button>
   </div>
 
@@ -457,7 +512,7 @@
         class="absolute top-2 right-2 glass-light text-gray-400 hover:text-[var(--color-primary)] text-2xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 rounded-full w-10 h-10 flex items-center justify-center z-10"
         aria-label="Close popup">&times;</button>
       <div class="text-center">
-        <h2 class="text-2xl font-extrabold tracking-wide mb-2 text-[var(--color-primary)]">Join the Rooted Waitlist</h2>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-4 text-[var(--color-primary)]">Join the Rooted Waitlist</h2>
         <p class="mb-4 text-[var(--color-text)] text-lg">Get 15% off your first order and early access!</p>
         <div class="glass-light rounded-xl p-4 text-[var(--color-text)] border border-[var(--color-primary)]/10">
           [MailerLite Form Placeholder]</div>
@@ -476,14 +531,19 @@
     <!-- === SECTION: Hero Product Spotlight === -->
     <section id="hero"
       class="relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 pt-4 pb-10 bg-[var(--color-bg)] text-center lg:text-left"
-      x-data="heroSection()">
+      x-data="heroSection()"
+      x-intersect:enter="animateIn($el, 0)">
       <div
         class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-start gap-12">
         <!-- Product Image -->
         <div class="flex-shrink-0 flex justify-center items-center mb-6 lg:mb-0 lg:mr-8 w-full lg:w-auto">
           <div
-            class="relative flex justify-center items-center h-40 sm:h-56 lg:h-[28rem] lg:w-[28rem] xl:h-[32rem] xl:w-[32rem] opacity-0 scale-95 transition-all duration-700 delay-200"
-            x-intersect:enter="animateIn($el, 200)" :class="{ 'md:sticky md:top-28': isDesktop }" x-ref="spotlight">
+            class="relative flex justify-center items-center h-40 sm:h-56 lg:h-[28rem] lg:w-[28rem] xl:h-[32rem] xl:w-[32rem] opacity-0 scale-95 transition-all duration-700 delay-200 md:sticky md:top-28 animate-none"
+            x-intersect:enter="animateIn($el, 200)"
+            x-transition:enter="transition-transform transition-opacity duration-700"
+            x-transition:enter-start="opacity-0 scale-90"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-ref="spotlight">
             <div class="absolute inset-0 rounded-full bg-[var(--color-accent)] opacity-40 blur-2xl animate-pulse"></div>
             <img :src="productImage" :alt="productImageAlt"
               class="relative z-10 w-32 h-32 sm:w-48 sm:h-48 lg:w-[22rem] lg:h-[22rem] xl:w-[28rem] xl:h-[28rem] object-contain rounded-lg shadow-xl"
@@ -496,40 +556,62 @@
         <!-- Text and CTA -->
         <div class="flex-1 flex flex-col items-center justify-center text-center">
           <h1
-            class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 opacity-0 translate-y-8 transition-all duration-700"
-            x-intersect:enter="animateIn($el, 0)">
+            class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+            x-intersect:enter="animateIn($el, 0)"
+            x-transition:enter="transition-all duration-700"
+            x-transition:enter-start="opacity-0 -translate-y-8"
+            x-transition:enter-end="opacity-100 translate-y-0">
             Your New Healthy Snack Awaits: Popped Water Lily Seeds
           </h1>
-          <p class="text-lg sm:text-xl mb-6 text-[var(--color-primary)] opacity-0 translate-y-8 transition-all duration-700 delay-150"
-            x-intersect:enter="animateIn($el, 120)">
+          <p class="text-xl md:text-2xl font-semibold mb-6 text-[var(--color-primary)] opacity-0 translate-y-8 transition-all duration-700 delay-150 animate-none"
+            x-intersect:enter="animateIn($el, 120)"
+            x-transition:enter="transition-all duration-700 delay-150"
+            x-transition:enter-start="opacity-0 -translate-y-8"
+            x-transition:enter-end="opacity-100 translate-y-0">
             Tastier, Crunchier And Better For You
           </p>
           <!-- Use-case chip -->
           <div
             class="flex justify-center mb-6 text-base sm:text-lg font-semibold min-h-10 relative text-center overflow-x-auto overflow-y-hidden whitespace-nowrap gap-2 overflow-hidden">
             <div class="relative w-full overflow-hidden px-4">
-              <template x-for="(useCase, idx) in useCases" :key="useCase.label">
-                <span x-show="currentUseCase === idx && showChip" x-transition:enter="transition-opacity duration-400"
-                  x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                  x-transition:leave="transition-opacity duration-300" x-transition:leave-start="opacity-100 scale-100"
-                  x-transition:leave-end="opacity-0 scale-95" :class="[
-                'glass-base inline-flex items-center gap-2 px-5 py-1.5 rounded-full font-bold text-lg border border-[var(--color-primary)]/15 shadow-sm',
-                'bg-[var(--color-accent)]/70',
-                'transition-all duration-300',
-                'usecase-chip-animate-luxury',
-                'will-change-opacity-transform',
-                'chip-min-w',
-                'chip-max-w'
-                ]">
-                  <span class="text-base opacity-70" x-text="useCase.icon"></span>
-                  <span class="ml-1" x-text="useCase.label"></span>
+              <template x-if="nextUseCase === null">
+                <span
+                  x-transition:leave="transition-opacity duration-400"
+                  x-transition:leave-start="opacity-100"
+                  x-transition:leave-end="opacity-0"
+                  :class="chipClass"
+                  x-ref="chip"
+                >
+                  <span class="text-base opacity-70" x-text="useCases[currentUseCase].icon"></span>
+                  <span class="ml-1" x-text="useCases[currentUseCase].label"></span>
+                </span>
+              </template>
+              <template x-if="nextUseCase !== null">
+                <span
+                  x-transition:enter="transition-opacity duration-400"
+                  x-transition:enter-start="opacity-0"
+                  x-transition:enter-end="opacity-100"
+                  :class="chipClass"
+                >
+                  <span class="text-base opacity-70" x-text="useCases[nextUseCase].icon"></span>
+                  <span class="ml-1" x-text="useCases[nextUseCase].label"></span>
                 </span>
               </template>
             </div>
           </div>
+          <!-- Subtle scarcity badge and microcopy -->
+          <div class="flex flex-col items-center mt-2 mb-4">
+            <div class="text-sm text-[var(--color-primary)] opacity-80">
+              Be the first to taste Rooted. Launching soon.
+            </div>
+          </div>
           <!-- Main CTA Button -->
           <button @click="openEmailPopup()" :class="mainCtaClass" aria-label="Join waitlist"
-            x-text="mainCtaLabel"></button>
+            x-text="mainCtaLabel"
+            x-intersect:enter="delayedBounce($el)"
+            x-transition:enter="transition-transform duration-500"
+            x-transition:enter-start="scale-90 opacity-0"
+            x-transition:enter-end="scale-100 opacity-100"></button>
           <!-- 3-step plan -->
           <ul
             class="list-decimal list-inside mt-4 mb-2 text-center mx-auto max-w-xs text-[var(--color-text)] glass-light rounded-lg p-4 shadow opacity-0 translate-y-8 transition-all duration-700 delay-200"
@@ -540,20 +622,25 @@
             </template>
           </ul>
           <!-- Urgency microcopy -->
-          <div class="mt-4 text-xs text-[color:var(--color-text)/70] italic text-center" x-text="urgencyText"></div>
+          <div class="mt-6 text-base md:text-lg font-medium text-[var(--color-primary)] text-center" x-text="urgencyText"></div>
         </div>
       </div>
     </section>
 
     <!-- === SECTION: What is a Popped Water Lily Seed? === -->
-    <section id="what-is" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]" x-data="whatIsSection()">
+    <section id="what-is" class="px-4 lg:px-12 py-12 bg-[var(--color-surface)]" x-data="whatIsSection()">
       <div class="max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto text-center">
-        <h2 class="text-2xl md:text-3xl font-bold mb-4 opacity-0 translate-y-8 transition-all duration-700"
-          x-intersect:enter="animateIn($el, 0)" x-text="sectionTitle"></h2>
-        <p class="mb-6 text-[var(--color-text)] opacity-0 translate-y-8 transition-all duration-700 delay-100"
-          x-intersect:enter="animateIn($el, 100)" x-text="sectionDescription"></p>
-        <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-200"
-          x-intersect:enter="animateIn($el, 200)">
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-6 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)"
+          x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8"
+          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
+        <p class="mb-8 text-lg md:text-xl font-normal text-[var(--color-text)] leading-relaxed max-w-2xl mx-auto text-center" x-text="sectionDescription"></p>
+        <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-200 animate-none"
+          x-intersect:enter="animateIn($el, 200)"
+          x-transition:enter="transition-all duration-700 delay-200"
+          x-transition:enter-start="opacity-0 scale-90"
+          x-transition:enter-end="opacity-100 scale-100">
           <img :src="illustrationImage" :alt="illustrationAlt" class="w-28 h-28 object-contain" width="112" height="112"
             loading="lazy" decoding="async" fetchpriority="high"
             x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'112\' height=\'112\'><rect width=\'112\' height=\'112\' fill=\'%23F7C9C0\'/><ellipse cx=\'56\' cy=\'56\' rx=\'36\' ry=\'32\' fill=\'%234B6A4A\'/><ellipse cx=\'56\' cy=\'60\' rx=\'24\' ry=\'18\' fill=\'%23EDE6D6\'/><ellipse cx=\'56\' cy=\'56\' rx=\'20\' ry=\'16\' fill=\'#fff\'/><ellipse cx=\'56\' cy=\'60\' rx=\'10\' ry=\'7\' fill=\'%23F7C9C0\'/></svg>'"
@@ -563,17 +650,35 @@
     </section>
 
     <!-- === SECTION: Seed to Snack Journey (Animated, Curve-Aligned, Oomph) === -->
-    <section id="journey" class="relative px-4 lg:px-12 py-16 bg-[var(--color-bg)] overflow-x-hidden" x-data="journeySection()">
+    <section id="journey" class="relative px-4 lg:px-12 py-16 pb-24 bg-[var(--color-glass-accent)] overflow-x-hidden" x-data="journeySection()"
+      x-intersect:enter="animateIn($el, 0)"
+      x-transition:enter="transition-all duration-700"
+      x-transition:enter-start="opacity-0 -translate-y-8"
+      x-transition:enter-end="opacity-100 translate-y-0">
       <div class="max-w-5xl mx-auto text-center relative">
-        <h2 class="text-2xl md:text-3xl font-extrabold tracking-wide mb-4 text-[var(--color-primary)]">From Seed to
-          Snack</h2>
-        <p class="mb-8 text-[var(--color-text)] text-base md:text-lg opacity-80">How we transform ancient water lily
-          seeds into your favorite healthy snack.</p>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-6 text-[var(--color-primary)] opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)"
+          x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8"
+          x-transition:enter-end="opacity-100 translate-y-0">
+          From Seed to Snack
+        </h2>
+        <p class="mb-8 text-lg md:text-xl font-normal text-[var(--color-text)] opacity-90 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 100)"
+          x-transition:enter="transition-all duration-700 delay-100"
+          x-transition:enter-start="opacity-0 -translate-y-8"
+          x-transition:enter-end="opacity-100 translate-y-0">
+          How we transform ancient water lily seeds into your favorite healthy snack.
+        </p>
         <img src='./assets/logos/logo_rooted_green.png' alt=""
-          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] md:w-[420px] opacity-10 pointer-events-none z-0 object-contain"
+          class="absolute left-1/2 top-2/3 -translate-x-1/2 -translate-y-1/2 w-[320px] md:w-[420px] opacity-10 pointer-events-none z-0 object-contain"
           aria-hidden="true" />
         <div id="journey-curve-container" class="relative w-full h-[260px] md:h-[320px] mx-auto z-10">
-          <svg id="journey-curve" class="absolute left-0 top-0 w-full h-full pointer-events-none z-0"
+          <svg id="journey-curve" class="absolute left-0 top-0 w-full h-full pointer-events-none z-0 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+            x-intersect:enter="animateIn($el, 200)"
+            x-transition:enter="transition-all duration-700 delay-200"
+            x-transition:enter-start="opacity-0 translate-y-8"
+            x-transition:enter-end="opacity-100 translate-y-0"
             viewBox="0 0 1000 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path id="journeyPath" d="M60 200 Q 250 60 500 160 T 940 120" stroke="url(#journeyGradient)"
               stroke-width="8" fill="none" stroke-linecap="round" />
@@ -593,16 +698,20 @@
     </section>
 
     <!-- === SECTION: Super Snack Benefits === -->
-    <section id="benefits" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]" x-data="benefitsSection()">
+    <section id="benefits" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]" x-data="{...benefitsSection(), revealed: 0}" x-init="() => { $nextTick(() => { let observer = new IntersectionObserver(([e]) => { if(e.isIntersecting) { benefits.forEach((_,i)=>setTimeout(()=>{ revealed=i+1 },i*180)); observer.disconnect(); } }); observer.observe($el); }); }">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
         <h2
-          class="text-2xl md:text-3xl font-extrabold tracking-wide mb-8 opacity-0 translate-y-8 transition-all duration-700"
-          x-intersect:enter="animateIn($el, 0)" x-text="sectionTitle"></h2>
+          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)"
+          x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8"
+          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
         <div class="flex flex-wrap justify-center gap-6 md:gap-10 mb-8 items-center" role="list"
-          aria-label="Product Benefits">
-          <template x-for="benefit in benefits" :key="benefit.title">
+          aria-label="Product Benefits" x-ref="benefitItems">
+          <template x-for="(benefit, idx) in benefits" :key="benefit.title">
             <div tabindex="0" role="listitem" :aria-label="benefit.title"
-              class="group flex flex-col items-center w-28 md:w-32 transition-all duration-200 outline-none cursor-pointer">
+              class="group flex flex-col items-center w-28 md:w-32 transition-all duration-700 outline-none cursor-pointer opacity-0 scale-90 animate-none"
+              :class="{ 'opacity-100 scale-100': revealed > idx }">
               <div
                 class="icon-bg group-hover:scale-110 group-focus:scale-110 transition-transform duration-200">
                 <img :src="benefit.icon" :alt="benefit.alt" class="w-8 h-8 md:w-10 md:h-10 object-contain" width="40"
@@ -610,13 +719,16 @@
                   x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\'><rect width=\'40\' height=\'40\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" />
               </div>
               <span
-                class="mt-1 text-xs md:text-sm font-extrabold uppercase tracking-wider text-[var(--color-primary)] group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)] transition-colors duration-200 text-center"
+                class="mt-1 text-sm md:text-base font-extrabold uppercase tracking-wider text-[var(--color-primary)] group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)] transition-colors duration-200 text-center"
                 x-text="benefit.title"></span>
             </div>
           </template>
         </div>
-        <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-500"
-          x-intersect:enter="animateIn($el, 500)">
+        <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-500 animate-none"
+          x-intersect:enter="animateIn($el, 500)"
+          x-transition:enter="transition-all duration-700 delay-500"
+          x-transition:enter-start="opacity-0 scale-90"
+          x-transition:enter-end="opacity-100 scale-100">
           <img :src="productImage" :alt="productImageAlt"
             class="w-40 h-40 lg:w-56 lg:h-56 xl:w-72 xl:h-72 object-contain card-img"
             width="160" height="160" loading="lazy" decoding="async" fetchpriority="high"
@@ -627,12 +739,19 @@
     </section>
 
     <!-- === SECTION: Our Mission (Brand Story) === -->
-    <section id="mission" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]" x-data="missionSection()">
+    <section id="mission" class="px-4 lg:px-12 py-12 bg-[var(--color-primary-10)]" x-data="missionSection()">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
-        <h2 class="text-2xl md:text-3xl font-extrabold tracking-wide mb-4 text-[var(--color-primary)]"
-          x-text="sectionTitle"></h2>
-        <p class="mb-6 text-[var(--color-text)] text-lg" x-text="sectionDescription"></p>
-        <div class="flex justify-center mt-6">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-[var(--color-primary)] opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)"
+          x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8"
+          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
+        <p class="mb-8 text-lg md:text-xl font-normal text-[var(--color-text)] leading-relaxed max-w-3xl mx-auto text-center" x-text="sectionDescription"></p>
+        <div class="flex justify-center mt-6 opacity-0 scale-95 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 200)"
+          x-transition:enter="transition-all duration-700 delay-200"
+          x-transition:enter-start="opacity-0 scale-90"
+          x-transition:enter-end="opacity-100 scale-100">
           <img :src="missionImage" :alt="missionImageAlt"
             class="w-40 h-40 object-contain card-img" width="160"
             height="160" loading="lazy" decoding="async" />
@@ -641,21 +760,25 @@
     </section>
 
     <!-- === SECTION: Our Promise (Trust & Quality) === -->
-    <section id="promise" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]" x-data="promiseSection()">
+    <section id="promise" class="px-4 lg:px-12 py-12 bg-[var(--color-surface)]" x-data="{...promiseSection(), revealed: 0}" x-init="() => { $nextTick(() => { let observer = new IntersectionObserver(([e]) => { if(e.isIntersecting) { promises.forEach((_,i)=>setTimeout(()=>{ revealed=i+1 },i*200)); observer.disconnect(); } }); observer.observe($el); }); }">
       <div class="max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto">
-        <h2 class="text-2xl md:text-3xl font-extrabold tracking-wide mb-8 text-center text-[var(--color-primary)]"
-          x-text="sectionTitle"></h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center text-[var(--color-primary)] opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)"
+          x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8"
+          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" x-ref="promiseItems">
           <template x-for="(promise, idx) in promises" :key="promise.title">
             <div
-              class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--color-primary)]/15 card opacity-0 translate-y-8 transition-all duration-700"
-              :class="{ 'delay-100': idx === 1, 'delay-200': idx === 2 }" x-intersect:enter="animateIn($el, idx * 100)">
+              class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--color-primary)]/15 card opacity-0 scale-90 transition-all duration-1000 ease-in-out will-change-transform will-change-opacity"
+              x-intersect:enter="animateIn($el, idx * 180)"
+            >
               <img :src="promise.icon" :alt="promise.alt" class="w-12 h-12 mb-3" width="48" height="48" loading="lazy"
                 decoding="async" fetchpriority="high"
                 x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Promise</text></svg>'"
                 role="img" />
-              <h4 class="font-bold text-lg mb-1 tracking-wide" x-text="promise.title"></h4>
-              <p class="text-base text-[var(--color-text)] opacity-80 font-medium" x-text="promise.desc"></p>
+              <h3 class="text-2xl md:text-3xl font-extrabold mb-2 tracking-wide" x-text="promise.title"></h3>
+              <p class="text-lg md:text-xl text-[var(--color-text)] opacity-80 font-normal" x-text="promise.desc"></p>
             </div>
           </template>
         </div>
@@ -663,10 +786,13 @@
     </section>
 
     <!-- === SECTION: Testimonials / Social Proof === -->
-    <section id="testimonials" class="px-4 lg:px-12 py-12 bg-[color:var(--color-accent)/20]"
-      x-data="testimonialCarousel()" role="region" aria-roledescription="carousel">
+    <section id="testimonials" class="px-4 lg:px-12 py-12 bg-[var(--color-accent)/20]" x-data="testimonialCarousel()" role="region" aria-roledescription="carousel">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
-        <h2 class="text-2xl font-extrabold tracking-wide mb-8" x-text="sectionTitle"></h2>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)"
+          x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8"
+          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
         <div class="relative flex items-center justify-center" @mouseenter="pauseAuto" @mouseleave="startAuto"
           @focusin="pauseAuto" @focusout="startAuto">
           <!-- Left Arrow -->
@@ -684,13 +810,16 @@
               <div class="relative min-h-[180px] md:min-h-[160px]">
                 <template x-for="(t, idx) in testimonials" :key="idx">
                   <blockquote x-cloak x-show="current === idx"
-                    class="card border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow text-[var(--color-text)] flex flex-col justify-center absolute left-0 right-0 top-0 bottom-0 m-auto"
-                    aria-live="polite">
+                    class="card border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow text-[var(--color-text)] flex flex-col justify-center absolute left-0 right-0 top-0 bottom-0 m-auto opacity-0 scale-95 animate-none"
+                    aria-live="polite"
+                    x-transition:enter="transition-all duration-700"
+                    x-transition:enter-start="opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100">
                     <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram decorative"
                       class="absolute bottom-2 right-2 w-8 h-8 opacity-10 pointer-events-none select-none"
                       aria-hidden="true" />
-                    <p class="mb-2 text-lg font-medium leading-relaxed">"<span x-text="t.quote"></span>"</p>
-                    <footer class="text-xs text-[var(--color-primary)] font-semibold tracking-wide mt-2"
+                    <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-[var(--color-text)]">"<span x-text="t.quote"></span>"</p>
+                    <footer class="text-sm md:text-base text-[var(--color-primary)] font-semibold tracking-wide mt-2"
                       x-text="'– ' + t.author"></footer>
                   </blockquote>
                 </template>
@@ -709,10 +838,10 @@
                       <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram decorative"
                         class="absolute bottom-2 right-2 w-8 h-8 opacity-10 pointer-events-none select-none"
                         aria-hidden="true" />
-                      <p class="mb-2 text-lg font-medium leading-relaxed">"<span
+                      <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-[var(--color-text)]">"<span
                           x-text="testimonials[(current + i - 1 + testimonials.length) % testimonials.length].quote"></span>"
                       </p>
-                      <footer class="text-xs text-[var(--color-primary)] font-semibold tracking-wide mt-2"
+                      <footer class="text-sm md:text-base text-[var(--color-primary)] font-semibold tracking-wide mt-2"
                         x-text="'– ' + testimonials[(current + i - 1 + testimonials.length) % testimonials.length].author">
                       </footer>
                     </blockquote>
@@ -743,17 +872,27 @@
     </section>
 
     <!-- === SECTION: Email Capture CTA === -->
-    <section id="signup" class="px-4 lg:px-12 py-12 bg-[var(--color-accent)/40] text-center" x-data="emailCtaSection()">
+    <section id="signup" class="px-4 lg:px-12 py-12 bg-[var(--color-primary-10)] text-center" x-data="emailCtaSection()">
       <div
         class="max-w-xl lg:max-w-3xl xl:max-w-4xl mx-auto bg-white/95 border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow-lg">
-        <h2 class="text-2xl font-extrabold tracking-wide mb-4 opacity-0 translate-y-8 transition-all duration-700"
-          x-intersect:enter="animateIn($el, 0)" x-text="sectionTitle"></h2>
-        <p class="mb-6 text-[var(--color-text)] text-lg opacity-0 translate-y-8 transition-all duration-700 delay-100"
-          x-intersect:enter="animateIn($el, 100)" x-text="sectionDescription"></p>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)"
+          x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8"
+          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
+        <p class="mb-6 text-[var(--color-text)] text-base md:text-lg opacity-0 translate-y-8 transition-all duration-700 delay-100 animate-none"
+          x-intersect:enter="animateIn($el, 100)"
+          x-transition:enter="transition-all duration-700 delay-100"
+          x-transition:enter-start="opacity-0 -translate-y-8"
+          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionDescription"></p>
         <button @click="openEmailPopup()"
-          class="inline-block btn btn--primary px-8 py-3 rounded-lg shadow-md hover:bg-[var(--color-accent)] hover:text-[var(--color-success)] text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2"
-          x-intersect:enter="delayedBounce($el)" aria-label="Join the waitlist" x-text="buttonLabel"></button>
-        <div class="mt-4 text-xs text-[color:var(--color-text)/70] italic" x-text="microcopy"></div>
+          class="inline-block btn btn--primary px-8 py-3 rounded-lg shadow-md hover:bg-[var(--color-accent)] hover:text-[var(--color-success)] text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 animate-none"
+          x-intersect:enter="delayedBounce($el)"
+          x-transition:enter="transition-transform duration-500"
+          x-transition:enter-start="scale-90 opacity-0"
+          x-transition:enter-end="scale-100 opacity-100"
+          aria-label="Join the waitlist" x-text="buttonLabel"></button>
+        <div class="mt-6 text-lg md:text-xl font-semibold text-[var(--color-primary)]" x-text="microcopy"></div>
       </div>
     </section>
 
@@ -763,7 +902,11 @@
         <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram background"
           class="absolute inset-0 mx-auto my-auto w-full max-w-[240px] md:max-w-[360px] h-auto opacity-10 pointer-events-none select-none object-contain z-0"
           aria-hidden="true" />
-        <h2 class="text-2xl md:text-3xl font-extrabold tracking-wide mb-6 text-center" x-text="sectionTitle"></h2>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)"
+          x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8"
+          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
         <div itemscope itemtype="https://schema.org/FAQPage" class="divide-y divide-[var(--color-primary)]/10">
           <template x-for="(faq, idx) in faqs" :key="faq.q">
             <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
@@ -774,14 +917,21 @@
                 <span x-text="faq.q"></span>
                 <span x-text="open === idx ? '-' : '+' " aria-hidden="true" class="ml-2"></span>
               </button>
-              <div x-show="open === idx" x-transition:enter="transition duration-200 ease-out"
-                x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-40"
-                x-transition:leave="transition duration-150 ease-in" x-transition:leave-start="opacity-100 max-h-40"
-                x-transition:leave-end="opacity-0 max-h-0" :id="'faq-panel-' + idx" role="region"
+              <div
+                x-show="open === idx"
+                x-transition:enter="transition duration-300 ease-out"
+                x-transition:enter-start="opacity-0 scale-y-75"
+                x-transition:enter-end="opacity-100 scale-y-100"
+                x-transition:leave="transition duration-200 ease-in"
+                x-transition:leave-start="opacity-100 scale-y-100"
+                x-transition:leave-end="opacity-0 scale-y-75"
+                class="origin-top overflow-hidden bg-white/90 border border-[var(--color-primary)]/10 card-info mt-2"
+                :id="'faq-panel-' + idx"
+                role="region"
                 :aria-labelledby="'faq-tab-' + idx"
-                class="overflow-hidden bg-white/90 border border-[var(--color-primary)]/10 card-info mt-2"
-                itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text" class="py-2 text-[var(--color-text)]" x-text="faq.a"></p>
+                itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"
+              >
+                <p itemprop="text" class="py-2 text-base md:text-lg text-[var(--color-text)]" x-text="faq.a"></p>
               </div>
             </div>
           </template>
@@ -791,8 +941,12 @@
 
     <!-- === SECTION: Footer (Glassmorphic on Mobile) === -->
     <footer
-      class="bg-white/95 text-[var(--color-text)] py-6 px-4 lg:px-12 text-center sticky bottom-0 md:static z-30 border-t border-[var(--color-primary)]/15 shadow-lg md:pb-4"
-      role="contentinfo" x-data="footerSection()">
+      class="bg-white/95 text-[var(--color-text)] py-6 px-4 lg:px-12 text-center sticky bottom-0 md:static z-30 border-t border-[var(--color-primary)]/15 shadow-lg md:pb-4 transition-opacity duration-700 animate-none"
+      role="contentinfo" x-data="footerSection()"
+      x-intersect:enter="animateIn($el, 0)"
+      x-transition:enter="transition-opacity duration-700"
+      x-transition:enter-start="opacity-0"
+      x-transition:enter-end="opacity-100">
       <div class="flex flex-col md:flex-row items-center justify-between max-w-4xl mx-auto gap-2">
         <div class="flex flex-col items-center gap-2 w-full">
           <div class="flex items-center justify-center gap-4 mb-2">
@@ -807,8 +961,8 @@
             <a :href="'mailto:' + email" class="hover:text-[var(--color-primary)] underline" aria-label="Contact Rooted"
               x-text="email"></a>
           </div>
-          <div class="text-xs text-[var(--color-primary)] text-center tracking-wide" x-text="brandStatement"></div>
-          <div class="text-xs text-center">
+          <div class="text-sm md:text-base text-[var(--color-primary)] text-center tracking-wide" x-text="brandStatement"></div>
+          <div class="text-sm md:text-base text-center">
             &copy; <span x-text="new Date().getFullYear()"></span> <span x-text="copyright"></span>
           </div>
         </div>
@@ -882,7 +1036,7 @@
         visible: true,
         ctaText: 'Get 15% Off – Join the Waitlist!',
         buttonLabel: 'Sign Up',
-        buttonClass: 'btn btn--secondary px-6 py-3 text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 border border-[var(--color-primary)]/20 hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)]',
+        buttonClass: 'btn btn--secondary px-4 py-2 text-sm md:px-6 md:py-3 md:text-base focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 border border-[var(--color-primary)]/20 hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)]',
         observeFooter() {
           const footer = document.querySelector('footer');
           const cta = this.$el;
@@ -925,7 +1079,18 @@
           { label: 'On-the-Go', icon: '🚗' },
         ],
         currentUseCase: 0,
-        showChip: true,
+        nextUseCase: null,
+        transitioning: false,
+        chipClass: [
+          'glass-base inline-flex items-center gap-2 px-5 py-1.5 rounded-full font-bold text-lg border border-[var(--color-primary)]/15 shadow-sm',
+          'bg-[var(--color-accent)]/70',
+          'transition-all duration-300',
+          'usecase-chip-animate-luxury',
+          'will-change-opacity-transform',
+          'chip-min-w',
+          'chip-max-w',
+          'chip-pop-anim'
+        ].join(' '),
         mainCtaLabel: '🎉 Get 15% Off – Snack Smarter!',
         mainCtaClass: 'inline-block btn btn--primary md:px-8 md:py-3 text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 mx-auto',
         planSteps: [
@@ -934,6 +1099,38 @@
           'Snack better, feel better'
         ],
         urgencyText: "Don't miss out on the healthiest snack of the year!",
+        useCaseInterval: null,
+        chipRef: null,
+        popChip() {
+          if (this.chipRef) {
+            this.chipRef.classList.remove('chip-pop-anim');
+            // Force reflow to restart animation
+            void this.chipRef.offsetWidth;
+            this.chipRef.classList.add('chip-pop-anim');
+          }
+        },
+        init() {
+          this.useCaseInterval = setInterval(() => {
+            this.nextUseCase = (this.currentUseCase + 1) % this.useCases.length;
+            this.transitioning = true;
+            setTimeout(() => {
+              this.currentUseCase = this.nextUseCase;
+              this.nextUseCase = null;
+              this.transitioning = false;
+              this.$nextTick(() => {
+                this.chipRef = this.$refs.chip;
+                this.popChip();
+              });
+            }, 400); // match transition duration
+          }, 2500);
+          // Set chipRef on initial load
+          this.$nextTick(() => {
+            this.chipRef = this.$refs.chip;
+          });
+        },
+        destroy() {
+          if (this.useCaseInterval) clearInterval(this.useCaseInterval);
+        }
       }
     }
 
@@ -1074,10 +1271,16 @@
           this.updateIsDesktop();
           this._debouncedResize = debounce(this.updateIsDesktop.bind(this), 100);
           window.addEventListener('resize', this._debouncedResize);
+          window.addEventListener('orientationchange', this._orientation);
+
+          this.updateIsDesktop();
+          this._orientation = () => { this.updateIsDesktop(); };
+          window.addEventListener('orientationchange', this._orientation);
         },
         destroy() {
           window.removeEventListener('resize', this._debouncedResize);
           this.pauseAuto();
+          window.removeEventListener('orientationchange', this._orientation);
         }
       }
     }
@@ -1197,6 +1400,12 @@
     function journeySection() {
       return {
         steps: window.journeySteps,
+        // Per-step vertical offsets (in px)
+        stepOffsetsDesktop: [10, -30, -10, -20, -50],
+        stepOffsetsMobile: [-15, 0, -20, -40, 0], // Adjust these for mobile as needed
+        getStepOffsets() {
+          return window.innerWidth <= 767 ? this.stepOffsetsMobile : this.stepOffsetsDesktop;
+        },
         _parallax: null,
         _resize: null,
         _orientation: null,
@@ -1262,48 +1471,56 @@
               const pt = this.path.getPointAtLength(totalLength * pct);
               stepPoints.push(pt);
             }
-            this.container.innerHTML = '';
-            this.steps.forEach((step, idx) => {
+            // Only create step elements if not already present
+            if (!this.container._stepDivs || this.container._stepDivs.length !== n) {
+              this.container.innerHTML = '';
+              this.container._stepDivs = [];
+              this.steps.forEach((step, idx) => {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = 'journey-step-anim group flex flex-col items-center absolute z-20 opacity-0 scale-90 transition-all duration-700';
+                stepDiv.style.position = 'absolute';
+                let circleClass = 'flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full shadow-xl border-2 mb-2 transition-all duration-300 cursor-pointer journey-pop journey-card-base';
+                if (idx === 0) circleClass += ' bg-gradient-to-br from-[var(--color-primary)]/80 to-white/80 border-[var(--color-primary)] ring-4 ring-[var(--color-primary)]/30 journey-card-seed';
+                else if (idx === this.steps.length - 1) circleClass += ' bg-gradient-to-br from-[var(--color-accent)]/80 to-white/80 border-[var(--color-accent)] ring-4 ring-[var(--color-accent)]/30 journey-card-snack';
+                else circleClass += ' bg-white/80 glass-base border-[var(--color-primary)]/10';
+                const circle = document.createElement('div');
+                circle.className = circleClass;
+                const img = document.createElement('img');
+                img.src = step.icon;
+                img.alt = step.label;
+                img.className = 'w-10 h-10 md:w-12 md:h-12 object-contain journey-card-icon';
+                img.width = 48;
+                img.height = 48;
+                circle.appendChild(img);
+                stepDiv.appendChild(circle);
+                const label = document.createElement('span');
+                label.className = 'mt-1 text-sm md:text-base font-extrabold uppercase tracking-wider text-[var(--color-primary)] group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)] transition-colors duration-200 text-center';
+                label.textContent = step.label;
+                stepDiv.appendChild(label);
+                stepDiv.addEventListener('mouseenter', () => {
+                  this.showTooltip(stepDiv, step.micro);
+                });
+                stepDiv.addEventListener('mouseleave', () => {
+                  this.hideTooltip();
+                });
+                stepDiv.addEventListener('focus', () => {
+                  this.showTooltip(stepDiv, step.micro);
+                });
+                stepDiv.addEventListener('blur', () => {
+                  this.hideTooltip();
+                });
+                this.container.appendChild(stepDiv);
+                this.container._stepDivs.push(stepDiv);
+              });
+            }
+            // Always update position of step elements
+            this.container._stepDivs.forEach((stepDiv, idx) => {
               const pt = stepPoints[idx];
               const leftPx = (pt.x / viewBoxWidth) * svgRect.width;
-              const topPx = (pt.y / viewBoxHeight) * svgRect.height;
-              const stepDiv = document.createElement('div');
-              stepDiv.className = 'journey-step-anim group flex flex-col items-center absolute z-20';
-              stepDiv.style.position = 'absolute';
-              stepDiv.style.left = `calc(${leftPx}px - 24px)`;
-              stepDiv.style.top = `calc(${topPx}px - 24px)`;
-              let circleClass = 'flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full shadow-xl border-2 mb-2 transition-all duration-300 cursor-pointer journey-pop journey-card-base';
-              if (idx === 0) circleClass += ' bg-gradient-to-br from-[var(--color-primary)]/80 to-white/80 border-[var(--color-primary)] ring-4 ring-[var(--color-primary)]/30 journey-card-seed';
-              else if (idx === this.steps.length - 1) circleClass += ' bg-gradient-to-br from-[var(--color-accent)]/80 to-white/80 border-[var(--color-accent)] ring-4 ring-[var(--color-accent)]/30 journey-card-snack';
-              else circleClass += ' bg-white/80 glass-base border-[var(--color-primary)]/10';
-              const circle = document.createElement('div');
-              circle.className = circleClass;
-              const img = document.createElement('img');
-              img.src = step.icon;
-              img.alt = step.label;
-              img.className = 'w-10 h-10 md:w-12 md:h-12 object-contain journey-card-icon';
-              img.width = 48;
-              img.height = 48;
-              circle.appendChild(img);
-              stepDiv.appendChild(circle);
-              const label = document.createElement('span');
-              label.className = 'mt-1 text-sm md:text-base font-extrabold uppercase tracking-wider text-[var(--color-primary)] group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)] transition-colors duration-200 text-center';
-              label.textContent = step.label;
-              stepDiv.appendChild(label);
-              stepDiv.addEventListener('mouseenter', () => {
-                this.showTooltip(stepDiv, step.micro);
-              });
-              stepDiv.addEventListener('mouseleave', () => {
-                this.hideTooltip();
-              });
-              stepDiv.addEventListener('focus', () => {
-                this.showTooltip(stepDiv, step.micro);
-              });
-              stepDiv.addEventListener('blur', () => {
-                this.hideTooltip();
-              });
-              this.container.appendChild(stepDiv);
-              stepDiv.setAttribute('style', stepDiv.getAttribute('style') + `;left:${leftPx - 24}px;top:${topPx - 24}px;`);
+              const offset = this.getStepOffsets()[idx] || 0;
+              const topPx = (pt.y / viewBoxHeight) * svgRect.height + offset;
+              stepDiv.style.left = `${leftPx - 24}px`;
+              stepDiv.style.top = `${topPx - 24}px`;
             });
           });
         },
@@ -1327,92 +1544,51 @@
               this.path.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(.4,2,.6,1)';
               this.path.style.strokeDashoffset = 0;
             }, 200);
-            this.pulse.style.display = 'block';
-            this.pulse.style.opacity = 0;
-            let start = null;
-            let duration = 1800;
-            let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            this.container.innerHTML = '';
-            this.steps.forEach((step, idx) => {
-              const pt = stepPoints[idx];
-              const leftPx = (pt.x / viewBoxWidth) * svgRect.width;
-              const topPx = (pt.y / viewBoxHeight) * svgRect.height;
-              const stepDiv = document.createElement('div');
-              stepDiv.className = 'journey-step-anim group flex flex-col items-center absolute z-20';
-              stepDiv.style.position = 'absolute';
-              let circleClass = 'flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full shadow-xl border-2 mb-2 transition-all duration-300 cursor-pointer journey-pop journey-card-base';
-              if (idx === 0) circleClass += ' bg-gradient-to-br from-[var(--color-primary)]/80 to-white/80 border-[var(--color-primary)] ring-4 ring-[var(--color-primary)]/30 journey-card-seed';
-              else if (idx === this.steps.length - 1) circleClass += ' bg-gradient-to-br from-[var(--color-accent)]/80 to-white/80 border-[var(--color-accent)] ring-4 ring-[var(--color-accent)]/30 journey-card-snack';
-              else circleClass += ' bg-white/80 glass-base border-[var(--color-primary)]/10';
-              const circle = document.createElement('div');
-              circle.className = circleClass;
-              const img = document.createElement('img');
-              img.src = step.icon;
-              img.alt = step.label;
-              img.className = 'w-10 h-10 md:w-12 md:h-12 object-contain journey-card-icon';
-              img.width = 48;
-              img.height = 48;
-              circle.appendChild(img);
-              stepDiv.appendChild(circle);
-              const label = document.createElement('span');
-              label.className = 'mt-1 text-sm md:text-base font-extrabold uppercase tracking-wider text-[var(--color-primary)] group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)] transition-colors duration-200 text-center';
-              label.textContent = step.label;
-              stepDiv.appendChild(label);
-              stepDiv.addEventListener('mouseenter', () => {
-                this.showTooltip(stepDiv, step.micro);
+            // Animate steps in sequence with Tailwind classes
+            if (this.container._stepDivs) {
+              this.container._stepDivs.forEach((stepDiv, idx) => {
+                // Reset to initial state
+                stepDiv.classList.remove('opacity-100', 'scale-100');
+                stepDiv.classList.add('opacity-0', 'scale-90');
               });
-              stepDiv.addEventListener('mouseleave', () => {
-                this.hideTooltip();
+              this.container._stepDivs.forEach((stepDiv, idx) => {
+                setTimeout(() => {
+                  stepDiv.classList.remove('opacity-0', 'scale-90');
+                  stepDiv.classList.add('opacity-100', 'scale-100');
+                }, 350 + idx * 200); // staggered delay
               });
-              stepDiv.addEventListener('focus', () => {
-                this.showTooltip(stepDiv, step.micro);
-              });
-              stepDiv.addEventListener('blur', () => {
-                this.hideTooltip();
-              });
-              this.container.appendChild(stepDiv);
-              stepDiv.setAttribute('style', stepDiv.getAttribute('style') + `;left:${leftPx - 24}px;top:${topPx - 24}px;`);
-            });
-            if (reducedMotion) {
-              this.pulse.style.display = 'none';
-              this.container.querySelectorAll('.journey-step-anim').forEach(div => div.classList.add('journey-step-in'));
-              return;
             }
-            let stepIdx = 0;
-            const animatePulse = (ts) => {
-              if (!start) start = ts;
-              let elapsed = ts - start;
-              let t = Math.min(elapsed / duration, 1);
-              let len = t * totalLength;
-              let pt = this.path.getPointAtLength(len);
-              const leftPx = (pt.x / viewBoxWidth) * svgRect.width;
-              const topPx = (pt.y / viewBoxHeight) * svgRect.height;
-              this.pulse.style.left = `calc(${leftPx}px - 12px)`;
-              this.pulse.style.top = `calc(${topPx}px - 12px)`;
-              this.pulse.style.opacity = 1;
-              this.pulse.style.boxShadow = `0 0 32px 12px rgba(243,92,55,${0.18 + 0.12 * Math.sin(t * Math.PI)})`;
-              let nextStepT = (stepIdx) / (n - 1);
-              if (t >= nextStepT && stepIdx < n) {
-                const stepDiv = this.container.querySelectorAll('.journey-step-anim')[stepIdx];
-                if (stepDiv && !stepDiv.classList.contains('journey-step-in')) {
-                  stepDiv.classList.add('journey-step-in', 'journey-step-bounce');
-                  const icon = stepDiv.querySelector('.journey-card-icon');
-                  if (icon) icon.classList.add('journey-icon-wiggle');
-                  setTimeout(() => {
-                    stepDiv.classList.remove('journey-step-bounce');
-                    if (icon) icon.classList.remove('journey-icon-wiggle');
-                  }, 500);
+            // Pulse animation (seed) should start after all steps are visible
+            const pulseDelay = 350 + (n - 1) * 200 + 400; // last step's delay + animation duration buffer
+            setTimeout(() => {
+              this.pulse.style.display = 'block';
+              this.pulse.style.opacity = 0;
+              let start = null;
+              let duration = 1800;
+              let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+              let stepIdx = 0;
+              const animatePulse = (ts) => {
+                if (!start) start = ts;
+                let elapsed = ts - start;
+                let t = Math.min(elapsed / duration, 1);
+                let len = t * totalLength;
+                let pt = this.path.getPointAtLength(len);
+                const leftPx = (pt.x / viewBoxWidth) * svgRect.width;
+                const topPx = (pt.y / viewBoxHeight) * svgRect.height;
+                // Clamp pulse position to stay within the visible area
+                let clampedTopPx = Math.max(0, Math.min(topPx, this.curveContainer.offsetHeight - 24));
+                this.pulse.style.left = `calc(${leftPx}px - 12px)`;
+                this.pulse.style.top = `calc(${clampedTopPx}px - 12px)`;
+                this.pulse.style.opacity = 1;
+                this.pulse.style.boxShadow = `0 0 32px 12px rgba(243,92,55,${0.18 + 0.12 * Math.sin(t * Math.PI)})`;
+                if (t < 1) {
+                  requestAnimationFrame(animatePulse);
+                } else {
+                  this.pulse.style.opacity = 0;
                 }
-                stepIdx++;
-              }
-              if (t < 1) {
-                requestAnimationFrame(animatePulse);
-              } else {
-                this.pulse.style.opacity = 0;
-                this.container.querySelectorAll('.journey-step-anim').forEach(div => div.classList.add('journey-step-in'));
-              }
-            };
-            requestAnimationFrame(animatePulse);
+              };
+              requestAnimationFrame(animatePulse);
+            }, pulseDelay);
           });
         },
         setupObservers() {
@@ -1435,24 +1611,62 @@
           this.container.style.transform = `translateY(${parallaxY / 2}px)`;
         },
         setupIntersectionObserver() {
-          let hasAnimated = false;
           const observer = new window.IntersectionObserver((entries) => {
             entries.forEach(entry => {
-              if (entry.isIntersecting && !hasAnimated) {
-                hasAnimated = true;
+              if (entry.isIntersecting) {
                 this.animateJourney();
-                observer.disconnect();
+              } else {
+                this.resetJourneyAnimation();
               }
             });
           }, { threshold: 0.3 });
           observer.observe(this.curveContainer);
         },
+        resetJourneyAnimation() {
+          // Reset the path
+          if (this.path) {
+            const totalLength = this.path.getTotalLength();
+            this.path.style.transition = 'none';
+            this.path.style.strokeDasharray = totalLength;
+            this.path.style.strokeDashoffset = totalLength;
+          }
+          // Hide the pulse
+          if (this.pulse) {
+            this.pulse.style.display = 'none';
+            this.pulse.style.opacity = 0;
+          }
+          // Remove animation classes from steps, but do not remove the elements
+          if (this.container && this.container._stepDivs) {
+            this.container._stepDivs.forEach(div => {
+              div.classList.remove('journey-step-in', 'journey-step-bounce', 'journey-step-wobble');
+            });
+          }
+        },
         showTooltip(parent, text) {
           this.hideTooltip();
           this.tooltipDiv = document.createElement('div');
-          this.tooltipDiv.className = 'absolute left-1/2 -translate-x-1/2 top-24 md:top-28 bg-white/95 border border-[var(--color-primary)]/10 rounded-xl shadow-lg px-4 py-2 text-xs text-[var(--color-text)] z-30 min-w-[120px] max-w-[180px] pointer-events-none animate-fade-in';
+          this.tooltipDiv.className = 'fixed bg-white/95 border border-[var(--color-primary)]/10 rounded-xl shadow-lg px-4 py-2 text-xs text-[var(--color-text)] z-30 min-w-[120px] max-w-[180px] pointer-events-none animate-fade-in';
           this.tooltipDiv.innerHTML = text;
-          parent.appendChild(this.tooltipDiv);
+          document.body.appendChild(this.tooltipDiv);
+          requestAnimationFrame(() => {
+            const tooltip = this.tooltipDiv;
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const parentRect = parent.getBoundingClientRect();
+            // Default: show below
+            let top = parentRect.bottom + 8; // 8px gap
+            let left = parentRect.left + parentRect.width / 2 - tooltipRect.width / 2;
+            // If not enough space below, show above
+            if (parentRect.bottom + tooltipRect.height + 8 > window.innerHeight) {
+              top = parentRect.top - tooltipRect.height - 8;
+            }
+            // Clamp top to viewport
+            top = Math.max(0, Math.min(top, window.innerHeight - tooltipRect.height));
+            // Clamp left to viewport
+            left = Math.max(0, Math.min(left, window.innerWidth - tooltipRect.width));
+            tooltip.style.top = top + 'px';
+            tooltip.style.left = left + 'px';
+            tooltip.style.transform = 'none';
+          });
         },
         hideTooltip() {
           if (this.tooltipDiv && this.tooltipDiv.parentNode) {
