@@ -1,0 +1,487 @@
+/* === 1. Brand Variables & Fonts === */
+:root {
+  --rooted-green: #2C6752;
+  --rooted-green-10: rgba(44, 103, 82, 0.10);
+  --rooted-green-40: rgba(44, 103, 82, 0.40);
+  --rooted-beige: #FFEEC9;
+  --rooted-orange: #F35C37;
+  --rooted-brown: #87473F;
+  --rooted-yellow: #FFC344;
+  --color-glass-light: rgba(255, 255, 255, 0.65);
+  --color-glass-dark: rgba(34, 34, 34, 0.45);
+  --color-glass-accent: rgba(243, 92, 55, 0.10);
+
+  /* Modular color system for text on backgrounds */
+  --color-on-dark: #FFEEC9;
+  /* beige for text on dark */
+  --color-on-dark-heading: #FFC344;
+  /* yellow for heading on dark */
+  --color-on-light: #87473F;
+  /* brown for text on light */
+  --color-on-light-heading: #2C6752;
+  /* green for heading on light */
+  --color-benefit-title: var(--rooted-green);
+  --color-benefit-title-hover: var(--rooted-orange);
+  --color-testimonial-author: var(--rooted-green);
+  --color-chip-text: var(--rooted-green);
+  --color-chip-text-hover: var(--rooted-orange);
+  --color-link: var(--rooted-green);
+  --color-link-hover: var(--rooted-orange);
+}
+
+.text-on-dark {
+  color: var(--color-on-dark);
+}
+
+.text-on-light {
+  color: var(--color-on-light);
+}
+
+.heading-on-dark {
+  color: var(--color-on-dark-heading);
+}
+
+.heading-on-light {
+  color: var(--color-on-light-heading);
+}
+
+.benefit-title {
+  color: var(--color-benefit-title);
+  transition: color 0.2s;
+}
+
+.benefit-title-hover:hover,
+.benefit-title-hover:focus {
+  color: var(--color-benefit-title-hover);
+}
+
+.testimonial-author {
+  color: var(--color-testimonial-author);
+}
+
+.chip-text {
+  color: var(--color-chip-text);
+  transition: color 0.2s;
+}
+
+.chip-text-hover:hover,
+.chip-text-hover:focus {
+  color: var(--color-chip-text-hover);
+}
+
+.link-on-light {
+  color: var(--color-link);
+  transition: color 0.2s;
+}
+
+.link-on-light:hover,
+.link-on-light:focus {
+  color: var(--color-link-hover);
+}
+
+@font-face {
+  font-family: 'Transcity';
+  src: url('./assets/fonts/Transcity.otf') format('opentype');
+  font-display: swap;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('./assets/fonts/Jost-VariableFont_wght.ttf') format('truetype');
+  font-display: swap;
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+/* === 2. Base Styles === */
+body {
+  font-family: 'Jost', system-ui, sans-serif;
+  color: var(--rooted-brown);
+  background: var(--rooted-beige);
+  font-size: 1.18rem;
+  line-height: 1.7;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Transcity', serif;
+  letter-spacing: 0.1em;
+}
+
+h1 {
+  font-size: 2.8rem;
+  font-weight: 900;
+  line-height: 1em;
+}
+
+h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1em;
+}
+
+h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+h4,
+h5,
+h6 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+[x-cloak] {
+  display: none !important;
+}
+
+/* === 3. Glassmorphism Utilities === */
+.glass-base {
+  border-radius: 1rem;
+  border: 1px solid var(--rooted-green-10);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+  transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.glass-light {
+  background: var(--color-glass-light);
+}
+
+/* === 4. Button Utilities === */
+.btn,
+.btn--primary {
+  font-size: 1rem;
+  padding: 0.5rem 1.25rem;
+  font-weight: bold;
+  border-radius: 9999px;
+  border: 1px solid var(--rooted-green);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+
+  .btn,
+  .btn--primary {
+    font-size: 1.18rem;
+    padding: 1rem 2.75rem;
+  }
+}
+
+.btn--primary {
+  color: var(--rooted-green);
+  background: var(--rooted-beige);
+  box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+}
+
+.btn--primary:hover,
+.btn--primary:focus {
+  background: var(--rooted-yellow);
+  color: var(--rooted-green);
+  box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.13);
+}
+
+.btn--round {
+  width: 3rem;
+  height: 3rem;
+  min-width: 3rem;
+  min-height: 3rem;
+  color: var(--rooted-green);
+  background: var(--rooted-beige);
+  box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+  padding: 0;
+}
+
+.btn--round:hover,
+.btn--round:focus {
+  background: var(--rooted-yellow);
+  color: var(--rooted-green);
+  box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.13);
+  border-color: var(--rooted-green);
+}
+
+/* === 5. Card & Icon Utilities === */
+.card {
+  border-radius: 1rem;
+  border: 1px solid var(--rooted-green-10);
+  background: var(--color-glass-light);
+  box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+  padding: 2rem;
+  color: var(--rooted-brown);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.card-img {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+  border: 1px solid var(--rooted-green-10);
+}
+
+.card-info {
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.07);
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid var(--rooted-green-10);
+}
+
+.icon-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 9999px;
+  background: var(--rooted-orange);
+  box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.07);
+  margin-bottom: 0.5rem;
+  transition: transform 0.2s;
+}
+
+@media (min-width: 768px) {
+  .icon-bg {
+    width: 6rem;
+    height: 6rem;
+  }
+}
+
+/* === 6. Animation Utilities === */
+.usecase-chip-animate-luxury,
+.chip-min-w,
+.chip-max-w {
+  font-size: 1.13rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@keyframes chipPop {
+  0% {
+    transform: scale(0.95);
+  }
+
+  60% {
+    transform: scale(1.04);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.will-change-opacity-transform {
+  will-change: opacity, transform;
+}
+
+/* === 7. Journey Section === */
+.journey-scroll {
+  scroll-padding-left: 1.5rem;
+  cursor: grab;
+  user-select: auto;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.journey-step {
+  scroll-snap-align: center;
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1.5px solid rgba(44, 103, 82, 0.10);
+  box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.glass-arrow {
+  filter: drop-shadow(0 2px 8px rgba(44, 103, 82, 0.10));
+  opacity: 0.9;
+}
+
+/* === Journey Responsive Scaling (Mobile) === */
+@media (max-width: 767px) {
+  #journey-curve-container {
+    height: 140px !important;
+    min-height: 140px !important;
+    max-height: 140px !important;
+  }
+
+  #journey-curve {
+    height: 140px !important;
+    min-height: 140px !important;
+    max-height: 140px !important;
+  }
+
+  #journey-curve svg,
+  #journey-curve svg#journey-curve {
+    height: 140px !important;
+    min-height: 140px !important;
+    max-height: 140px !important;
+    viewBox: 0 0 1000 140 !important;
+  }
+
+  #journey-pulse {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    min-width: 1.5rem !important;
+    min-height: 1.5rem !important;
+  }
+
+  .journey-step-anim {
+    width: 3rem !important;
+    height: 3rem !important;
+    min-width: 3rem !important;
+    min-height: 3rem !important;
+  }
+
+  .journey-card-base {
+    width: 3rem !important;
+    height: 3rem !important;
+    min-width: 3rem !important;
+    min-height: 3rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .journey-card-icon {
+    width: 2rem !important;
+    height: 2rem !important;
+    min-width: 2rem !important;
+    min-height: 2rem !important;
+  }
+
+  .journey-step-anim span {
+    font-size: 0.75rem !important;
+    margin-top: 0.1rem !important;
+    line-height: 1.1 !important;
+  }
+}
+
+@media (min-width: 768px) {
+  #journey-curve-container {
+    height: 260px;
+    min-height: 260px;
+    max-height: 320px;
+  }
+}
+
+@media (min-width: 768px) {
+  .journey-scroll {
+    overflow-x: visible !important;
+    scroll-snap-type: none !important;
+  }
+}
+
+.chip-min-w {
+  min-width: 120px;
+}
+
+.chip-max-w {
+  max-width: 100%;
+}
+
+/* Add this to the <style> section: */
+.chip-pop-anim {
+  animation: chipPop 0.5s cubic-bezier(.4, 2, .6, 1) 1;
+}
+
+#journey-steps {
+  position: relative;
+  height: 120px;
+  min-height: 120px;
+}
+
+@keyframes journeyWobble {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  20% {
+    transform: rotate(-8deg) scale(1.08);
+  }
+
+  40% {
+    transform: rotate(8deg) scale(1.08);
+  }
+
+  60% {
+    transform: rotate(-6deg) scale(1.04);
+  }
+
+  80% {
+    transform: rotate(6deg) scale(1.04);
+  }
+
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.journey-step-wobble {
+  animation: journeyWobble 0.5s cubic-bezier(.4, 2, .6, 1) 1;
+}
+
+#journey {
+  overflow: clip;
+}
+
+.promise-card {
+  background: var(--rooted-beige);
+  transition: transform 0.25s cubic-bezier(.4, 2, .6, 1), box-shadow 0.25s;
+}
+
+.promise-card:hover {
+  transform: scale(1.05) rotate(0deg) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 2;
+}
+
+@media (max-width: 767px) {
+  #promise {
+    background: url('./assets/backgrounds/bg-banner-our-promise-mob.webp') center/cover no-repeat, var(--rooted-yellow);
+  }
+}
+
+@media (min-width: 768px) {
+  #promise {
+    background: url('./assets/backgrounds/bg-banner-our-promise.webp') center/cover no-repeat, var(--rooted-yellow);
+  }
+}
+
+/* Hero Section Responsive Backgrounds */
+.hero-bg {
+  background-image: url('./assets/backgrounds/hero-bg-720x1320.png');
+  background-size: cover;
+  background-position: center;
+  background-color: var(--rooted-green);
+}
+@media (min-width: 640px) {
+  .hero-bg {
+    background-image: url('./assets/backgrounds/hero-bg-1296x628.png');
+  }
+}
+@media (min-width: 1024px) {
+  .hero-bg {
+    background-image: url('./assets/backgrounds/hero-bg-2160x1047.png');
+  }
+}
+@media (min-width: 1536px) {
+  .hero-bg {
+    background-image: url('./assets/backgrounds/hero-bg-2376x1152.png');
+  }
+}

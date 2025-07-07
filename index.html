@@ -21,472 +21,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <!-- Alpine.js CDN -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-  <style>
-    /* === 1. Brand Variables & Fonts === */
-    :root {
-      --color-primary: #2C6752;
-      --color-primary-10: rgba(44, 103, 82, 0.10);
-      --color-primary-40: rgba(44, 103, 82, 0.40);
-      --color-bg: #FFEEC9;
-      --color-accent: #F35C37;
-      --color-text: #87473F;
-      --color-success: #2C6752;
-      --color-error: #F35C37;
-      --color-warning: #FFC344;
-      --color-surface: #fff;
-      --color-glass-light: rgba(255, 255, 255, 0.65);
-      --color-glass-dark: rgba(34, 34, 34, 0.45);
-      --color-glass-accent: rgba(243, 92, 55, 0.10);
-      --color-card-bg: #F28C00;
-      /* Modular color system for text on backgrounds */
-      --color-on-dark: #FFEEC9; /* beige for text on dark */
-      --color-on-dark-heading: #FFC344; /* yellow for heading on dark */
-      --color-on-light: #87473F; /* brown for text on light */
-      --color-on-light-heading: #2C6752; /* green for heading on light */
-      --color-benefit-title: var(--color-primary);
-      --color-benefit-title-hover: var(--color-accent);
-      --color-testimonial-author: var(--color-primary);
-      --color-button-text: var(--color-primary);
-      --color-button-text-hover: var(--color-surface);
-      --color-chip-text: var(--color-primary);
-      --color-chip-text-hover: var(--color-accent);
-      --color-link: var(--color-primary);
-      --color-link-hover: var(--color-accent);
-    }
-    .text-on-dark { color: var(--color-on-dark); }
-    .text-on-light { color: var(--color-on-light); }
-    .heading-on-dark { color: var(--color-on-dark-heading); }
-    .heading-on-light { color: var(--color-on-light-heading); }
-    .benefit-title { color: var(--color-benefit-title); transition: color 0.2s; }
-    .benefit-title-hover:hover,
-    .benefit-title-hover:focus { color: var(--color-benefit-title-hover); }
-    .testimonial-author { color: var(--color-testimonial-author); }
-    .button-text { color: var(--color-button-text); transition: color 0.2s; }
-    .button-text-hover:hover,
-    .button-text-hover:focus { color: var(--color-button-text-hover); }
-    .chip-text { color: var(--color-chip-text); transition: color 0.2s; }
-    .chip-text-hover:hover,
-    .chip-text-hover:focus { color: var(--color-chip-text-hover); }
-    .link-on-light { color: var(--color-link); transition: color 0.2s; }
-    .link-on-light:hover,
-    .link-on-light:focus { color: var(--color-link-hover); }
-
-    @font-face {
-      font-family: 'Transcity';
-      src: url('./assets/fonts/Transcity.otf') format('opentype');
-      font-display: swap;
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Jost';
-      src: url('./assets/fonts/Jost-VariableFont_wght.ttf') format('truetype');
-      font-display: swap;
-      font-weight: 100 900;
-      font-style: normal;
-    }
-
-    /* === 2. Base Styles === */
-    body {
-      font-family: 'Jost', system-ui, sans-serif;
-      color: var(--color-text);
-      background: var(--color-bg);
-      font-size: 1.18rem;
-      line-height: 1.7;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    .brand-headline {
-      font-family: 'Transcity', serif;
-      letter-spacing: 0.1em;
-    }
-    h1,
-    .brand-headline {
-      font-size: 2.8rem;
-      font-weight: 900;
-      line-height: 1em;
-    }
-    h2 {
-      font-size: 2.2rem;
-      font-weight: 800;
-      line-height: 1em;
-    }
-    h3 {
-      font-size: 1.6rem;
-      font-weight: 700;
-    }
-    h4, h5, h6 {
-      font-size: 1.2rem;
-      font-weight: 700;
-    }
-
-    [x-cloak] {
-      display: none !important;
-    }
-
-    /* === 3. Glassmorphism Utilities === */
-    .glass-base {
-      border-radius: 1rem;
-      border: 1px solid var(--color-primary-10);
-      backdrop-filter: blur(14px) saturate(180%);
-      -webkit-backdrop-filter: blur(14px) saturate(180%);
-      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
-      transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
-    }
-
-    .glass-light {
-      background: var(--color-glass-light);
-    }
-
-    /* === 4. Button Utilities === */
-    .btn, .btn--primary, .btn--secondary {
-      font-size: 1rem;
-      padding: 0.5rem 1.25rem;
-      font-weight: bold;
-      border-radius: 9999px;
-      border: 1px solid var(--color-primary);
-      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-      outline: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    @media (min-width: 768px) {
-      .btn, .btn--primary, .btn--secondary {
-        font-size: 1.18rem;
-        padding: 1rem 2.75rem;
-      }
-    }
-    .btn--primary {
-      color: var(--color-surface);
-      background: var(--color-primary);
-      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
-    }
-    .btn--primary:hover,
-    .btn--primary:focus {
-      background: var(--color-accent);
-      color: var(--color-surface);
-      box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.13);
-    }
-    .btn--secondary {
-      color: var(--color-primary);
-      background: var(--color-surface);
-      box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.07);
-    }
-    .btn--secondary:hover,
-    .btn--secondary:focus {
-      background: var(--color-primary-10);
-      color: var(--color-primary);
-    }
-    .btn--round {
-      width: 3rem;
-      height: 3rem;
-      min-width: 3rem;
-      min-height: 3rem;
-      color: var(--color-surface);
-      background: var(--color-primary);
-      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
-      padding: 0;
-    }
-    .btn--round:hover,
-    .btn--round:focus {
-      background: var(--color-glass-light);
-      color: var(--color-primary);
-      box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.13);
-      border-color: var(--color-primary);
-    }
-
-    /* === 5. Card & Icon Utilities === */
-    .card {
-      border-radius: 1rem;
-      border: 1px solid var(--color-primary-10);
-      background: var(--color-glass-light);
-      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
-      padding: 2rem;
-      color: var(--color-text);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
-    }
-    .card-img {
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
-      border: 1px solid var(--color-primary-10);
-    }
-    .card-info {
-      border-radius: 0.75rem;
-      box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.07);
-      padding: 1rem;
-      background: #fff;
-      border: 1px solid var(--color-primary-10);
-    }
-    .icon-bg {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 5rem;
-      height: 5rem;
-      border-radius: 9999px;
-      background: var(--color-accent);
-      box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.07);
-      margin-bottom: 0.5rem;
-      transition: transform 0.2s;
-    }
-    @media (min-width: 768px) {
-      .icon-bg {
-        width: 6rem;
-        height: 6rem;
-      }
-    }
-
-    /* === 6. Animation Utilities === */
-    .usecase-chip-animate-luxury,
-    .chip-min-w,
-    .chip-max-w {
-      font-size: 1.13rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-
-    @keyframes chipPop {
-      0% {
-        transform: scale(0.95);
-      }
-
-      60% {
-        transform: scale(1.04);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    @keyframes swipeArrowWiggle {
-
-      0%,
-      100% {
-        transform: translateX(0);
-      }
-
-      20% {
-        transform: translateX(10px);
-      }
-
-      40% {
-        transform: translateX(-7px);
-      }
-
-      60% {
-        transform: translateX(7px);
-      }
-
-      80% {
-        transform: translateX(-4px);
-      }
-    }
-
-    .swipe-arrow {
-      animation: swipeArrowWiggle 3s cubic-bezier(.4, 2, .6, 1) infinite;
-    }
-
-    .will-change-opacity-transform {
-      will-change: opacity, transform;
-    }
-
-    /* === 7. Section/Component Utilities === */
-    .scroll-snap-x-mandatory {
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .card-hover {
-      transition: box-shadow 0.2s, border-color 0.2s;
-    }
-
-    .card-hover:hover,
-    .card-hover:focus {
-      border-color: var(--color-primary-40) !important;
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
-      background: inherit !important;
-      color: inherit !important;
-    }
-
-    .cta-btn:hover,
-    .cta-btn:focus {
-      background: var(--color-primary) !important;
-      color: var(--color-surface) !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.13);
-    }
-
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    /* === 8. Journey Section === */
-    .journey-scroll {
-      scroll-padding-left: 1.5rem;
-      cursor: grab;
-      user-select: auto;
-      background: none;
-      box-shadow: none;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-    }
-
-    .journey-step {
-      scroll-snap-align: center;
-      border-radius: 1.5rem;
-      background: rgba(255, 255, 255, 0.55);
-      border: 1.5px solid rgba(44, 103, 82, 0.10);
-      box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.10);
-      backdrop-filter: blur(14px) saturate(180%);
-      -webkit-backdrop-filter: blur(14px) saturate(180%);
-      transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
-    }
-
-    .glass-arrow {
-      filter: drop-shadow(0 2px 8px rgba(44, 103, 82, 0.10));
-      opacity: 0.9;
-    }
-
-    /* === Journey Responsive Scaling (Mobile) === */
-    @media (max-width: 767px) {
-      #journey-curve-container {
-        height: 140px !important;
-        min-height: 140px !important;
-        max-height: 140px !important;
-      }
-
-      #journey-curve {
-        height: 140px !important;
-        min-height: 140px !important;
-        max-height: 140px !important;
-      }
-
-      #journey-curve svg,
-      #journey-curve svg#journey-curve {
-        height: 140px !important;
-        min-height: 140px !important;
-        max-height: 140px !important;
-        viewBox: 0 0 1000 140 !important;
-      }
-
-      #journey-pulse {
-        width: 1.5rem !important;
-        height: 1.5rem !important;
-        min-width: 1.5rem !important;
-        min-height: 1.5rem !important;
-      }
-
-      .journey-step-anim {
-        width: 3rem !important;
-        height: 3rem !important;
-        min-width: 3rem !important;
-        min-height: 3rem !important;
-      }
-
-      .journey-card-base {
-        width: 3rem !important;
-        height: 3rem !important;
-        min-width: 3rem !important;
-        min-height: 3rem !important;
-        margin-bottom: 0.25rem !important;
-      }
-
-      .journey-card-icon {
-        width: 2rem !important;
-        height: 2rem !important;
-        min-width: 2rem !important;
-        min-height: 2rem !important;
-      }
-
-      .journey-step-anim span {
-        font-size: 0.75rem !important;
-        margin-top: 0.1rem !important;
-        line-height: 1.1 !important;
-      }
-    }
-
-    @media (min-width: 768px) {
-      #journey-curve-container {
-        height: 260px;
-        min-height: 260px;
-        max-height: 320px;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .journey-scroll {
-        overflow-x: visible !important;
-        scroll-snap-type: none !important;
-      }
-    }
-    .chip-min-w {
-      min-width: 120px;
-    }
-    .chip-max-w {
-      max-width: 100%;
-    }
-    /* Add this to the <style> section: */
-    .chip-pop-anim {
-      animation: chipPop 0.5s cubic-bezier(.4, 2, .6, 1) 1;
-    }
-    #journey-steps {
-      position: relative;
-      height: 120px;
-      min-height: 120px;
-    }
-    @keyframes journeyWobble {
-      0% { transform: rotate(0deg) scale(1); }
-      20% { transform: rotate(-8deg) scale(1.08); }
-      40% { transform: rotate(8deg) scale(1.08); }
-      60% { transform: rotate(-6deg) scale(1.04); }
-      80% { transform: rotate(6deg) scale(1.04); }
-      100% { transform: rotate(0deg) scale(1); }
-    }
-    .journey-step-wobble {
-      animation: journeyWobble 0.5s cubic-bezier(.4,2,.6,1) 1;
-    }
-    #journey {
-      overflow: clip;
-    }
-
-    .promise-card {
-      background: var(--color-bg);
-      transition: transform 0.25s cubic-bezier(.4,2,.6,1), box-shadow 0.25s;
-    }
-    .promise-card:hover {
-      transform: scale(1.05) rotate(0deg) !important;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-      z-index: 2;
-    }
-    @media (max-width: 767px) {
-      #promise {
-        background: url('./assets/patterns/bg-banner-our-promise-mob.webp') center/cover no-repeat, var(--color-warning);
-      }
-    }
-    @media (min-width: 768px) {
-      #promise {
-        background: url('./assets/patterns/bg-banner-our-promise.webp') center/cover no-repeat, var(--color-warning);
-      }
-    }
-  </style>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
   <!-- Preload critical images -->
   <link rel="preload" href="./assets/logos/logo_rooted_green.png" as="image" />
   <link rel="preload" href="PATH_TO_PRODUCT_IMAGE_1" as="image" />
@@ -500,14 +36,12 @@
   <link rel="icon" type="image/png" href="./assets/monograms/monogram_rooted_green_beige.png" />
 </head>
 
-<body class="bg-[var(--color-bg)] text-[var(--color-text)] antialiased scroll-smooth">
+<body class="antialiased scroll-smooth">
   <!-- === NAVBAR: Glassmorphic Sticky Top === -->
   <header x-cloak
-    class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-base md:glass-light border-b border-[var(--color-primary)]/20 shadow-lg rounded-b-xl md:rounded-b-2xl transition-transform duration-500 ease-in-out"
-    role="banner"
-    x-transition:enter="transition-transform duration-500"
-    x-transition:enter-start="-translate-y-12 opacity-0"
-    x-transition:enter-end="translate-y-0 opacity-100">
+    class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-base md:glass-light border-b border-[var(--rooted-green)]/30 shadow-lg rounded-b-xl md:rounded-b-2xl transition-transform duration-500 ease-in-out"
+    role="banner" x-transition:enter="transition-transform duration-500"
+    x-transition:enter-start="-translate-y-12 opacity-0" x-transition:enter-end="translate-y-0 opacity-100">
     <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-2" aria-label="Main navigation"
       x-data="navBar()">
       <!-- Logo -->
@@ -517,16 +51,16 @@
           onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'32\'><rect width=\'64\' height=\'32\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'12\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Logo</text></svg>'" />
       </a>
       <!-- Desktop Nav Links (DRY) -->
-      <ul class="hidden md:flex gap-6 text-[var(--color-text)] font-semibold tracking-wide">
+      <ul class="hidden md:flex gap-6 font-semibold tracking-wide">
         <template x-for="link in navLinks" :key="link.href">
-          <li><a :href="link.href" :class="navLinkClass + ' link-on-light'" @click.prevent="scrollToSection(link.href.substring(1))"
-              x-text="link.label"></a></li>
+          <li><a :href="link.href" :class="navLinkClass + ' link-on-light'"
+              @click.prevent="scrollToSection(link.href.substring(1))" x-text="link.label"></a></li>
         </template>
       </ul>
       <!-- Mobile Hamburger -->
       <button @click="mobileNavOpen = !mobileNavOpen" :aria-expanded="mobileNavOpen"
         aria-label="Toggle mobile navigation"
-        class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]">
+        class="md:hidden p-2 rounded">
         <svg x-show="!mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -538,8 +72,8 @@
       </button>
       <!-- Mobile Nav Drawer (DRY) -->
       <div x-show="mobileNavOpen" x-transition
-        class="md:hidden absolute top-full left-0 w-full bg-white/95 border-b border-[var(--color-primary)]/20 shadow-2xl rounded-b-xl">
-        <ul class="flex flex-col gap-4 py-4 px-6 text-[var(--color-text)] font-semibold tracking-wide">
+        class="md:hidden absolute top-full left-0 w-full bg-white/95 shadow-2xl rounded-b-xl">
+        <ul class="flex flex-col gap-4 py-4 px-6 font-semibold tracking-wide">
           <template x-for="link in navLinks" :key="'mobile-'+link.href">
             <li><a :href="link.href" @click.prevent="scrollToSection(link.href.substring(1)); mobileNavOpen = false"
                 :class="navLinkClass + ' block w-full link-on-light'" x-text="link.label"></a></li>
@@ -552,9 +86,9 @@
 
   <!-- === STICKY CTA BAR (Mobile, Glassmorphic) === -->
   <div
-    class="fixed bottom-0 left-0 right-0 z-40 md:hidden glass-base glass-light border-t border-[var(--color-primary)]/15 shadow-lg flex items-center justify-between px-4 py-2 text-sm md:text-lg transition-transform duration-300 rounded-t-xl"
+    class="fixed bottom-0 left-0 right-0 z-40 md:hidden glass-base glass-light border-t border-[var(--rooted-green)]/15 shadow-lg flex items-center justify-between px-4 py-2 text-sm md:text-lg transition-transform duration-300 rounded-t-xl"
     x-data="stickyCtaBar()" x-init="init()" x-show="!showEmailPopup && visible" x-transition>
-    <span class="font-semibold text-base md:text-xl text-[var(--color-primary)]" x-text="ctaText"></span>
+    <span class="font-semibold text-base md:text-xl" x-text="ctaText"></span>
     <button @click="openEmailPopup()" :class="buttonClass" aria-label="Open email signup" x-text="buttonLabel"></button>
   </div>
 
@@ -563,17 +97,18 @@
     class="fixed inset-0 z-50 flex items-center justify-center glass-base glass-dark bg-black/40"
     @mousedown.self="closeEmailPopup()" @keydown.escape.window="closeEmailPopup()">
     <div
-      class="glass-base glass-light bg-white/90 rounded-2xl shadow-2xl border border-[var(--color-primary)]/15 max-w-md w-full p-8 relative focus:outline-none"
+      class="glass-base glass-light bg-white/90 rounded-2xl shadow-2xl border border-[var(--rooted-green)]/15 max-w-md w-full p-9 relative"
       tabindex="-1" @keydown.tab.prevent="focusTrap($event)" x-ref="popup">
       <img src="./assets/monograms/monogram_rooted_green_beige.png" alt=""
         class="absolute opacity-10 w-16 h-16 bottom-2 right-2 pointer-events-none select-none z-0" aria-hidden="true" />
       <button @click="closeEmailPopup()"
-        class="absolute top-2 right-2 glass-light text-gray-400 hover:text-[var(--color-primary)] text-2xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 rounded-full w-10 h-10 flex items-center justify-center z-10"
+        class="absolute top-2 right-2 glass-base glass-light text-gray-400 hover:text-[var(--rooted-green)] text-2xl w-10 h-10 flex items-center justify-center z-10"
         aria-label="Close popup">&times;</button>
       <div class="text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-4 text-[var(--color-primary)]">Join the Rooted Waitlist</h2>
-        <p class="mb-4 text-[var(--color-text)] text-lg">Get 15% off your first order and early access!</p>
-        <div class="glass-light rounded-xl p-4 text-[var(--color-text)] border border-[var(--color-primary)]/10">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-4 heading-on-light text-on-light">Join the Rooted
+          Waitlist</h2>
+        <p class="mb-4 text-on-light text-lg">Get 15% off your first order and early access!</p>
+        <div class="glass-light rounded-xl p-4 text-on-light border border-[var(--rooted-green)]/10">
           [MailerLite Form Placeholder]</div>
       </div>
     </div>
@@ -589,9 +124,8 @@
   <main class="overflow-x-hidden" role="main" id="main-content">
     <!-- === SECTION: Hero Product Spotlight === -->
     <section id="hero"
-      class="relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 bg-[var(--color-primary)] text-center lg:text-left"
-      x-data="heroSection()"
-      x-intersect:enter="animateIn($el, 0)">
+      class="hero-bg relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 text-center lg:text-left"
+      x-data="heroSection()" x-intersect:enter="animateIn($el, 0)">
       <div
         class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-start gap-12">
         <!-- Product Image -->
@@ -600,12 +134,11 @@
             class="relative flex justify-center items-center h-40 sm:h-56 lg:h-[28rem] lg:w-[28rem] xl:h-[32rem] xl:w-[32rem] opacity-0 scale-95 transition-all duration-700 delay-200 md:sticky md:top-28 animate-none"
             x-intersect:enter="animateIn($el, 200)"
             x-transition:enter="transition-transform transition-opacity duration-700"
-            x-transition:enter-start="opacity-0 scale-90"
-            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
             x-ref="spotlight">
-            <div class="absolute inset-0 rounded-full bg-[var(--color-accent)] opacity-40 blur-2xl animate-pulse"></div>
+            <div class="absolute inset-0 rounded-full bg-[var(--rooted-yellow)] opacity-40 blur-2xl animate-pulse"></div>
             <img :src="productImage" :alt="productImageAlt"
-              class="relative z-10 w-32 h-32 sm:w-48 sm:h-48 lg:w-[22rem] lg:h-[22rem] xl:w-[28rem] xl:h-[28rem] object-contain rounded-lg shadow-xl ring-4 ring-[var(--color-warning)]/20"
+              class="relative z-10 w-32 h-32 sm:w-48 sm:h-48 lg:w-[22rem] lg:h-[22rem] xl:w-[28rem] xl:h-[28rem] object-contain rounded-lg shadow-xl"
               width="448" height="448" decoding="async" fetchpriority="high" loading="eager"
               x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'448\' height=\'448\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Product</text></svg>'"
               role="img" aria-label="Rooted Product"
@@ -616,17 +149,13 @@
         <div class="flex-1 flex flex-col items-center justify-center text-center">
           <h1
             class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 opacity-0 translate-y-8 transition-all duration-700 heading-on-dark"
-            x-intersect:enter="animateIn($el, 0)"
-            x-transition:enter="transition-all duration-700"
-            x-transition:enter-start="opacity-0 -translate-y-8"
-            x-transition:enter-end="opacity-100 translate-y-0">
+            x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
+            x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
             Your New Healthy Snack Awaits: Popped Water Lily Seeds
           </h1>
           <p class="text-xl md:text-2xl font-semibold mb-6 opacity-0 translate-y-8 transition-all duration-700 delay-150 text-on-dark"
-            x-intersect:enter="animateIn($el, 120)"
-            x-transition:enter="transition-all duration-700 delay-150"
-            x-transition:enter-start="opacity-0 -translate-y-8"
-            x-transition:enter-end="opacity-100 translate-y-0">
+            x-intersect:enter="animateIn($el, 120)" x-transition:enter="transition-all duration-700 delay-150"
+            x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
             Tastier, Crunchier And Better For You
           </p>
           <!-- Use-case chip -->
@@ -634,24 +163,15 @@
             class="flex justify-center mb-6 text-base sm:text-lg font-semibold min-h-10 relative text-center overflow-x-auto overflow-y-hidden whitespace-nowrap gap-2 overflow-hidden">
             <div class="relative w-full overflow-hidden px-4">
               <template x-if="nextUseCase === null">
-                <span
-                  x-transition:leave="transition-opacity duration-400"
-                  x-transition:leave-start="opacity-100"
-                  x-transition:leave-end="opacity-0"
-                  :class="chipClass + ' chip-text chip-text-hover'"
-                  x-ref="chip"
-                >
+                <span x-transition:leave="transition-opacity duration-400" x-transition:leave-start="opacity-100"
+                  x-transition:leave-end="opacity-0" :class="chipClass + ' chip-text chip-text-hover'" x-ref="chip">
                   <span class="text-base opacity-70" x-text="useCases[currentUseCase].icon"></span>
                   <span class="ml-1" x-text="useCases[currentUseCase].label"></span>
                 </span>
               </template>
               <template x-if="nextUseCase !== null">
-                <span
-                  x-transition:enter="transition-opacity duration-400"
-                  x-transition:enter-start="opacity-0"
-                  x-transition:enter-end="opacity-100"
-                  :class="chipClass + ' chip-text chip-text-hover'"
-                >
+                <span x-transition:enter="transition-opacity duration-400" x-transition:enter-start="opacity-0"
+                  x-transition:enter-end="opacity-100" :class="chipClass + ' chip-text chip-text-hover'">
                   <span class="text-base opacity-70" x-text="useCases[nextUseCase].icon"></span>
                   <span class="ml-1" x-text="useCases[nextUseCase].label"></span>
                 </span>
@@ -659,49 +179,26 @@
             </div>
           </div>
           <!-- Main CTA Button -->
-          <button @click="openEmailPopup()"
-            class="inline-block btn px-8 py-3 rounded-lg shadow-md glass-base bg-white button-text button-text-hover text-lg font-bold border-2 border-[var(--color-warning)] hover:bg-[var(--color-warning)] focus:outline-none focus:ring-2 focus:ring-[var(--color-warning)] focus:ring-offset-2 mx-auto"
-            aria-label="Join waitlist"
-            x-text="mainCtaLabel"
-            x-intersect:enter="delayedBounce($el)"
-            x-transition:enter="transition-transform duration-500"
-            x-transition:enter-start="scale-90 opacity-0"
-            x-transition:enter-end="scale-100 opacity-100"
-          ></button>
-          <!-- 3-step plan -->
-          <ul
-            class="list-decimal list-inside mt-4 mb-2 text-center mx-auto max-w-xs text-[var(--color-primary)] bg-white/80 glass-light rounded-lg p-4 shadow opacity-0 translate-y-8 transition-all duration-700 delay-200"
-            x-intersect:enter="animateIn($el, 200)">
-            <template x-for="step in planSteps" :key="step">
-              <li><strong x-text="step.split(' ')[0]"></strong> <span
-                  x-text="step.substring(step.indexOf(' ') + 1)"></span></li>
-            </template>
-          </ul>
+          <button @click="openEmailPopup()" class="btn btn--primary mb-4 mt-2" aria-label="Join waitlist" x-text="mainCtaLabel"
+            x-intersect:enter="delayedBounce($el)" x-transition:enter="transition-transform duration-500"
+            x-transition:enter-start="scale-90 opacity-0" x-transition:enter-end="scale-100 opacity-100"></button>
         </div>
       </div>
     </section>
 
-    <!-- Decorative wave for section transition -->
-    <div class="relative w-full overflow-hidden -mt-2" aria-hidden="true">
-      <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-20 block">
-        <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="var(--color-surface)"/>
-      </svg>
-    </div>
-
     <!-- === SECTION: What is a Popped Water Lily Seed? === -->
-    <section id="what-is" class="px-4 lg:px-12 py-12 bg-[var(--color-surface)]" x-data="whatIsSection()">
+    <section id="what-is" class="px-4 lg:px-12 py-12" x-data="whatIsSection()">
       <div class="max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)"
-          x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8"
-          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
-        <p class="mb-8 text-lg md:text-xl font-normal text-on-light leading-relaxed max-w-2xl mx-auto text-center" x-text="sectionDescription"></p>
+        <h2
+          class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
+          x-text="sectionTitle"></h2>
+        <p class="mb-8 text-lg md:text-xl font-normal text-on-light leading-relaxed max-w-2xl mx-auto text-center"
+          x-text="sectionDescription"></p>
         <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-200 animate-none"
-          x-intersect:enter="animateIn($el, 200)"
-          x-transition:enter="transition-all duration-700 delay-200"
-          x-transition:enter-start="opacity-0 scale-90"
-          x-transition:enter-end="opacity-100 scale-100">
+          x-intersect:enter="animateIn($el, 200)" x-transition:enter="transition-all duration-700 delay-200"
+          x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100">
           <img :src="illustrationImage" :alt="illustrationAlt" class="w-28 h-28 object-contain" width="112" height="112"
             loading="lazy" decoding="async" fetchpriority="high"
             x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'112\' height=\'112\' fill=\'%23F7C9C0\'/><ellipse cx=\'56\' cy=\'56\' rx=\'36\' ry=\'32\' fill=\'%234B6A4A\'/><ellipse cx=\'56\' cy=\'60\' rx=\'24\' ry=\'18\' fill=\'%23EDE6D6\'/><ellipse cx=\'56\' cy=\'56\' rx=\'20\' ry=\'16\' fill=\'#fff\'/><ellipse cx=\'56\' cy=\'60\' rx=\'10\' ry=\'7\' fill=\'%23F7C9C0\'/></svg>'"
@@ -711,35 +208,29 @@
     </section>
 
     <!-- === SECTION: Seed to Snack Journey (Animated, Curve-Aligned, Oomph) === -->
-    <section id="journey" class="relative px-4 lg:px-12 py-16 pb-24 bg-[var(--color-glass-accent)] overflow-x-hidden" x-data="journeySection()"
-      x-intersect:enter="animateIn($el, 0)"
-      x-transition:enter="transition-all duration-700"
-      x-transition:enter-start="opacity-0 -translate-y-8"
-      x-transition:enter-end="opacity-100 translate-y-0">
+    <section id="journey" class="relative px-4 lg:px-12 py-16 pb-24 bg-[var(--color-glass-accent)] overflow-x-hidden"
+      x-data="journeySection()" x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
+      x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
       <div class="max-w-5xl mx-auto text-center relative">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-6 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)"
-          x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8"
-          x-transition:enter-end="opacity-100 translate-y-0">
+        <h2
+          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-6 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
           From Seed to Snack
         </h2>
         <p class="mb-8 text-lg md:text-xl font-normal text-on-light opacity-90 opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 100)"
-          x-transition:enter="transition-all duration-700 delay-100"
-          x-transition:enter-start="opacity-0 -translate-y-8"
-          x-transition:enter-end="opacity-100 translate-y-0">
+          x-intersect:enter="animateIn($el, 100)" x-transition:enter="transition-all duration-700 delay-100"
+          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
           How we transform ancient water lily seeds into your favorite healthy snack.
         </p>
         <img src='./assets/logos/logo_rooted_green.png' alt=""
           class="absolute left-1/2 top-2/3 -translate-x-1/2 -translate-y-1/2 w-[320px] md:w-[420px] opacity-10 pointer-events-none z-0 object-contain"
           aria-hidden="true" />
         <div id="journey-curve-container" class="relative w-full h-[260px] md:h-[320px] mx-auto z-10">
-          <svg id="journey-curve" class="absolute left-0 top-0 w-full h-full pointer-events-none z-0 opacity-0 translate-y-8 transition-all duration-700 animate-none"
-            x-intersect:enter="animateIn($el, 200)"
-            x-transition:enter="transition-all duration-700 delay-200"
-            x-transition:enter-start="opacity-0 translate-y-8"
-            x-transition:enter-end="opacity-100 translate-y-0"
+          <svg id="journey-curve"
+            class="absolute left-0 top-0 w-full h-full pointer-events-none z-0 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+            x-intersect:enter="animateIn($el, 200)" x-transition:enter="transition-all duration-700 delay-200"
+            x-transition:enter-start="opacity-0 translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
             viewBox="0 0 1000 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path id="journeyPath" d="M60 200 Q 250 60 500 160 T 940 120" stroke="url(#journeyGradient)"
               stroke-width="8" fill="none" stroke-linecap="round" />
@@ -751,7 +242,7 @@
             </defs>
           </svg>
           <div id="journey-pulse"
-            class="absolute w-8 h-8 rounded-full bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-primary)] shadow-lg opacity-80 z-20 pointer-events-none"
+            class="absolute w-8 h-8 rounded-full bg-gradient-to-br from-[var(--rooted-orange)] to-[var(--rooted-green)] shadow-lg opacity-80 z-20 pointer-events-none"
             style="display:none;"></div>
           <div id="journey-steps" class="absolute left-0 top-0 w-full h-full z-10"></div>
         </div>
@@ -759,23 +250,23 @@
     </section>
 
     <!-- === SECTION: Super Snack Benefits === -->
-    <section id="benefits" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]" x-data="{...benefitsSection(), revealed: 0}" x-init="() => { $nextTick(() => { let observer = new IntersectionObserver(([e]) => { if(e.isIntersecting) { benefits.forEach((_,i)=>setTimeout(()=>{ revealed=i+1 },i*180)); observer.disconnect(); } }); observer.observe($el); }); }">
+    <section id="benefits" class="px-4 lg:px-12 py-12" x-data="{...benefitsSection(), revealed: 0}"
+      x-init="() => { $nextTick(() => { let observer = new IntersectionObserver(([e]) => { if(e.isIntersecting) { benefits.forEach((_,i)=>setTimeout(()=>{ revealed=i+1 },i*180)); observer.disconnect(); } }); observer.observe($el); }); }">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
         <h2
           class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)"
-          x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8"
-          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
+          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
+          x-text="sectionTitle"></h2>
         <div class="flex flex-wrap justify-center gap-6 md:gap-10 mb-8 items-center" role="list"
           aria-label="Product Benefits" x-ref="benefitItems">
           <template x-for="(benefit, idx) in benefits" :key="benefit.title">
             <div tabindex="0" role="listitem" :aria-label="benefit.title"
               class="group flex flex-col items-center w-28 md:w-32 transition-all duration-700 outline-none cursor-pointer opacity-0 scale-90 animate-none"
               :class="{ 'opacity-100 scale-100': revealed > idx }">
-              <div
-                class="icon-bg group-hover:scale-110 group-focus:scale-110 transition-transform duration-200">
-                <img :src="benefit.icon" :alt="benefit.alt" class="w-12 h-12 md:w-16 md:h-16 max-w-full max-h-full mx-auto my-auto object-contain" width="64"
+              <div class="icon-bg group-hover:scale-110 group-focus:scale-110 transition-transform duration-200">
+                <img :src="benefit.icon" :alt="benefit.alt"
+                  class="w-12 h-12 md:w-16 md:h-16 max-w-full max-h-full mx-auto my-auto object-contain" width="64"
                   height="64" loading="lazy" decoding="async" fetchpriority="high"
                   x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\'\><rect width=\'64\' height=\'64\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'16\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" />
               </div>
@@ -786,13 +277,11 @@
           </template>
         </div>
         <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-500 animate-none"
-          x-intersect:enter="animateIn($el, 500)"
-          x-transition:enter="transition-all duration-700 delay-500"
-          x-transition:enter-start="opacity-0 scale-90"
-          x-transition:enter-end="opacity-100 scale-100">
+          x-intersect:enter="animateIn($el, 500)" x-transition:enter="transition-all duration-700 delay-500"
+          x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100">
           <img :src="productImage" :alt="productImageAlt"
-            class="w-40 h-40 lg:w-56 lg:h-56 xl:w-72 xl:h-72 object-contain card-img"
-            width="160" height="160" loading="lazy" decoding="async" fetchpriority="high"
+            class="w-40 h-40 lg:w-56 lg:h-56 xl:w-72 xl:h-72 object-contain card-img" width="160" height="160"
+            loading="lazy" decoding="async" fetchpriority="high"
             x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'160\' height=\'160\'\><rect width=\'160\' height=\'160\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Snack</text></svg>'"
             role="img" aria-label="Benefits image" />
         </div>
@@ -807,7 +296,7 @@
         <img src="./assets/mission/mission2.jpg" alt="Mission image 2" class="object-cover w-full h-full" />
         <img src="./assets/mission/mission3.jpg" alt="Mission image 3" class="object-cover w-full h-full" />
         <img src="./assets/mission/mission4.jpg" alt="Mission image 4" class="object-cover w-full h-full" />
-      </div>
+        </div>
       <!-- Optional overlay for readability -->
       <div class="absolute inset-0 bg-white/20 z-0"></div>
       <!-- Glass Card (Foreground) -->
@@ -816,17 +305,17 @@
           Our Mission
         </h2>
         <p class="mb-4 sm:mb-8 text-base sm:text-lg md:text-xl font-normal text-on-light leading-relaxed text-center">
-          At Rooted, we believe in joyful, mindful snacking. Our mission is to bring you delicious, plant-based treats that nourish your body, respect the planet, and celebrate global flavors. We're committed to sustainability, transparency, and making healthy choices easy and delightful.
+          At Rooted, we believe in joyful, mindful snacking. Our mission is to bring you delicious, plant-based treats
+          that nourish your body, respect the planet, and celebrate global flavors. We're committed to sustainability,
+          transparency, and making healthy choices easy and delightful.
         </p>
         <!-- Optionally, you can add a mission image or icon here -->
       </div>
     </section>
 
     <!-- === SECTION: Our Promise (Trust & Quality) === -->
-    <section id="promise"
-      class="relative py-16 px-4 flex items-center justify-center min-h-[420px]"
-      x-data="promiseSection()"
-      x-init="init()">
+    <section id="promise" class="relative py-16 px-4 flex items-center justify-center min-h-[420px]"
+      x-data="promiseSection()" x-init="init()">
       <div class="absolute inset-0 pointer-events-none z-0"></div>
       <div class="relative z-10 max-w-[1200px] w-full mx-auto flex flex-col items-center justify-center">
         <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-15 tracking-wide drop-shadow-lg heading-on-light">
@@ -836,17 +325,13 @@
           <template x-for="(promise, idx) in promises" :key="promise.title">
             <div
               class="promise-card w-full max-w-xs sm:max-w-sm md:max-w-[300px] mx-auto border-2 border-black rounded-[1rem] p-4 sm:p-6 flex flex-col items-center justify-between transition-transform duration-300 will-change-transform cursor-pointer text-on-light"
-              :style="'transform:rotate(' + tiltAngles[idx % tiltAngles.length] + ');'"
-              @mouseenter="hovered = idx"
-              @mouseleave="hovered = null"
-              @touchstart="hovered = idx"
-              @touchend="hovered = null"
+              :style="'transform:rotate(' + tiltAngles[idx % tiltAngles.length] + ');'" @mouseenter="hovered = idx"
+              @mouseleave="hovered = null" @touchstart="hovered = idx" @touchend="hovered = null"
               :class="{'scale-105 shadow-2xl': hovered === idx, 'rotate-[-2deg]': tiltAngles[idx % tiltAngles.length] === '-2deg', 'rotate-[2deg]': tiltAngles[idx % tiltAngles.length] === '2deg'}"
-              x-transition:enter="transition-all duration-700"
-              x-transition:enter-start="opacity-0 scale-90"
-              x-transition:enter-end="opacity-100 scale-100"
-            >
-              <h4 class="text-lg sm:text-xl font-bold mb-1 sm:mb-3 text-center uppercase tracking-wide heading-on-light" x-text="promise.title"></h4>
+              x-transition:enter="transition-all duration-700" x-transition:enter-start="opacity-0 scale-90"
+              x-transition:enter-end="opacity-100 scale-100">
+              <h4 class="text-lg sm:text-xl font-bold mb-1 sm:mb-3 text-center uppercase tracking-wide heading-on-light"
+                x-text="promise.title"></h4>
               <p class="text-base sm:text-lg font-normal leading-[1.4] text-center" x-text="promise.desc"></p>
             </div>
           </template>
@@ -855,18 +340,19 @@
     </section>
 
     <!-- === SECTION: Testimonials / Social Proof === -->
-    <section id="testimonials" class="px-4 lg:px-12 py-12 bg-[var(--color-accent)/20]" x-data="testimonialCarousel()" role="region" aria-roledescription="carousel">
+    <section id="testimonials" class="px-4 lg:px-12 py-12" x-data="testimonialCarousel()"
+      role="region" aria-roledescription="carousel">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)"
-          x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8"
-          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
+        <h2
+          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
+          x-text="sectionTitle"></h2>
         <div class="relative flex items-center justify-center" @mouseenter="pauseAuto" @mouseleave="startAuto"
           @focusin="pauseAuto" @focusout="startAuto">
           <!-- Left Arrow -->
           <button @click="prev" aria-label="Previous testimonial"
-            class="absolute left-0 top-1/2 -translate-y-1/2 z-10 glass-base glass-light btn btn--round">
+            class="absolute left-0 top-1/2 -translate-y-1/2 z-10 btn btn--round">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -878,9 +364,8 @@
             <template x-if="!isDesktop">
               <div class="relative min-h-[180px] md:min-h-[160px] flex items-center justify-center">
                 <blockquote
-                  class="card border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow text-on-light flex flex-col justify-center"
-                  aria-live="polite"
-                >
+                  class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex flex-col justify-center"
+                  aria-live="polite">
                   <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram decorative"
                     class="absolute bottom-2 right-2 w-8 h-8 opacity-10 pointer-events-none select-none"
                     aria-hidden="true" />
@@ -900,7 +385,7 @@
                   <template x-if="testimonials[(current + i - 1 + testimonials.length) % testimonials.length]">
                     <blockquote
                       :key="'testimonial-group-'+((current + i - 1 + testimonials.length) % testimonials.length)"
-                      class="card border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow text-on-light flex-1 flex flex-col justify-center relative"
+                      class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex-1 flex flex-col justify-center relative"
                       aria-live="polite">
                       <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram decorative"
                         class="absolute bottom-2 right-2 w-8 h-8 opacity-10 pointer-events-none select-none"
@@ -919,7 +404,7 @@
           </div>
           <!-- Right Arrow -->
           <button @click="next" aria-label="Next testimonial"
-            class="absolute right-0 top-1/2 -translate-y-1/2 z-10 glass-base glass-light btn btn--round">
+            class="absolute right-0 top-1/2 -translate-y-1/2 z-10 btn btn--round">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -931,7 +416,7 @@
           <template x-for="(t, idx) in testimonials" :key="'dot-'+idx">
             <span @click="goTo(idx)" tabindex="0" role="tab" :aria-selected="idx === current"
               @keydown.enter.space="goTo(idx)" :aria-label="'Go to testimonial ' + (idx+1)"
-              :class="{'bg-[var(--color-primary)]/60': idx === current, 'bg-[var(--color-accent)]/30': idx !== current }"
+              :class="{'bg-[var(--rooted-green)]/60': idx === current, 'bg-[var(--rooted-orange)]/30': idx !== current }"
               class="w-3 h-3 rounded-full transition-colors duration-300 inline-block cursor-pointer outline-none"></span>
           </template>
         </div>
@@ -939,67 +424,53 @@
     </section>
 
     <!-- === SECTION: Email Capture CTA === -->
-    <section id="signup" class="px-4 lg:px-12 py-12 bg-[var(--color-primary-10)] text-center" x-data="emailCtaSection()">
+    <section id="signup" class="px-4 lg:px-12 py-12 text-center" x-data="emailCtaSection()">
       <div
-        class="max-w-xl lg:max-w-3xl xl:max-w-4xl mx-auto bg-white/95 border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow-lg">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)"
-          x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8"
-          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
+        class="relative z-10 w-full max-w-xl mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10 bg-white/80 backdrop-blur-md border border-[var(--rooted-green)]/10">
+        <h2
+          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
+          x-text="sectionTitle"></h2>
         <p class="mb-6 text-on-light text-base md:text-lg opacity-0 translate-y-8 transition-all duration-700 delay-100 animate-none"
-          x-intersect:enter="animateIn($el, 100)"
-          x-transition:enter="transition-all duration-700 delay-100"
-          x-transition:enter-start="opacity-0 -translate-y-8"
-          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionDescription"></p>
-        <button @click="openEmailPopup()"
-          class="inline-block btn px-8 py-3 rounded-lg shadow-md glass-base bg-white button-text button-text-hover text-lg font-bold border-2 border-[var(--color-warning)] hover:bg-[var(--color-warning)] focus:outline-none focus:ring-2 focus:ring-[var(--color-warning)] focus:ring-offset-2 mx-auto"
-          aria-label="Get Early Access Now"
-          x-text="buttonLabel"
-          x-intersect:enter="delayedBounce($el)"
-          x-transition:enter="transition-transform duration-500"
-          x-transition:enter-start="scale-90 opacity-0"
-          x-transition:enter-end="scale-100 opacity-100"
-        ></button>
+          x-intersect:enter="animateIn($el, 100)" x-transition:enter="transition-all duration-700 delay-100"
+          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
+          x-text="sectionDescription"></p>
+        <button @click="openEmailPopup()" class="btn btn--primary" aria-label="Get Early Access Now"
+          x-text="buttonLabel" x-intersect:enter="delayedBounce($el)"
+          x-transition:enter="transition-transform duration-500" x-transition:enter-start="scale-90 opacity-0"
+          x-transition:enter-end="scale-100 opacity-100"></button>
         <div class="mt-6 text-lg md:text-xl font-semibold text-on-light" x-text="microcopy"></div>
       </div>
     </section>
 
     <!-- === SECTION: FAQ (SEO, Brand Personality) === -->
-    <section id="faq" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]" x-data="faqSection()">
+    <section id="faq" class="px-4 lg:px-12 py-12" x-data="faqSection()">
       <div class="max-w-3xl mx-auto relative">
         <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram background"
           class="absolute inset-0 mx-auto my-auto w-full max-w-[240px] md:max-w-[360px] h-auto opacity-10 pointer-events-none select-none object-contain z-0"
           aria-hidden="true" />
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)"
-          x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8"
-          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
-        <div itemscope itemtype="https://schema.org/FAQPage" class="divide-y divide-[var(--color-primary)]/10">
+        <h2
+          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
+          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
+          x-text="sectionTitle"></h2>
+        <div itemscope itemtype="https://schema.org/FAQPage" class="divide-y divide-[var(--rooted-green)]/10">
           <template x-for="(faq, idx) in faqs" :key="faq.q">
             <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
               <button @click="open === idx ? open = -1 : open = idx" :aria-expanded="open === idx"
                 :aria-controls="'faq-panel-' + idx" :id="'faq-tab-' + idx"
-                class="w-full text-left font-semibold flex justify-between items-center py-2"
-                itemprop="name">
+                class="w-full text-left font-semibold flex justify-between items-center py-2" itemprop="name">
                 <span x-text="faq.q"></span>
                 <span x-text="open === idx ? '-' : '+' " aria-hidden="true" class="ml-2"></span>
               </button>
-              <div
-                x-show="open === idx"
-                x-transition:enter="transition duration-300 ease-out"
-                x-transition:enter-start="opacity-0 scale-y-75"
-                x-transition:enter-end="opacity-100 scale-y-100"
-                x-transition:leave="transition duration-200 ease-in"
-                x-transition:leave-start="opacity-100 scale-y-100"
+              <div x-show="open === idx" x-transition:enter="transition duration-300 ease-out"
+                x-transition:enter-start="opacity-0 scale-y-75" x-transition:enter-end="opacity-100 scale-y-100"
+                x-transition:leave="transition duration-200 ease-in" x-transition:leave-start="opacity-100 scale-y-100"
                 x-transition:leave-end="opacity-0 scale-y-75"
-                class="origin-top overflow-hidden bg-white/90 border border-[var(--color-primary)]/10 card-info mt-2"
-                :id="'faq-panel-' + idx"
-                role="region"
-                :aria-labelledby="'faq-tab-' + idx"
-                itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"
-              >
+                class="origin-top overflow-hidden bg-white/90 border border-[var(--rooted-green)]/10 card-info mt-2"
+                :id="'faq-panel-' + idx" role="region" :aria-labelledby="'faq-tab-' + idx" itemscope
+                itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
                 <p itemprop="text" class="py-2 text-base md:text-lg text-on-light" x-text="faq.a"></p>
               </div>
             </div>
@@ -1010,25 +481,22 @@
 
     <!-- === SECTION: Footer (Glassmorphic on Mobile) === -->
     <footer
-      class="bg-white/95 text-[var(--color-text)] py-6 px-4 lg:px-12 text-center sticky bottom-0 md:static z-30 border-t border-[var(--color-primary)]/15 shadow-lg md:pb-4 transition-opacity duration-700 animate-none"
-      role="contentinfo" x-data="footerSection()"
-      x-intersect:enter="animateIn($el, 0)"
-      x-transition:enter="transition-opacity duration-700"
-      x-transition:enter-start="opacity-0"
+      class="bg-white/95 py-6 px-4 lg:px-12 text-center sticky bottom-0 md:static z-30 border-t border-[var(--rooted-green)]/15 shadow-lg md:pb-4 transition-opacity duration-700 animate-none"
+      role="contentinfo" x-data="footerSection()" x-intersect:enter="animateIn($el, 0)"
+      x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0"
       x-transition:enter-end="opacity-100">
       <div class="flex flex-col md:flex-row items-center justify-between max-w-4xl mx-auto gap-2">
         <div class="flex flex-col items-center gap-2 w-full">
           <div class="flex items-center justify-center gap-4 mb-2">
             <a :href="instagramUrl" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-              class="hover:text-[var(--color-primary)]">
+              class="hover">
               <img :src="instagramIcon" alt="Instagram social icon, link to Rooted Instagram"
                 class="w-6 h-6 inline grayscale hover:grayscale-0 transition" width="24" height="24" loading="lazy"
                 decoding="async" fetchpriority="high"
                 x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\'\><rect width=\'24\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>IG</text></svg>'"
                 role="img" aria-label="Instagram icon" />
             </a>
-            <a :href="'mailto:' + email" class="link-on-light underline" aria-label="Contact Rooted"
-              x-text="email"></a>
+            <a :href="'mailto:' + email" class="link-on-light underline" aria-label="Contact Rooted" x-text="email"></a>
           </div>
           <div class="text-sm md:text-base text-on-light text-center tracking-wide" x-text="brandStatement"></div>
           <div class="text-sm md:text-base text-on-light text-center">
@@ -1044,9 +512,10 @@
   </main>
 
   <!-- === SCROLL-TO-TOP BUTTON (Persistent, Accessible) === -->
-  <div x-data="scrollToTopButton()" x-init="init()" x-show="show && !showEmailPopup" x-transition.opacity class="fixed bottom-32 right-4 z-50">
+  <div x-data="scrollToTopButton()" x-init="init()" x-show="show && !showEmailPopup" x-transition.opacity
+    class="fixed bottom-32 right-4 z-50">
     <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Scroll to top"
-      class="glass-base bg-white text-[var(--color-primary)] border-2 border-[var(--color-warning)] hover:bg-[var(--color-warning)] hover:text-[var(--color-primary)] btn btn--round w-12 h-12 min-w-12 min-h-12 shadow-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-warning)] focus:ring-offset-2">
+      class="btn btn--round">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
       </svg>
@@ -1055,817 +524,7 @@
   <!-- Tailwind CDN safelist for animation delays -->
   <span class="hidden delay-100"></span>
   <span class="hidden delay-200"></span>
-  <script>
-    /*
-      ============================================================================
-      Rooted Website – Alpine.js App Logic & Animation Library (Documentation Template)
-      ----------------------------------------------------------------------------
-      This script centralizes all Alpine.js component functions, global utilities,
-      animation helpers, and custom Alpine.js directives for maintainability.
-      ----------------------------------------------------------------------------
-      Sections:
-        1. Alpine.js Component Functions (one per major UI section)
-        2. Journey Animation Logic (imperative, curve-aligned)
-        3. Global Utilities (debounce, etc.)
-        4. Alpine.js Custom Directives (x-intersect, x-imgfallback)
-      ============================================================================
-    */
-
-    // ---------------------------------------------------------------------------
-    // 1. Alpine.js Component Functions
-    // ---------------------------------------------------------------------------
-
-    /**
-     * Navigation bar logic: handles nav links, mobile drawer, and smooth scroll.
-     */
-    function navBar() {
-      return {
-        mobileNavOpen: false,
-        navLinks: [
-          { href: '#hero', label: 'Home' },
-          { href: '#benefits', label: 'Benefits' },
-          { href: '#mission', label: 'Mission' },
-          { href: '#signup', label: 'Sign Up' }
-        ],
-        navLinkClass: 'relative px-2 py-1 transition hover:text-[var(--color-primary)] focus:text-[var(--color-primary)] hover:underline focus:underline underline-offset-8 decoration-[var(--color-primary)]/60 outline-none',
-        scrollToSection(id) {
-          const el = document.getElementById(id);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }
-      }
-    }
-
-    /**
-     * Sticky CTA bar for mobile: shows/hides based on footer visibility.
-     */
-    function stickyCtaBar() {
-      return {
-        visible: true,
-        ctaText: 'Get 15% Off – Join the Waitlist!',
-        buttonLabel: 'Sign Up',
-        buttonClass: 'btn btn--secondary px-4 py-2 text-sm md:px-6 md:py-3 md:text-base focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 border border-[var(--color-primary)]/20 hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)]',
-        observeFooter() {
-          const footer = document.querySelector('footer');
-          const cta = this.$el;
-          if (footer && cta) {
-            const observer = new IntersectionObserver(entries => {
-              entries.forEach(entry => {
-                this.visible = !entry.isIntersecting;
-              });
-            }, { threshold: 0.01 });
-            observer.observe(footer);
-          }
-        },
-        init() {
-          this.observeFooter();
-        }
-      }
-    }
-
-    /**
-     * Desktop floating CTA button logic.
-     */
-    function desktopCtaButton() {
-      return {
-        buttonLabel: 'Get 15% Off – Join Waitlist',
-        buttonClass: 'inline-block btn px-8 py-3 rounded-lg shadow-md bg-white text-[var(--color-primary)] text-lg font-bold border-2 border-[var(--color-warning)] hover:bg-[var(--color-warning)] hover:text-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-warning)] focus:ring-offset-2',
-      }
-    }
-
-    /**
-     * Hero section: manages product image, use-cases, CTA, and plan steps.
-     */
-    function heroSection() {
-      return {
-        productImage: 'PATH_TO_PRODUCT_IMAGE_1',
-        productImageAlt: 'Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, front view, on spotlight, with pink halo',
-        useCases: [
-          { label: 'Lunchbox Snack', icon: '🥪' },
-          { label: 'Post-Yoga Fuel', icon: '🧘‍♂️' },
-          { label: 'Movie Night', icon: '🍿' },
-          { label: 'On-the-Go', icon: '🚗' },
-        ],
-        currentUseCase: 0,
-        nextUseCase: null,
-        transitioning: false,
-        chipClass: [
-          'glass-base inline-flex items-center gap-2 px-5 py-1.5 rounded-full font-bold text-lg border border-[var(--color-primary)]/15 shadow-sm',
-          'bg-[var(--color-warning)]',
-          'text-[var(--color-primary)]',
-          'transition-all duration-300',
-          'usecase-chip-animate-luxury',
-          'will-change-opacity-transform',
-          'chip-min-w',
-          'chip-max-w',
-          'chip-pop-anim'
-        ].join(' '),
-        mainCtaLabel: '🎉 Get 15% Off – Snack Smarter!',
-        mainCtaClass: 'inline-block btn btn--primary md:px-8 md:py-3 text-base md:text-lg text-[var(--color-primary)] bg-[var(--color-warning)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 mx-auto',
-        planSteps: [
-          'Join the Rooted waitlist',
-          'Save 15% on your first order'
-        ],
-        useCaseInterval: null,
-        chipRef: null,
-        popChip() {
-          if (this.chipRef) {
-            this.chipRef.classList.remove('chip-pop-anim');
-            // Force reflow to restart animation
-            void this.chipRef.offsetWidth;
-            this.chipRef.classList.add('chip-pop-anim');
-          }
-        },
-        init() {
-          this.useCaseInterval = setInterval(() => {
-            this.nextUseCase = (this.currentUseCase + 1) % this.useCases.length;
-            this.transitioning = true;
-            setTimeout(() => {
-              this.currentUseCase = this.nextUseCase;
-              this.nextUseCase = null;
-              this.transitioning = false;
-              this.$nextTick(() => {
-                this.chipRef = this.$refs.chip;
-                this.popChip();
-              });
-            }, 400); // match transition duration
-          }, 2500);
-          // Set chipRef on initial load
-          this.$nextTick(() => {
-            this.chipRef = this.$refs.chip;
-          });
-        },
-        destroy() {
-          if (this.useCaseInterval) clearInterval(this.useCaseInterval);
-        }
-      }
-    }
-
-    /**
-     * "What Is" section: manages title, description, and illustration.
-     */
-    function whatIsSection() {
-      return {
-        sectionTitle: 'What is a Popped Water Lily Seed?',
-        sectionDescription: "Popped water lily seeds are a light, crunchy, and ancient superfood snack, enjoyed for centuries in Asia. Naturally gluten-free, plant-based, and deliciously satisfying!",
-        illustrationImage: 'PATH_TO_ILLUSTRATION_IMAGE',
-        illustrationAlt: 'Illustration of water lily seeds being popped in a pan, showcasing the snack preparation process'
-      }
-    }
-
-    /**
-     * Benefits section: displays product health benefits and image.
-     */
-    function benefitsSection() {
-      return {
-        sectionTitle: "Super Snack That's Good For You",
-        sectionDescription: "",
-        benefits: [
-          { icon: './assets/illustrations/less_in_fat.svg', alt: 'Up to 50% Less Fat', title: 'Up to 50% Less Fat*' },
-          { icon: './assets/illustrations/source_of_fiber.svg', alt: 'Source Of Fibre', title: 'Source Of Fibre' },
-          { icon: './assets/illustrations/antioxidant_punch.svg', alt: 'Antioxidant Punch', title: 'Antioxidant Punch' },
-          { icon: './assets/illustrations/gluten_free.svg', alt: 'Gluten Free', title: 'Gluten Free' },
-          { icon: './assets/illustrations/vegan.svg', alt: 'Vegan', title: 'Vegan' }
-        ],
-        productImage: 'PATH_TO_BENEFITS_IMAGE',
-        productImageAlt: 'Rooted snack product with health benefits, bowl and bag on table'
-      }
-    }
-
-    /**
-     * Mission section: shows brand mission, description, and image.
-     */
-    function missionSection() {
-      return {
-        sectionTitle: "Our Mission",
-        sectionDescription: "At Rooted, we believe in joyful, mindful snacking. Our mission is to bring you delicious, plant-based treats that nourish your body, respect the planet, and celebrate global flavors. We're committed to sustainability, transparency, and making healthy choices easy and delightful.",
-        missionImage: "PATH_TO_MISSION_IMAGE",
-        missionImageAlt: "Rooted team planting water lilies"
-      }
-    }
-
-    /**
-     * Promise section: lists brand promises (nutritious, delicious, diverse).
-     */
-    function promiseSection() {
-      return {
-        sectionTitle: "Our Promise",
-        promises: [
-          {
-            title: 'Nutritious',
-            desc: 'Packed with plant-based protein, minerals, and antioxidants.'
-          },
-          {
-            title: 'Delicious',
-            desc: "Crunchy, light, and full of flavor – a snack you'll crave."
-          },
-          {
-            title: 'Diverse',
-            desc: 'Rooted celebrates global flavors and ancient superfoods.'
-          }
-        ],
-        tiltAngles: ['-2deg', '2deg', '-2deg'],
-        hovered: null,
-        init() {
-          // No-op for now, but could be used for animation triggers
-        }
-      }
-    }
-
-    /**
-     * Testimonial carousel: manages testimonials, auto-advance, and responsive display.
-     */
-    function testimonialCarousel() {
-      return {
-        sectionTitle: "What Snackers Are Saying",
-        testimonials: [
-          { quote: 'Absolutely delicious and guilt-free. My new go-to snack!', author: 'Alex, Yoga Instructor' },
-          { quote: 'Perfect for my lunchbox and post-workout cravings.', author: 'Jamie, Student' },
-          { quote: 'Crispy, light, and so satisfying. Love the Himalayan salt flavor!', author: 'Priya, Designer' },
-          { quote: 'Finally, a snack that fits my plant-based lifestyle.', author: 'Morgan, Runner' }
-        ],
-        current: 0,
-        autoInterval: null,
-        isDesktop: window.innerWidth >= 768,
-        groupFading: false,
-        _debouncedResize: null,
-        updateIsDesktop() {
-          this.isDesktop = window.innerWidth >= 768;
-        },
-        next() {
-          if (this.isDesktop) {
-            this.groupFading = true;
-            setTimeout(() => {
-              this.current = (this.current + 1) % this.testimonials.length;
-              this.groupFading = false;
-            }, 150);
-          } else {
-            this.current = (this.current + 1) % this.testimonials.length;
-          }
-        },
-        prev() {
-          if (this.isDesktop) {
-            this.groupFading = true;
-            setTimeout(() => {
-              this.current = (this.current - 1 + this.testimonials.length) % this.testimonials.length;
-              this.groupFading = false;
-            }, 150);
-          } else {
-            this.current = (this.current - 1 + this.testimonials.length) % this.testimonials.length;
-          }
-        },
-        goTo(idx) {
-          if (this.isDesktop) {
-            this.groupFading = true;
-            setTimeout(() => {
-              this.current = idx;
-              this.groupFading = false;
-            }, 150);
-          } else {
-            this.current = idx;
-          }
-        },
-        startAuto() {
-          if (this.autoInterval) clearInterval(this.autoInterval);
-          this.autoInterval = setInterval(() => { this.next(); }, 4000);
-        },
-        pauseAuto() {
-          if (this.autoInterval) clearInterval(this.autoInterval);
-        },
-        init() {
-          this.startAuto();
-          this.updateIsDesktop();
-          this._debouncedResize = debounce(this.updateIsDesktop.bind(this), 100);
-          window.addEventListener('resize', this._debouncedResize);
-          window.addEventListener('orientationchange', this._orientation);
-
-          this.updateIsDesktop();
-          this._orientation = () => { this.updateIsDesktop(); };
-          window.addEventListener('orientationchange', this._orientation);
-        },
-        destroy() {
-          window.removeEventListener('resize', this._debouncedResize);
-          this.pauseAuto();
-          window.removeEventListener('orientationchange', this._orientation);
-        }
-      }
-    }
-
-    /**
-     * Email CTA section: manages email capture call-to-action.
-     */
-    function emailCtaSection() {
-      return {
-        sectionTitle: "We're Rooting for Online Soon! 🌱",
-        sectionDescription: "Updates popping into your inbox + 15% off your first order. Because you deserve snacks that love you back! 💚",
-        buttonLabel: "Get Early Access Now",
-        microcopy: "Join now to be the first to try Rooted!"
-      }
-    }
-
-    /**
-     * FAQ section: manages frequently asked questions and accordion logic.
-     */
-    function faqSection() {
-      return {
-        sectionTitle: "Frequently Asked Questions",
-        open: 0,
-        faqs: [
-          {
-            q: "Are popped water lily seeds really healthy?",
-            a: "Absolutely! They're naturally gluten-free, plant-based, and packed with protein, minerals, and antioxidants. Plus, they're deliciously crunchy. (Your taste buds and your body will thank you!)"
-          },
-          {
-            q: "Is Rooted vegan and allergen-friendly?",
-            a: "Yes! Rooted snacks are 100% vegan and free from gluten, soy, and artificial nasties. Snack happy, snack safe."
-          },
-          {
-            q: "How do I get early access and my 15% off?",
-            a: "Just join our waitlist above! We'll send you a code as soon as we launch. Welcome to the Rooted fam! 🌱"
-          }
-        ]
-      }
-    }
-
-    /**
-     * Footer section: manages social links, brand statement, and copyright.
-     */
-    function footerSection() {
-      return {
-        instagramUrl: "https://instagram.com/yourbrand",
-        instagramIcon: "PATH_TO_INSTAGRAM_ICON",
-        email: "hello@rootedsnacks.com",
-        brandStatement: "Rooted is committed to plant-based nutrition, sustainability, and global flavors. Certified vegan. Made with love.",
-        logo: "./assets/logos/logo_rooted_green.png",
-        logoAlt: "Rooted Snacks logo",
-        copyright: "Rooted. All rights reserved."
-      }
-    }
-
-    /**
-     * Root Alpine.js app: manages global state (email popup, nav, focus trap, etc).
-     */
-    function rootedApp() {
-      return {
-        showEmailPopup: false,
-        mobileNavOpen: false,
-        lastFocused: null,
-        _onEscape: null,
-        scrollToSection(id) {
-          const el = document.getElementById(id);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        },
-        openEmailPopup() {
-          this.showEmailPopup = true;
-          document.body.classList.add('overflow-hidden');
-          setTimeout(() => {
-            const popup = this.$refs && this.$refs.popup ? this.$refs.popup : document.querySelector('[x-show=showEmailPopup] .glass-light');
-            if (popup) popup.focus();
-            this.lastFocused = document.activeElement;
-          }, 100);
-        },
-        closeEmailPopup() {
-          this.showEmailPopup = false;
-          document.body.classList.remove('overflow-hidden');
-          if (this.lastFocused && typeof this.lastFocused.focus === 'function') {
-            setTimeout(() => this.lastFocused.focus(), 100);
-          }
-        },
-        focusTrap(e) {
-          const popup = this.$refs && this.$refs.popup ? this.$refs.popup : document.querySelector('[x-show=showEmailPopup] .glass-light');
-          const focusable = Array.from(popup.querySelectorAll('button, input, [tabindex]:not([tabindex="-1"])')).filter(el => !el.disabled && el.offsetParent !== null);
-          if (!focusable.length) return;
-          const first = focusable[0];
-          const last = focusable[focusable.length - 1];
-          if (e.shiftKey && document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-          } else if (!e.shiftKey && document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
-        },
-        init() {
-          // Accessibility: Close popup on Escape
-          this._onEscape = (e) => {
-            if (e.key === 'Escape' && this.showEmailPopup) this.closeEmailPopup();
-          };
-          window.addEventListener('keydown', this._onEscape);
-        },
-        destroy() {
-          if (this._onEscape) window.removeEventListener('keydown', this._onEscape);
-        }
-      }
-    }
-
-    /**
-     * Journey section: manages the Seed-to-Snack animation and all related listeners.
-     */
-    function journeySection() {
-      return {
-        steps: window.journeySteps,
-        // Per-step vertical offsets (in px)
-        stepOffsetsDesktop: [10, -30, -10, -20, -50],
-        stepOffsetsMobile: [-15, 0, -20, -40, 0], // Adjust these for mobile as needed
-        getStepOffsets() {
-          return window.innerWidth <= 767 ? this.stepOffsetsMobile : this.stepOffsetsDesktop;
-        },
-        _parallax: null,
-        _resize: null,
-        _orientation: null,
-        _hasAnimated: false,
-        curveContainer: null,
-        svg: null,
-        path: null,
-        pulse: null,
-        container: null,
-        tooltipDiv: null,
-        init() {
-          this.curveContainer = document.querySelector('#journey-curve-container');
-          this.svg = document.querySelector('#journey-curve');
-          this.path = document.querySelector('#journeyPath');
-          this.pulse = document.querySelector('#journey-pulse');
-          this.container = document.querySelector('#journey-steps');
-
-          this._parallax = () => this.parallax();
-          this._resize = () => { this.getCurveParams(); this.positionStepsAndPulse(); };
-          this._orientation = () => { this.getCurveParams(); this.positionStepsAndPulse(); };
-          window.addEventListener('scroll', this._parallax, { passive: true });
-          window.addEventListener('resize', this._resize);
-          window.addEventListener('orientationchange', this._orientation);
-
-          this.getCurveParams();
-          this.positionStepsAndPulse();
-          this.setupObservers();
-          this.setupIntersectionObserver();
-        },
-        destroy() {
-          window.removeEventListener('scroll', this._parallax);
-          window.removeEventListener('resize', this._resize);
-          window.removeEventListener('orientationchange', this._orientation);
-        },
-        getCurveParams() {
-          const isMobile = window.innerWidth <= 767;
-          if (isMobile) {
-            this.svg.setAttribute('viewBox', '0 0 1000 140');
-            this.path.setAttribute('d', 'M60 110 Q 250 20 500 90 T 940 60');
-            this.svg.style.height = '140px';
-          } else {
-            this.svg.setAttribute('viewBox', '0 0 1000 260');
-            this.path.setAttribute('d', 'M60 200 Q 250 60 500 160 T 940 120');
-            this.svg.style.height = '260px';
-          }
-        },
-        positionStepsAndPulse(retry = 0) {
-          requestAnimationFrame(() => {
-            const svgRect = this.svg.getBoundingClientRect();
-            const viewBoxWidth = this.svg.viewBox.baseVal.width;
-            const viewBoxHeight = this.svg.viewBox.baseVal.height;
-            if (svgRect.width === 0 || svgRect.height === 0) {
-              if (retry < 10) {
-                setTimeout(() => this.positionStepsAndPulse(retry + 1), 30 * Math.pow(2, retry));
-              }
-              return;
-            }
-            const totalLength = this.path.getTotalLength();
-            const n = this.steps.length;
-            let stepPoints = [];
-            for (let idx = 0; idx < n; idx++) {
-              const pct = idx / (n - 1);
-              const pt = this.path.getPointAtLength(totalLength * pct);
-              stepPoints.push(pt);
-            }
-            // Only create step elements if not already present
-            if (!this.container._stepDivs || this.container._stepDivs.length !== n) {
-              this.container.innerHTML = '';
-              this.container._stepDivs = [];
-              this.steps.forEach((step, idx) => {
-                const stepDiv = document.createElement('div');
-                stepDiv.className = 'journey-step-anim group flex flex-col items-center absolute z-20 opacity-0 scale-90 transition-all duration-700';
-                stepDiv.style.position = 'absolute';
-                let circleClass = 'flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full shadow-xl border-2 mb-2 transition-all duration-300 cursor-pointer journey-pop journey-card-base';
-                if (idx === 0) circleClass += ' bg-gradient-to-br from-[var(--color-primary)]/80 to-white/80 border-[var(--color-primary)] ring-4 ring-[var(--color-primary)]/30 journey-card-seed';
-                else if (idx === this.steps.length - 1) circleClass += ' bg-gradient-to-br from-[var(--color-accent)]/80 to-white/80 border-[var(--color-accent)] ring-4 ring-[var(--color-accent)]/30 journey-card-snack';
-                else circleClass += ' bg-white/80 glass-base border-[var(--color-primary)]/10';
-                const circle = document.createElement('div');
-                circle.className = circleClass;
-                const img = document.createElement('img');
-                img.src = step.icon;
-                img.alt = step.label;
-                img.className = 'w-10 h-10 md:w-12 md:h-12 object-contain journey-card-icon';
-                img.width = 48;
-                img.height = 48;
-                circle.appendChild(img);
-                stepDiv.appendChild(circle);
-                const label = document.createElement('span');
-                label.className = 'mt-1 text-sm md:text-base font-extrabold uppercase tracking-wider text-[var(--color-primary)] group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)] transition-colors duration-200 text-center';
-                label.textContent = step.label;
-                stepDiv.appendChild(label);
-                stepDiv.addEventListener('mouseenter', () => {
-                  this.showTooltip(stepDiv, step.micro);
-                });
-                stepDiv.addEventListener('mouseleave', () => {
-                  this.hideTooltip();
-                });
-                stepDiv.addEventListener('focus', () => {
-                  this.showTooltip(stepDiv, step.micro);
-                });
-                stepDiv.addEventListener('blur', () => {
-                  this.hideTooltip();
-                });
-                this.container.appendChild(stepDiv);
-                this.container._stepDivs.push(stepDiv);
-              });
-            }
-            // Always update position of step elements
-            this.container._stepDivs.forEach((stepDiv, idx) => {
-              const pt = stepPoints[idx];
-              const leftPx = (pt.x / viewBoxWidth) * svgRect.width;
-              const offset = this.getStepOffsets()[idx] || 0;
-              const topPx = (pt.y / viewBoxHeight) * svgRect.height + offset;
-              stepDiv.style.left = `${leftPx - 24}px`;
-              stepDiv.style.top = `${topPx - 24}px`;
-            });
-          });
-        },
-        animateJourney() {
-          this.getCurveParams();
-          requestAnimationFrame(() => {
-            const totalLength = this.path.getTotalLength();
-            const n = this.steps.length;
-            let stepPoints = [];
-            for (let idx = 0; idx < n; idx++) {
-              const pct = idx / (n - 1);
-              const pt = this.path.getPointAtLength(totalLength * pct);
-              stepPoints.push(pt);
-            }
-            const svgRect = this.svg.getBoundingClientRect();
-            const viewBoxWidth = this.svg.viewBox.baseVal.width;
-            const viewBoxHeight = this.svg.viewBox.baseVal.height;
-            this.path.style.strokeDasharray = totalLength;
-            this.path.style.strokeDashoffset = totalLength;
-            setTimeout(() => {
-              this.path.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(.4,2,.6,1)';
-              this.path.style.strokeDashoffset = 0;
-            }, 200);
-            // Animate steps in sequence with Tailwind classes
-            if (this.container._stepDivs) {
-              this.container._stepDivs.forEach((stepDiv, idx) => {
-                // Reset to initial state
-                stepDiv.classList.remove('opacity-100', 'scale-100');
-                stepDiv.classList.add('opacity-0', 'scale-90');
-              });
-              this.container._stepDivs.forEach((stepDiv, idx) => {
-                setTimeout(() => {
-                  stepDiv.classList.remove('opacity-0', 'scale-90');
-                  stepDiv.classList.add('opacity-100', 'scale-100');
-                }, 350 + idx * 200); // staggered delay
-              });
-            }
-            // Pulse animation (seed) should start after all steps are visible
-            const pulseDelay = 350 + (n - 1) * 200 + 400; // last step's delay + animation duration buffer
-            setTimeout(() => {
-              this.pulse.style.display = 'block';
-              this.pulse.style.opacity = 0;
-              let start = null;
-              let duration = 1800;
-              let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-              let stepIdx = 0;
-              const animatePulse = (ts) => {
-                if (!start) start = ts;
-                let elapsed = ts - start;
-                let t = Math.min(elapsed / duration, 1);
-                let len = t * totalLength;
-                let pt = this.path.getPointAtLength(len);
-                const leftPx = (pt.x / viewBoxWidth) * svgRect.width;
-                const topPx = (pt.y / viewBoxHeight) * svgRect.height;
-                // Clamp pulse position to stay within the visible area
-                let clampedTopPx = Math.max(0, Math.min(topPx, this.curveContainer.offsetHeight - 24));
-                this.pulse.style.left = `calc(${leftPx}px - 12px)`;
-                this.pulse.style.top = `calc(${clampedTopPx}px - 12px)`;
-                this.pulse.style.opacity = 1;
-                this.pulse.style.boxShadow = `0 0 32px 12px rgba(243,92,55,${0.18 + 0.12 * Math.sin(t * Math.PI)})`;
-                if (t < 1) {
-                  requestAnimationFrame(animatePulse);
-                } else {
-                  this.pulse.style.opacity = 0;
-                }
-              };
-              requestAnimationFrame(animatePulse);
-            }, pulseDelay);
-          });
-        },
-        setupObservers() {
-          if (window.ResizeObserver) {
-            const ro = new ResizeObserver(() => {
-              this.getCurveParams();
-              this.positionStepsAndPulse();
-            });
-            ro.observe(this.svg);
-            ro.observe(this.curveContainer);
-          }
-        },
-        parallax() {
-          const containerRect = this.curveContainer.getBoundingClientRect();
-          const winH = window.innerHeight;
-          const center = containerRect.top + containerRect.height / 2 - winH / 2;
-          const parallaxY = Math.max(-24, Math.min(24, -center / 16));
-          this.svg.style.transform = `translateY(${parallaxY}px)`;
-          this.pulse.style.transform = `translateY(${parallaxY / 2}px)`;
-          this.container.style.transform = `translateY(${parallaxY / 2}px)`;
-        },
-        setupIntersectionObserver() {
-          const observer = new window.IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                this.animateJourney();
-              } else {
-                this.resetJourneyAnimation();
-              }
-            });
-          }, { threshold: 0.3 });
-          observer.observe(this.curveContainer);
-        },
-        resetJourneyAnimation() {
-          // Reset the path
-          if (this.path) {
-            const totalLength = this.path.getTotalLength();
-            this.path.style.transition = 'none';
-            this.path.style.strokeDasharray = totalLength;
-            this.path.style.strokeDashoffset = totalLength;
-          }
-          // Hide the pulse
-          if (this.pulse) {
-            this.pulse.style.display = 'none';
-            this.pulse.style.opacity = 0;
-          }
-          // Remove animation classes from steps, but do not remove the elements
-          if (this.container && this.container._stepDivs) {
-            this.container._stepDivs.forEach(div => {
-              div.classList.remove('journey-step-in', 'journey-step-bounce', 'journey-step-wobble');
-            });
-          }
-        },
-        showTooltip(parent, text) {
-          this.hideTooltip();
-          this.tooltipDiv = document.createElement('div');
-          this.tooltipDiv.className = 'fixed bg-white/95 border border-[var(--color-primary)]/10 rounded-xl shadow-lg px-4 py-2 text-xs text-[var(--color-text)] z-30 min-w-[120px] max-w-[180px] pointer-events-none animate-fade-in';
-          this.tooltipDiv.innerHTML = text;
-          document.body.appendChild(this.tooltipDiv);
-          requestAnimationFrame(() => {
-            const tooltip = this.tooltipDiv;
-            const tooltipRect = tooltip.getBoundingClientRect();
-            const parentRect = parent.getBoundingClientRect();
-            // Default: show below
-            let top = parentRect.bottom + 8; // 8px gap
-            let left = parentRect.left + parentRect.width / 2 - tooltipRect.width / 2;
-            // If not enough space below, show above
-            if (parentRect.bottom + tooltipRect.height + 8 > window.innerHeight) {
-              top = parentRect.top - tooltipRect.height - 8;
-            }
-            // Clamp top to viewport
-            top = Math.max(0, Math.min(top, window.innerHeight - tooltipRect.height));
-            // Clamp left to viewport
-            left = Math.max(0, Math.min(left, window.innerWidth - tooltipRect.width));
-            tooltip.style.top = top + 'px';
-            tooltip.style.left = left + 'px';
-            tooltip.style.transform = 'none';
-          });
-        },
-        hideTooltip() {
-          if (this.tooltipDiv && this.tooltipDiv.parentNode) {
-            this.tooltipDiv.parentNode.removeChild(this.tooltipDiv);
-            this.tooltipDiv = null;
-          }
-        }
-      }
-    }
-
-    // ---------------------------------------------------------------------------
-    // 2. Journey Animation Logic (now handled by Alpine.js journeySection component)
-    // ---------------------------------------------------------------------------
-
-    /**
-     * Array of journey steps for the Seed-to-Snack animation.
-     * Each step contains icon, label, and microcopy.
-     */
-    window.journeySteps = [
-      { icon: 'PATH_TO_JOURNEY_ICON_1', label: 'Seed', micro: 'The seed is collected from the water lily plant.' },
-      { icon: 'PATH_TO_JOURNEY_ICON_2', label: 'Harvest', micro: 'The seeds are harvested from the water lily plant.' },
-      { icon: 'PATH_TO_JOURNEY_ICON_3', label: 'Pop', micro: 'The seeds are popped in a pan to create a crunchy snack.' },
-      { icon: 'PATH_TO_JOURNEY_ICON_4', label: 'Pack', micro: 'The snack is packed into a bag for easy storage.' },
-      { icon: 'PATH_TO_JOURNEY_ICON_5', label: 'Snack', micro: 'Enjoy your Rooted snack guilt-free!' }
-    ];
-
-    // The journey animation logic is now fully encapsulated in the journeySection Alpine.js component.
-    // No global imperative setup or listeners are needed.
-
-    // ---------------------------------------------------------------------------
-    // 3. Global Utilities
-    // ---------------------------------------------------------------------------
-
-    /**
-     * Debounce utility for throttling events.
-     */
-    function debounce(fn, delay) {
-      let timeout;
-      return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => fn.apply(this, args), delay);
-      };
-    }
-
-    // ---------------------------------------------------------------------------
-    // 4. Animation Helpers
-    // ---------------------------------------------------------------------------
-
-    /**
-     * Animation helper: fades/scales in an element with a delay.
-     */
-    function animateIn(el, delay = 0) {
-      setTimeout(() => {
-        el.classList.remove('opacity-0', 'translate-y-8', 'translate-x-8', 'scale-95', 'scale-90');
-        el.classList.add('opacity-100', 'translate-y-0', 'translate-x-0', 'scale-100');
-      }, delay);
-    }
-
-    /**
-     * Animation helper: applies a bounce animation to an element after a delay.
-     */
-    function delayedBounce(el) {
-      setTimeout(() => {
-        el.classList.add('animate-bounce');
-      }, 600);
-    }
-
-    // ---------------------------------------------------------------------------
-    // 5. Alpine.js Custom Directives
-    // ---------------------------------------------------------------------------
-
-    /**
-     * Register all custom Alpine.js directives in a single block for clarity.
-     * - x-intersect: triggers a callback when an element enters the viewport.
-     * - x-imgfallback: sets a fallback image if the main image fails to load.
-     */
-    document.addEventListener('alpine:init', () => {
-      Alpine.directive('intersect', (el, { expression }, { evaluateLater, cleanup }) => {
-        let evaluate = evaluateLater(expression)
-        let observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              evaluate()
-              observer.disconnect()
-            }
-          })
-        })
-        observer.observe(el)
-        cleanup(() => observer.disconnect())
-      });
-      Alpine.directive('imgfallback', (el, { expression }) => {
-        el.onerror = () => {
-          el.onerror = null;
-          el.src = expression;
-        };
-      });
-    });
-
-    // ---------------------------------------------------------------------------
-    // 6. Register Alpine.js Component Functions Globally
-    // ---------------------------------------------------------------------------
-    
-    // Register all Alpine.js component functions globally for consistent access
-    window.navBar = navBar;
-    window.stickyCtaBar = stickyCtaBar;
-    window.desktopCtaButton = desktopCtaButton;
-    window.heroSection = heroSection;
-    window.whatIsSection = whatIsSection;
-    window.benefitsSection = benefitsSection;
-    window.missionSection = missionSection;
-    window.promiseSection = promiseSection;
-    window.testimonialCarousel = testimonialCarousel;
-    window.emailCtaSection = emailCtaSection;
-    window.faqSection = faqSection;
-    window.footerSection = footerSection;
-    window.rootedApp = rootedApp;
-
-    // Alpine.js component for scroll-to-top button
-    function scrollToTopButton() {
-      return {
-        show: false,
-        _onScroll: null,
-        init() {
-          this._onScroll = () => { this.show = window.scrollY > 200 };
-          window.addEventListener('scroll', this._onScroll);
-        },
-        destroy() {
-          window.removeEventListener('scroll', this._onScroll);
-        }
-      }
-    }
-  </script>
+  <script src="app.js"></script>
 </body>
 
 </html>
