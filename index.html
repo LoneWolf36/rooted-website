@@ -38,7 +38,39 @@
       --color-glass-light: rgba(255, 255, 255, 0.65);
       --color-glass-dark: rgba(34, 34, 34, 0.45);
       --color-glass-accent: rgba(243, 92, 55, 0.10);
+      --color-card-bg: #F28C00;
+      /* Modular color system for text on backgrounds */
+      --color-on-dark: #FFEEC9; /* beige for text on dark */
+      --color-on-dark-heading: #FFC344; /* yellow for heading on dark */
+      --color-on-light: #87473F; /* brown for text on light */
+      --color-on-light-heading: #2C6752; /* green for heading on light */
+      --color-benefit-title: var(--color-primary);
+      --color-benefit-title-hover: var(--color-accent);
+      --color-testimonial-author: var(--color-primary);
+      --color-button-text: var(--color-primary);
+      --color-button-text-hover: var(--color-surface);
+      --color-chip-text: var(--color-primary);
+      --color-chip-text-hover: var(--color-accent);
+      --color-link: var(--color-primary);
+      --color-link-hover: var(--color-accent);
     }
+    .text-on-dark { color: var(--color-on-dark); }
+    .text-on-light { color: var(--color-on-light); }
+    .heading-on-dark { color: var(--color-on-dark-heading); }
+    .heading-on-light { color: var(--color-on-light-heading); }
+    .benefit-title { color: var(--color-benefit-title); transition: color 0.2s; }
+    .benefit-title-hover:hover,
+    .benefit-title-hover:focus { color: var(--color-benefit-title-hover); }
+    .testimonial-author { color: var(--color-testimonial-author); }
+    .button-text { color: var(--color-button-text); transition: color 0.2s; }
+    .button-text-hover:hover,
+    .button-text-hover:focus { color: var(--color-button-text-hover); }
+    .chip-text { color: var(--color-chip-text); transition: color 0.2s; }
+    .chip-text-hover:hover,
+    .chip-text-hover:focus { color: var(--color-chip-text-hover); }
+    .link-on-light { color: var(--color-link); transition: color 0.2s; }
+    .link-on-light:hover,
+    .link-on-light:focus { color: var(--color-link-hover); }
 
     @font-face {
       font-family: 'Transcity';
@@ -79,11 +111,12 @@
     .brand-headline {
       font-size: 2.8rem;
       font-weight: 900;
-      letter-spacing: 0.08em;
+      line-height: 1em;
     }
     h2 {
       font-size: 2.2rem;
       font-weight: 800;
+      line-height: 1em;
     }
     h3 {
       font-size: 1.6rem;
@@ -195,17 +228,23 @@
       background: #fff;
       border: 1px solid var(--color-primary-10);
     }
-    .iicon-bg {
+    .icon-bg {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 4rem;
-      height: 4rem;
+      width: 5rem;
+      height: 5rem;
       border-radius: 9999px;
       background: var(--color-accent);
       box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.07);
       margin-bottom: 0.5rem;
       transition: transform 0.2s;
+    }
+    @media (min-width: 768px) {
+      .icon-bg {
+        width: 6rem;
+        height: 6rem;
+      }
     }
 
     /* === 6. Animation Utilities === */
@@ -427,6 +466,26 @@
     #journey {
       overflow: clip;
     }
+
+    .promise-card {
+      background: var(--color-bg);
+      transition: transform 0.25s cubic-bezier(.4,2,.6,1), box-shadow 0.25s;
+    }
+    .promise-card:hover {
+      transform: scale(1.05) rotate(0deg) !important;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      z-index: 2;
+    }
+    @media (max-width: 767px) {
+      #promise {
+        background: url('./assets/patterns/bg-banner-our-promise-mob.webp') center/cover no-repeat, var(--color-warning);
+      }
+    }
+    @media (min-width: 768px) {
+      #promise {
+        background: url('./assets/patterns/bg-banner-our-promise.webp') center/cover no-repeat, var(--color-warning);
+      }
+    }
   </style>
   <!-- Preload critical images -->
   <link rel="preload" href="./assets/logos/logo_rooted_green.png" as="image" />
@@ -460,7 +519,7 @@
       <!-- Desktop Nav Links (DRY) -->
       <ul class="hidden md:flex gap-6 text-[var(--color-text)] font-semibold tracking-wide">
         <template x-for="link in navLinks" :key="link.href">
-          <li><a :href="link.href" :class="navLinkClass" @click.prevent="scrollToSection(link.href.substring(1))"
+          <li><a :href="link.href" :class="navLinkClass + ' link-on-light'" @click.prevent="scrollToSection(link.href.substring(1))"
               x-text="link.label"></a></li>
         </template>
       </ul>
@@ -483,7 +542,7 @@
         <ul class="flex flex-col gap-4 py-4 px-6 text-[var(--color-text)] font-semibold tracking-wide">
           <template x-for="link in navLinks" :key="'mobile-'+link.href">
             <li><a :href="link.href" @click.prevent="scrollToSection(link.href.substring(1)); mobileNavOpen = false"
-                :class="navLinkClass + ' block w-full'" x-text="link.label"></a></li>
+                :class="navLinkClass + ' block w-full link-on-light'" x-text="link.label"></a></li>
           </template>
         </ul>
       </div>
@@ -530,7 +589,7 @@
   <main class="overflow-x-hidden" role="main" id="main-content">
     <!-- === SECTION: Hero Product Spotlight === -->
     <section id="hero"
-      class="relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 pt-4 pb-10 bg-[var(--color-bg)] text-center lg:text-left"
+      class="relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 bg-[var(--color-primary)] text-center lg:text-left"
       x-data="heroSection()"
       x-intersect:enter="animateIn($el, 0)">
       <div
@@ -546,24 +605,24 @@
             x-ref="spotlight">
             <div class="absolute inset-0 rounded-full bg-[var(--color-accent)] opacity-40 blur-2xl animate-pulse"></div>
             <img :src="productImage" :alt="productImageAlt"
-              class="relative z-10 w-32 h-32 sm:w-48 sm:h-48 lg:w-[22rem] lg:h-[22rem] xl:w-[28rem] xl:h-[28rem] object-contain rounded-lg shadow-xl"
+              class="relative z-10 w-32 h-32 sm:w-48 sm:h-48 lg:w-[22rem] lg:h-[22rem] xl:w-[28rem] xl:h-[28rem] object-contain rounded-lg shadow-xl ring-4 ring-[var(--color-warning)]/20"
               width="448" height="448" decoding="async" fetchpriority="high" loading="eager"
-              x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'448\' height=\'448\'><rect width=\'448\' height=\'448\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Product</text></svg>'"
+              x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'448\' height=\'448\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Product</text></svg>'"
               role="img" aria-label="Rooted Product"
-              onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'448\' height=\'448\'><rect width=\'448\' height=\'448\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Product</text></svg>'" />
+              onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'448\' height=\'448\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Product</text></svg>'" />
           </div>
         </div>
         <!-- Text and CTA -->
         <div class="flex-1 flex flex-col items-center justify-center text-center">
           <h1
-            class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+            class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 opacity-0 translate-y-8 transition-all duration-700 heading-on-dark"
             x-intersect:enter="animateIn($el, 0)"
             x-transition:enter="transition-all duration-700"
             x-transition:enter-start="opacity-0 -translate-y-8"
             x-transition:enter-end="opacity-100 translate-y-0">
             Your New Healthy Snack Awaits: Popped Water Lily Seeds
           </h1>
-          <p class="text-xl md:text-2xl font-semibold mb-6 text-[var(--color-primary)] opacity-0 translate-y-8 transition-all duration-700 delay-150 animate-none"
+          <p class="text-xl md:text-2xl font-semibold mb-6 opacity-0 translate-y-8 transition-all duration-700 delay-150 text-on-dark"
             x-intersect:enter="animateIn($el, 120)"
             x-transition:enter="transition-all duration-700 delay-150"
             x-transition:enter-start="opacity-0 -translate-y-8"
@@ -579,7 +638,7 @@
                   x-transition:leave="transition-opacity duration-400"
                   x-transition:leave-start="opacity-100"
                   x-transition:leave-end="opacity-0"
-                  :class="chipClass"
+                  :class="chipClass + ' chip-text chip-text-hover'"
                   x-ref="chip"
                 >
                   <span class="text-base opacity-70" x-text="useCases[currentUseCase].icon"></span>
@@ -591,7 +650,7 @@
                   x-transition:enter="transition-opacity duration-400"
                   x-transition:enter-start="opacity-0"
                   x-transition:enter-end="opacity-100"
-                  :class="chipClass"
+                  :class="chipClass + ' chip-text chip-text-hover'"
                 >
                   <span class="text-base opacity-70" x-text="useCases[nextUseCase].icon"></span>
                   <span class="ml-1" x-text="useCases[nextUseCase].label"></span>
@@ -599,43 +658,45 @@
               </template>
             </div>
           </div>
-          <!-- Subtle scarcity badge and microcopy -->
-          <div class="flex flex-col items-center mt-2 mb-4">
-            <div class="text-sm text-[var(--color-primary)] opacity-80">
-              Be the first to taste Rooted. Launching soon.
-            </div>
-          </div>
           <!-- Main CTA Button -->
-          <button @click="openEmailPopup()" :class="mainCtaClass" aria-label="Join waitlist"
+          <button @click="openEmailPopup()"
+            class="inline-block btn px-8 py-3 rounded-lg shadow-md glass-base bg-white button-text button-text-hover text-lg font-bold border-2 border-[var(--color-warning)] hover:bg-[var(--color-warning)] focus:outline-none focus:ring-2 focus:ring-[var(--color-warning)] focus:ring-offset-2 mx-auto"
+            aria-label="Join waitlist"
             x-text="mainCtaLabel"
             x-intersect:enter="delayedBounce($el)"
             x-transition:enter="transition-transform duration-500"
             x-transition:enter-start="scale-90 opacity-0"
-            x-transition:enter-end="scale-100 opacity-100"></button>
+            x-transition:enter-end="scale-100 opacity-100"
+          ></button>
           <!-- 3-step plan -->
           <ul
-            class="list-decimal list-inside mt-4 mb-2 text-center mx-auto max-w-xs text-[var(--color-text)] glass-light rounded-lg p-4 shadow opacity-0 translate-y-8 transition-all duration-700 delay-200"
+            class="list-decimal list-inside mt-4 mb-2 text-center mx-auto max-w-xs text-[var(--color-primary)] bg-white/80 glass-light rounded-lg p-4 shadow opacity-0 translate-y-8 transition-all duration-700 delay-200"
             x-intersect:enter="animateIn($el, 200)">
             <template x-for="step in planSteps" :key="step">
               <li><strong x-text="step.split(' ')[0]"></strong> <span
                   x-text="step.substring(step.indexOf(' ') + 1)"></span></li>
             </template>
           </ul>
-          <!-- Urgency microcopy -->
-          <div class="mt-6 text-base md:text-lg font-medium text-[var(--color-primary)] text-center" x-text="urgencyText"></div>
         </div>
       </div>
     </section>
 
+    <!-- Decorative wave for section transition -->
+    <div class="relative w-full overflow-hidden -mt-2" aria-hidden="true">
+      <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-20 block">
+        <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="var(--color-surface)"/>
+      </svg>
+    </div>
+
     <!-- === SECTION: What is a Popped Water Lily Seed? === -->
     <section id="what-is" class="px-4 lg:px-12 py-12 bg-[var(--color-surface)]" x-data="whatIsSection()">
       <div class="max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold mb-6 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
           x-intersect:enter="animateIn($el, 0)"
           x-transition:enter="transition-all duration-700"
           x-transition:enter-start="opacity-0 -translate-y-8"
           x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
-        <p class="mb-8 text-lg md:text-xl font-normal text-[var(--color-text)] leading-relaxed max-w-2xl mx-auto text-center" x-text="sectionDescription"></p>
+        <p class="mb-8 text-lg md:text-xl font-normal text-on-light leading-relaxed max-w-2xl mx-auto text-center" x-text="sectionDescription"></p>
         <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-200 animate-none"
           x-intersect:enter="animateIn($el, 200)"
           x-transition:enter="transition-all duration-700 delay-200"
@@ -643,7 +704,7 @@
           x-transition:enter-end="opacity-100 scale-100">
           <img :src="illustrationImage" :alt="illustrationAlt" class="w-28 h-28 object-contain" width="112" height="112"
             loading="lazy" decoding="async" fetchpriority="high"
-            x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'112\' height=\'112\'><rect width=\'112\' height=\'112\' fill=\'%23F7C9C0\'/><ellipse cx=\'56\' cy=\'56\' rx=\'36\' ry=\'32\' fill=\'%234B6A4A\'/><ellipse cx=\'56\' cy=\'60\' rx=\'24\' ry=\'18\' fill=\'%23EDE6D6\'/><ellipse cx=\'56\' cy=\'56\' rx=\'20\' ry=\'16\' fill=\'#fff\'/><ellipse cx=\'56\' cy=\'60\' rx=\'10\' ry=\'7\' fill=\'%23F7C9C0\'/></svg>'"
+            x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'112\' height=\'112\' fill=\'%23F7C9C0\'/><ellipse cx=\'56\' cy=\'56\' rx=\'36\' ry=\'32\' fill=\'%234B6A4A\'/><ellipse cx=\'56\' cy=\'60\' rx=\'24\' ry=\'18\' fill=\'%23EDE6D6\'/><ellipse cx=\'56\' cy=\'56\' rx=\'20\' ry=\'16\' fill=\'#fff\'/><ellipse cx=\'56\' cy=\'60\' rx=\'10\' ry=\'7\' fill=\'%23F7C9C0\'/></svg>'"
             role="img" aria-label="Rooted illustration fallback" />
         </div>
       </div>
@@ -656,14 +717,14 @@
       x-transition:enter-start="opacity-0 -translate-y-8"
       x-transition:enter-end="opacity-100 translate-y-0">
       <div class="max-w-5xl mx-auto text-center relative">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-6 text-[var(--color-primary)] opacity-0 translate-y-8 transition-all duration-700 animate-none"
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-6 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
           x-intersect:enter="animateIn($el, 0)"
           x-transition:enter="transition-all duration-700"
           x-transition:enter-start="opacity-0 -translate-y-8"
           x-transition:enter-end="opacity-100 translate-y-0">
           From Seed to Snack
         </h2>
-        <p class="mb-8 text-lg md:text-xl font-normal text-[var(--color-text)] opacity-90 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+        <p class="mb-8 text-lg md:text-xl font-normal text-on-light opacity-90 opacity-0 translate-y-8 transition-all duration-700 animate-none"
           x-intersect:enter="animateIn($el, 100)"
           x-transition:enter="transition-all duration-700 delay-100"
           x-transition:enter-start="opacity-0 -translate-y-8"
@@ -701,7 +762,7 @@
     <section id="benefits" class="px-4 lg:px-12 py-12 bg-[var(--color-bg)]" x-data="{...benefitsSection(), revealed: 0}" x-init="() => { $nextTick(() => { let observer = new IntersectionObserver(([e]) => { if(e.isIntersecting) { benefits.forEach((_,i)=>setTimeout(()=>{ revealed=i+1 },i*180)); observer.disconnect(); } }); observer.observe($el); }); }">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
         <h2
-          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
           x-intersect:enter="animateIn($el, 0)"
           x-transition:enter="transition-all duration-700"
           x-transition:enter-start="opacity-0 -translate-y-8"
@@ -714,12 +775,12 @@
               :class="{ 'opacity-100 scale-100': revealed > idx }">
               <div
                 class="icon-bg group-hover:scale-110 group-focus:scale-110 transition-transform duration-200">
-                <img :src="benefit.icon" :alt="benefit.alt" class="w-8 h-8 md:w-10 md:h-10 object-contain" width="40"
-                  height="40" loading="lazy" decoding="async" fetchpriority="high"
-                  x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\'><rect width=\'40\' height=\'40\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" />
+                <img :src="benefit.icon" :alt="benefit.alt" class="w-12 h-12 md:w-16 md:h-16 max-w-full max-h-full mx-auto my-auto object-contain" width="64"
+                  height="64" loading="lazy" decoding="async" fetchpriority="high"
+                  x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\'\><rect width=\'64\' height=\'64\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'16\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" />
               </div>
               <span
-                class="mt-1 text-sm md:text-base font-extrabold uppercase tracking-wider text-[var(--color-primary)] group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)] transition-colors duration-200 text-center"
+                class="mt-1 text-sm md:text-base font-extrabold uppercase tracking-wider benefit-title benefit-title-hover transition-colors duration-200 text-center"
                 x-text="benefit.title"></span>
             </div>
           </template>
@@ -732,53 +793,61 @@
           <img :src="productImage" :alt="productImageAlt"
             class="w-40 h-40 lg:w-56 lg:h-56 xl:w-72 xl:h-72 object-contain card-img"
             width="160" height="160" loading="lazy" decoding="async" fetchpriority="high"
-            x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'160\' height=\'160\'><rect width=\'160\' height=\'160\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Snack</text></svg>'"
+            x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'160\' height=\'160\'\><rect width=\'160\' height=\'160\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Snack</text></svg>'"
             role="img" aria-label="Benefits image" />
         </div>
       </div>
     </section>
 
     <!-- === SECTION: Our Mission (Brand Story) === -->
-    <section id="mission" class="px-4 lg:px-12 py-12 bg-[var(--color-primary-10)]" x-data="missionSection()">
-      <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-[var(--color-primary)] opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)"
-          x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8"
-          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
-        <p class="mb-8 text-lg md:text-xl font-normal text-[var(--color-text)] leading-relaxed max-w-3xl mx-auto text-center" x-text="sectionDescription"></p>
-        <div class="flex justify-center mt-6 opacity-0 scale-95 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 200)"
-          x-transition:enter="transition-all duration-700 delay-200"
-          x-transition:enter-start="opacity-0 scale-90"
-          x-transition:enter-end="opacity-100 scale-100">
-          <img :src="missionImage" :alt="missionImageAlt"
-            class="w-40 h-40 object-contain card-img" width="160"
-            height="160" loading="lazy" decoding="async" />
-        </div>
+    <section id="mission" class="relative px-4 lg:px-12 py-16 flex items-center justify-center min-h-[420px]">
+      <!-- 2x2 Image Grid (Background) -->
+      <div class="absolute inset-0 w-full h-full grid grid-cols-2 grid-rows-2 z-0">
+        <img src="./assets/mission/mission1.webp" alt="Mission image 1" class="object-cover w-full h-full" />
+        <img src="./assets/mission/mission2.jpg" alt="Mission image 2" class="object-cover w-full h-full" />
+        <img src="./assets/mission/mission3.jpg" alt="Mission image 3" class="object-cover w-full h-full" />
+        <img src="./assets/mission/mission4.jpg" alt="Mission image 4" class="object-cover w-full h-full" />
+      </div>
+      <!-- Optional overlay for readability -->
+      <div class="absolute inset-0 bg-white/20 z-0"></div>
+      <!-- Glass Card (Foreground) -->
+      <div class="relative z-10 w-full max-w-lg mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide mb-6 heading-on-light text-center">
+          Our Mission
+        </h2>
+        <p class="mb-4 sm:mb-8 text-base sm:text-lg md:text-xl font-normal text-on-light leading-relaxed text-center">
+          At Rooted, we believe in joyful, mindful snacking. Our mission is to bring you delicious, plant-based treats that nourish your body, respect the planet, and celebrate global flavors. We're committed to sustainability, transparency, and making healthy choices easy and delightful.
+        </p>
+        <!-- Optionally, you can add a mission image or icon here -->
       </div>
     </section>
 
     <!-- === SECTION: Our Promise (Trust & Quality) === -->
-    <section id="promise" class="px-4 lg:px-12 py-12 bg-[var(--color-surface)]" x-data="{...promiseSection(), revealed: 0}" x-init="() => { $nextTick(() => { let observer = new IntersectionObserver(([e]) => { if(e.isIntersecting) { promises.forEach((_,i)=>setTimeout(()=>{ revealed=i+1 },i*200)); observer.disconnect(); } }); observer.observe($el); }); }">
-      <div class="max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center text-[var(--color-primary)] opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)"
-          x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8"
-          x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" x-ref="promiseItems">
+    <section id="promise"
+      class="relative py-16 px-4 flex items-center justify-center min-h-[420px]"
+      x-data="promiseSection()"
+      x-init="init()">
+      <div class="absolute inset-0 pointer-events-none z-0"></div>
+      <div class="relative z-10 max-w-[1200px] w-full mx-auto flex flex-col items-center justify-center">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-15 tracking-wide drop-shadow-lg heading-on-light">
+          <span x-text="sectionTitle"></span>
+        </h2>
+        <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-6 justify-center items-stretch">
           <template x-for="(promise, idx) in promises" :key="promise.title">
             <div
-              class="flex flex-col items-center text-center p-8 rounded-2xl shadow-md border border-[var(--color-primary)]/15 card opacity-0 scale-90 transition-all duration-1000 ease-in-out will-change-transform will-change-opacity"
-              x-intersect:enter="animateIn($el, idx * 180)"
+              class="promise-card w-full max-w-xs sm:max-w-sm md:max-w-[300px] mx-auto border-2 border-black rounded-[1rem] p-4 sm:p-6 flex flex-col items-center justify-between transition-transform duration-300 will-change-transform cursor-pointer text-on-light"
+              :style="'transform:rotate(' + tiltAngles[idx % tiltAngles.length] + ');'"
+              @mouseenter="hovered = idx"
+              @mouseleave="hovered = null"
+              @touchstart="hovered = idx"
+              @touchend="hovered = null"
+              :class="{'scale-105 shadow-2xl': hovered === idx, 'rotate-[-2deg]': tiltAngles[idx % tiltAngles.length] === '-2deg', 'rotate-[2deg]': tiltAngles[idx % tiltAngles.length] === '2deg'}"
+              x-transition:enter="transition-all duration-700"
+              x-transition:enter-start="opacity-0 scale-90"
+              x-transition:enter-end="opacity-100 scale-100"
             >
-              <img :src="promise.icon" :alt="promise.alt" class="w-12 h-12 mb-3" width="48" height="48" loading="lazy"
-                decoding="async" fetchpriority="high"
-                x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'10\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Promise</text></svg>'"
-                role="img" />
-              <h3 class="text-2xl md:text-3xl font-extrabold mb-2 tracking-wide" x-text="promise.title"></h3>
-              <p class="text-lg md:text-xl text-[var(--color-text)] opacity-80 font-normal" x-text="promise.desc"></p>
+              <h4 class="text-lg sm:text-xl font-bold mb-1 sm:mb-3 text-center uppercase tracking-wide heading-on-light" x-text="promise.title"></h4>
+              <p class="text-base sm:text-lg font-normal leading-[1.4] text-center" x-text="promise.desc"></p>
             </div>
           </template>
         </div>
@@ -788,7 +857,7 @@
     <!-- === SECTION: Testimonials / Social Proof === -->
     <section id="testimonials" class="px-4 lg:px-12 py-12 bg-[var(--color-accent)/20]" x-data="testimonialCarousel()" role="region" aria-roledescription="carousel">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
           x-intersect:enter="animateIn($el, 0)"
           x-transition:enter="transition-all duration-700"
           x-transition:enter-start="opacity-0 -translate-y-8"
@@ -807,22 +876,20 @@
           <div
             class="w-full min-h-[120px] flex flex-col md:flex-row justify-center items-stretch gap-6 relative mb-4 md:mb-0">
             <template x-if="!isDesktop">
-              <div class="relative min-h-[180px] md:min-h-[160px]">
-                <template x-for="(t, idx) in testimonials" :key="idx">
-                  <blockquote x-cloak x-show="current === idx"
-                    class="card border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow text-[var(--color-text)] flex flex-col justify-center absolute left-0 right-0 top-0 bottom-0 m-auto opacity-0 scale-95 animate-none"
-                    aria-live="polite"
-                    x-transition:enter="transition-all duration-700"
-                    x-transition:enter-start="opacity-0 scale-90"
-                    x-transition:enter-end="opacity-100 scale-100">
-                    <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram decorative"
-                      class="absolute bottom-2 right-2 w-8 h-8 opacity-10 pointer-events-none select-none"
-                      aria-hidden="true" />
-                    <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-[var(--color-text)]">"<span x-text="t.quote"></span>"</p>
-                    <footer class="text-sm md:text-base text-[var(--color-primary)] font-semibold tracking-wide mt-2"
-                      x-text="'– ' + t.author"></footer>
-                  </blockquote>
-                </template>
+              <div class="relative min-h-[180px] md:min-h-[160px] flex items-center justify-center">
+                <blockquote
+                  class="card border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow text-on-light flex flex-col justify-center"
+                  aria-live="polite"
+                >
+                  <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram decorative"
+                    class="absolute bottom-2 right-2 w-8 h-8 opacity-10 pointer-events-none select-none"
+                    aria-hidden="true" />
+                  <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-on-light">
+                    "<span x-text="testimonials[current].quote"></span>"
+                  </p>
+                  <footer class="text-sm md:text-base testimonial-author font-semibold tracking-wide mt-2"
+                    x-text="'– ' + testimonials[current].author"></footer>
+                </blockquote>
               </div>
             </template>
             <template x-if="isDesktop">
@@ -833,15 +900,15 @@
                   <template x-if="testimonials[(current + i - 1 + testimonials.length) % testimonials.length]">
                     <blockquote
                       :key="'testimonial-group-'+((current + i - 1 + testimonials.length) % testimonials.length)"
-                      class="card border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow text-[var(--color-text)] flex-1 flex flex-col justify-center relative"
+                      class="card border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow text-on-light flex-1 flex flex-col justify-center relative"
                       aria-live="polite">
                       <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram decorative"
                         class="absolute bottom-2 right-2 w-8 h-8 opacity-10 pointer-events-none select-none"
                         aria-hidden="true" />
-                      <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-[var(--color-text)]">"<span
+                      <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-on-light">"<span
                           x-text="testimonials[(current + i - 1 + testimonials.length) % testimonials.length].quote"></span>"
                       </p>
-                      <footer class="text-sm md:text-base text-[var(--color-primary)] font-semibold tracking-wide mt-2"
+                      <footer class="text-sm md:text-base testimonial-author font-semibold tracking-wide mt-2"
                         x-text="'– ' + testimonials[(current + i - 1 + testimonials.length) % testimonials.length].author">
                       </footer>
                     </blockquote>
@@ -875,24 +942,26 @@
     <section id="signup" class="px-4 lg:px-12 py-12 bg-[var(--color-primary-10)] text-center" x-data="emailCtaSection()">
       <div
         class="max-w-xl lg:max-w-3xl xl:max-w-4xl mx-auto bg-white/95 border border-[var(--color-primary)]/10 rounded-2xl p-8 shadow-lg">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
           x-intersect:enter="animateIn($el, 0)"
           x-transition:enter="transition-all duration-700"
           x-transition:enter-start="opacity-0 -translate-y-8"
           x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionTitle"></h2>
-        <p class="mb-6 text-[var(--color-text)] text-base md:text-lg opacity-0 translate-y-8 transition-all duration-700 delay-100 animate-none"
+        <p class="mb-6 text-on-light text-base md:text-lg opacity-0 translate-y-8 transition-all duration-700 delay-100 animate-none"
           x-intersect:enter="animateIn($el, 100)"
           x-transition:enter="transition-all duration-700 delay-100"
           x-transition:enter-start="opacity-0 -translate-y-8"
           x-transition:enter-end="opacity-100 translate-y-0" x-text="sectionDescription"></p>
         <button @click="openEmailPopup()"
-          class="inline-block btn btn--primary px-8 py-3 rounded-lg shadow-md hover:bg-[var(--color-accent)] hover:text-[var(--color-success)] text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 animate-none"
+          class="inline-block btn px-8 py-3 rounded-lg shadow-md glass-base bg-white button-text button-text-hover text-lg font-bold border-2 border-[var(--color-warning)] hover:bg-[var(--color-warning)] focus:outline-none focus:ring-2 focus:ring-[var(--color-warning)] focus:ring-offset-2 mx-auto"
+          aria-label="Get Early Access Now"
+          x-text="buttonLabel"
           x-intersect:enter="delayedBounce($el)"
           x-transition:enter="transition-transform duration-500"
           x-transition:enter-start="scale-90 opacity-0"
           x-transition:enter-end="scale-100 opacity-100"
-          aria-label="Join the waitlist" x-text="buttonLabel"></button>
-        <div class="mt-6 text-lg md:text-xl font-semibold text-[var(--color-primary)]" x-text="microcopy"></div>
+        ></button>
+        <div class="mt-6 text-lg md:text-xl font-semibold text-on-light" x-text="microcopy"></div>
       </div>
     </section>
 
@@ -902,7 +971,7 @@
         <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram background"
           class="absolute inset-0 mx-auto my-auto w-full max-w-[240px] md:max-w-[360px] h-auto opacity-10 pointer-events-none select-none object-contain z-0"
           aria-hidden="true" />
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center opacity-0 translate-y-8 transition-all duration-700 animate-none"
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
           x-intersect:enter="animateIn($el, 0)"
           x-transition:enter="transition-all duration-700"
           x-transition:enter-start="opacity-0 -translate-y-8"
@@ -912,7 +981,7 @@
             <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
               <button @click="open === idx ? open = -1 : open = idx" :aria-expanded="open === idx"
                 :aria-controls="'faq-panel-' + idx" :id="'faq-tab-' + idx"
-                class="w-full text-left font-semibold flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] py-2"
+                class="w-full text-left font-semibold flex justify-between items-center py-2"
                 itemprop="name">
                 <span x-text="faq.q"></span>
                 <span x-text="open === idx ? '-' : '+' " aria-hidden="true" class="ml-2"></span>
@@ -931,7 +1000,7 @@
                 :aria-labelledby="'faq-tab-' + idx"
                 itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"
               >
-                <p itemprop="text" class="py-2 text-base md:text-lg text-[var(--color-text)]" x-text="faq.a"></p>
+                <p itemprop="text" class="py-2 text-base md:text-lg text-on-light" x-text="faq.a"></p>
               </div>
             </div>
           </template>
@@ -955,21 +1024,21 @@
               <img :src="instagramIcon" alt="Instagram social icon, link to Rooted Instagram"
                 class="w-6 h-6 inline grayscale hover:grayscale-0 transition" width="24" height="24" loading="lazy"
                 decoding="async" fetchpriority="high"
-                x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\'><rect width=\'24\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>IG</text></svg>'"
+                x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\'\><rect width=\'24\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>IG</text></svg>'"
                 role="img" aria-label="Instagram icon" />
             </a>
-            <a :href="'mailto:' + email" class="hover:text-[var(--color-primary)] underline" aria-label="Contact Rooted"
+            <a :href="'mailto:' + email" class="link-on-light underline" aria-label="Contact Rooted"
               x-text="email"></a>
           </div>
-          <div class="text-sm md:text-base text-[var(--color-primary)] text-center tracking-wide" x-text="brandStatement"></div>
-          <div class="text-sm md:text-base text-center">
+          <div class="text-sm md:text-base text-on-light text-center tracking-wide" x-text="brandStatement"></div>
+          <div class="text-sm md:text-base text-on-light text-center">
             &copy; <span x-text="new Date().getFullYear()"></span> <span x-text="copyright"></span>
           </div>
         </div>
       </div>
       <div class="flex justify-center mt-6" aria-hidden="true">
         <img :src="logo" :alt="logoAlt" class="h-8 w-auto opacity-80" width="64" height="32" loading="lazy"
-          x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'32\'><rect width=\'64\' height=\'32\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'12\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Logo</text></svg>'" />
+          x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'32\'\><rect width=\'64\' height=\'32\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'12\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Logo</text></svg>'" />
       </div>
     </footer>
   </main>
@@ -977,7 +1046,7 @@
   <!-- === SCROLL-TO-TOP BUTTON (Persistent, Accessible) === -->
   <div x-data="scrollToTopButton()" x-init="init()" x-show="show && !showEmailPopup" x-transition.opacity class="fixed bottom-32 right-4 z-50">
     <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Scroll to top"
-      class="glass-base glass-light btn btn--round w-12 h-12 min-w-12 min-h-12 border border-[var(--color-primary)] shadow-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2">
+      class="glass-base bg-white text-[var(--color-primary)] border-2 border-[var(--color-warning)] hover:bg-[var(--color-warning)] hover:text-[var(--color-primary)] btn btn--round w-12 h-12 min-w-12 min-h-12 shadow-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-warning)] focus:ring-offset-2">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
       </svg>
@@ -1061,7 +1130,7 @@
     function desktopCtaButton() {
       return {
         buttonLabel: 'Get 15% Off – Join Waitlist',
-        buttonClass: 'glass-base glass-light btn btn--primary focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 hover:shadow-xl',
+        buttonClass: 'inline-block btn px-8 py-3 rounded-lg shadow-md bg-white text-[var(--color-primary)] text-lg font-bold border-2 border-[var(--color-warning)] hover:bg-[var(--color-warning)] hover:text-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-warning)] focus:ring-offset-2',
       }
     }
 
@@ -1075,7 +1144,7 @@
         useCases: [
           { label: 'Lunchbox Snack', icon: '🥪' },
           { label: 'Post-Yoga Fuel', icon: '🧘‍♂️' },
-          { label: 'Movie Night', icon: '' },
+          { label: 'Movie Night', icon: '🍿' },
           { label: 'On-the-Go', icon: '🚗' },
         ],
         currentUseCase: 0,
@@ -1083,7 +1152,8 @@
         transitioning: false,
         chipClass: [
           'glass-base inline-flex items-center gap-2 px-5 py-1.5 rounded-full font-bold text-lg border border-[var(--color-primary)]/15 shadow-sm',
-          'bg-[var(--color-accent)]/70',
+          'bg-[var(--color-warning)]',
+          'text-[var(--color-primary)]',
           'transition-all duration-300',
           'usecase-chip-animate-luxury',
           'will-change-opacity-transform',
@@ -1092,13 +1162,11 @@
           'chip-pop-anim'
         ].join(' '),
         mainCtaLabel: '🎉 Get 15% Off – Snack Smarter!',
-        mainCtaClass: 'inline-block btn btn--primary md:px-8 md:py-3 text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 mx-auto',
+        mainCtaClass: 'inline-block btn btn--primary md:px-8 md:py-3 text-base md:text-lg text-[var(--color-primary)] bg-[var(--color-warning)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 mx-auto',
         planSteps: [
           'Join the Rooted waitlist',
-          'Save 15% on your first order',
-          'Snack better, feel better'
+          'Save 15% on your first order'
         ],
-        urgencyText: "Don't miss out on the healthiest snack of the year!",
         useCaseInterval: null,
         chipRef: null,
         popChip() {
@@ -1154,11 +1222,11 @@
         sectionTitle: "Super Snack That's Good For You",
         sectionDescription: "",
         benefits: [
-          { icon: 'PATH_TO_ICON_1', alt: 'Up to 50% Less Fat', title: 'Up to 50% Less Fat*' },
-          { icon: 'PATH_TO_ICON_2', alt: 'Source Of Fibre', title: 'Source Of Fibre' },
-          { icon: 'PATH_TO_ICON_3', alt: 'Antioxidant Punch', title: 'Antioxidant Punch' },
-          { icon: 'PATH_TO_ICON_4', alt: 'Gluten Free', title: 'Gluten Free' },
-          { icon: 'PATH_TO_ICON_5', alt: 'Vegan', title: 'Vegan' }
+          { icon: './assets/illustrations/less_in_fat.svg', alt: 'Up to 50% Less Fat', title: 'Up to 50% Less Fat*' },
+          { icon: './assets/illustrations/source_of_fiber.svg', alt: 'Source Of Fibre', title: 'Source Of Fibre' },
+          { icon: './assets/illustrations/antioxidant_punch.svg', alt: 'Antioxidant Punch', title: 'Antioxidant Punch' },
+          { icon: './assets/illustrations/gluten_free.svg', alt: 'Gluten Free', title: 'Gluten Free' },
+          { icon: './assets/illustrations/vegan.svg', alt: 'Vegan', title: 'Vegan' }
         ],
         productImage: 'PATH_TO_BENEFITS_IMAGE',
         productImageAlt: 'Rooted snack product with health benefits, bowl and bag on table'
@@ -1185,24 +1253,23 @@
         sectionTitle: "Our Promise",
         promises: [
           {
-            icon: 'PATH_TO_PROMISE_ICON_1',
-            alt: 'Promise: Nutritious, plant-based protein, minerals, antioxidants icon',
             title: 'Nutritious',
             desc: 'Packed with plant-based protein, minerals, and antioxidants.'
           },
           {
-            icon: 'PATH_TO_PROMISE_ICON_2',
-            alt: 'Promise: Delicious, crunchy, light, full of flavor icon',
             title: 'Delicious',
             desc: "Crunchy, light, and full of flavor – a snack you'll crave."
           },
           {
-            icon: 'PATH_TO_PROMISE_ICON_3',
-            alt: 'Promise: Diverse, celebrates global flavors, ancient superfoods icon',
             title: 'Diverse',
             desc: 'Rooted celebrates global flavors and ancient superfoods.'
           }
-        ]
+        ],
+        tiltAngles: ['-2deg', '2deg', '-2deg'],
+        hovered: null,
+        init() {
+          // No-op for now, but could be used for animation triggers
+        }
       }
     }
 
