@@ -81,7 +81,7 @@ function desktopCtaButton() {
  */
 function heroSection() {
   return {
-    productImage: 'PATH_TO_PRODUCT_IMAGE_1',
+    productImage: './assets/backgrounds/hero-spotlight-1.png',
     productImageAlt: 'Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, front view, on spotlight, with pink halo',
     useCases: [
       { label: 'Lunchbox Snack', icon: '🥪' },
