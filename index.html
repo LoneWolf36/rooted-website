@@ -510,7 +510,7 @@
 
   <!-- === SCROLL-TO-TOP BUTTON (Persistent, Accessible) === -->
   <div x-data="scrollToTopButton()" x-init="init()" x-show="show && !showEmailPopup" x-transition.opacity
-    class="fixed bottom-32 right-4 z-50">
+    class="fixed bottom-20 right-4 z-50">
     <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Scroll to top"
       class="btn btn--round">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
