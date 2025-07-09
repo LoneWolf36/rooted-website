@@ -485,3 +485,12 @@ h6 {
     background-image: url('./assets/backgrounds/hero-bg-2376x1152.png');
   }
 }
+.hero-product-img {
+  height: 130%;
+  max-width: 100%;
+}
+@media (min-width: 640px) {
+  .hero-product-img {
+    height: 130%;
+  }
+}

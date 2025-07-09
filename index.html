@@ -82,7 +82,6 @@
       </div>
     </nav>
   </header>
-  <div class="h-16 md:h-8"></div> <!-- Spacer for sticky nav -->
 
   <!-- === STICKY CTA BAR (Mobile, Glassmorphic) === -->
   <div
@@ -124,21 +123,20 @@
   <main class="overflow-x-hidden" role="main" id="main-content">
     <!-- === SECTION: Hero Product Spotlight === -->
     <section id="hero"
-      class="hero-bg relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 text-center lg:text-left"
+      class="hero-bg relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 text-center lg:text-left pt-24 md:pt-8"
       x-data="heroSection()" x-intersect:enter="animateIn($el, 0)">
       <div
-        class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-start gap-12">
+        class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-start">
         <!-- Product Image -->
-        <div class="flex-shrink-0 flex justify-center items-center mb-6 lg:mb-0 lg:mr-8 w-full lg:w-auto">
+        <div class="flex-shrink-0 flex justify-center items-center w-full lg:w-auto">
           <div
-            class="relative flex justify-center items-center h-40 sm:h-56 lg:h-[28rem] lg:w-[28rem] xl:h-[32rem] xl:w-[32rem] opacity-0 scale-95 transition-all duration-700 delay-200 md:sticky md:top-28 animate-none"
+            class="relative flex justify-center items-center h-96 sm:h-90 lg:h-[35rem] lg:w-[35rem] xl:h-[36rem] xl:w-[36rem] opacity-0 scale-95 transition-all duration-700 delay-200 md:sticky md:top-28 animate-none"
             x-intersect:enter="animateIn($el, 200)"
             x-transition:enter="transition-transform transition-opacity duration-700"
             x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
             x-ref="spotlight">
-            <div class="absolute inset-0 rounded-full bg-[var(--rooted-yellow)] opacity-40 blur-2xl animate-pulse"></div>
             <img :src="productImage" :alt="productImageAlt"
-              class="relative z-10 w-40 h-40 sm:w-48 sm:h-48 lg:w-[22rem] lg:h-[22rem] xl:w-[28rem] xl:h-[28rem] object-contain"
+              class="relative z-10 w-full hero-product-img object-cover"
               width="448" height="448" decoding="async" fetchpriority="high" loading="eager"
               x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'448\' height=\'448\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Product</text></svg>'"
               role="img" aria-label="Rooted Product"
@@ -279,8 +277,7 @@
         <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-500 animate-none"
           x-intersect:enter="animateIn($el, 500)" x-transition:enter="transition-all duration-700 delay-500"
           x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100">
-          <img :src="productImage" :alt="productImageAlt"
-            class="w-40 h-40 lg:w-56 lg:h-56 xl:w-72 xl:h-72 object-contain card-img" width="160" height="160"
+          <img src="./assets/product/22.png" alt="Rooted snack product Himalayan Pink Salt bag and bowl" class="w-80 h-80 lg:w-72 lg:h-72 xl:w-96 xl:h-96 object-cover" width="160" height="160"
             loading="lazy" decoding="async" fetchpriority="high"
             x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'160\' height=\'160\'\><rect width=\'160\' height=\'160\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Snack</text></svg>'"
             role="img" aria-label="Benefits image" />
