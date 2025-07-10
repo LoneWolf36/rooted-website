@@ -81,7 +81,7 @@ function desktopCtaButton() {
  */
 function heroSection() {
   return {
-    productImage: './assets/product/1.png',
+    productImage: './assets/product/2.png',
     productImageAlt: 'Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, front view, on spotlight, with pink halo',
     useCases: [
       { label: 'Lunchbox Snack', icon: '🥪' },
@@ -334,7 +334,7 @@ function footerSection() {
     instagramIcon: "PATH_TO_INSTAGRAM_ICON",
     email: "hello@rootedsnacks.com",
     brandStatement: "Rooted is committed to plant-based nutrition, sustainability, and global flavors. Certified vegan. Made with love.",
-    logo: "./assets/logos/logo_rooted_green.png",
+    logo: "./assets/logos/logo_rooted_beige.png",
     logoAlt: "Rooted Snacks logo",
     copyright: "Rooted. All rights reserved."
   }

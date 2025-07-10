@@ -27,6 +27,7 @@
   --color-chip-text-hover: var(--rooted-orange);
   --color-link: var(--rooted-green);
   --color-link-hover: var(--rooted-orange);
+  --color-link-dark: var(--rooted-beige);
 }
 
 .text-on-dark {
@@ -76,6 +77,16 @@
 
 .link-on-light:hover,
 .link-on-light:focus {
+  color: var(--color-link-hover);
+}
+
+.link-on-dark {
+  color: var(--color-link-dark);
+  transition: color 0.2s;
+}
+
+.link-on-dark:hover,
+.link-on-dark:focus {
   color: var(--color-link-hover);
 }
 

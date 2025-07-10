@@ -59,8 +59,7 @@
       </ul>
       <!-- Mobile Hamburger -->
       <button @click="mobileNavOpen = !mobileNavOpen" :aria-expanded="mobileNavOpen"
-        aria-label="Toggle mobile navigation"
-        class="md:hidden p-2 rounded">
+        aria-label="Toggle mobile navigation" class="md:hidden p-2 rounded">
         <svg x-show="!mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -104,7 +103,8 @@
         class="absolute top-2 right-2 glass-base glass-light text-gray-400 hover:text-[var(--rooted-green)] text-2xl w-10 h-10 flex items-center justify-center z-10"
         aria-label="Close popup">&times;</button>
       <div class="text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-4 heading-on-light text-on-light">Join the Rooted
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-4 heading-on-light text-on-light">Join the
+          Rooted
           Waitlist</h2>
         <p class="mb-4 text-on-light text-lg">Get 15% off your first order and early access!</p>
         <div class="glass-light rounded-xl p-4 text-on-light border border-[var(--rooted-green)]/10">
@@ -126,18 +126,25 @@
       class="hero-bg relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 text-center lg:text-left pt-24 md:pt-8"
       x-data="heroSection()" x-intersect:enter="animateIn($el, 0)">
       <div
-        class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-start">
+        class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex flex-col-reverse lg:flex-row items-center lg:items-start">
         <!-- Product Image -->
-        <div class="flex-shrink-0 flex justify-center items-center w-full lg:w-auto">
+        <div class="flex-shrink-0 flex justify-center items-center w-full lg:w-auto mb-12 lg:mb-0">
           <div
-            class="relative flex justify-center items-center h-96 sm:h-90 lg:h-[35rem] lg:w-[35rem] xl:h-[36rem] xl:w-[36rem] opacity-0 scale-95 transition-all duration-700 delay-200 md:sticky md:top-28 animate-none"
-            x-intersect:enter="animateIn($el, 200)"
-            x-transition:enter="transition-transform transition-opacity duration-700"
-            x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
-            x-ref="spotlight">
+            class="relative flex justify-center items-center h-96 sm:h-90 lg:h-[35rem] lg:w-[35rem] xl:h-[36rem] xl:w-[36rem] transition-all duration-700 delay-200 md:sticky md:top-28 animate-none"
+            x-data="{ show: false }" x-intersect:enter="show = true">
+            <!-- Back/peeking packet 1 -->
+            <img src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, back"
+              class="absolute right-40 top-8 w-10/12 max-w-[90%] -rotate-20 z-0 transition-all duration-700 opacity-0 scale-90"
+              :class="show ? 'opacity-100 scale-100' : ''" loading="eager" aria-hidden="true" />
+            <!-- Back/peeking packet 2 -->
+            <img src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, back"
+              class="absolute left-40 top-8 w-10/12 max-w-[90%] rotate-20 z-0 transition-all duration-700 opacity-0 scale-90"
+              :class="show ? 'opacity-100 scale-100' : ''" loading="eager" aria-hidden="true" />
+            <!-- Front packet (main) -->
             <img :src="productImage" :alt="productImageAlt"
-              class="relative z-10 w-full hero-product-img object-cover"
-              width="448" height="448" decoding="async" fetchpriority="high" loading="eager"
+              class="relative z-10 w-full hero-product-img object-cover transition-all duration-700 opacity-0 scale-90"
+              :class="show ? 'opacity-100 scale-100' : ''" width="448" height="448" decoding="async"
+              fetchpriority="high" loading="eager"
               x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'448\' height=\'448\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Product</text></svg>'"
               role="img" aria-label="Rooted Product"
               onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'448\' height=\'448\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Product</text></svg>'" />
@@ -177,9 +184,10 @@
             </div>
           </div>
           <!-- Main CTA Button -->
-          <button @click="openEmailPopup()" class="btn btn--primary mb-4 mt-2" aria-label="Join waitlist" x-text="mainCtaLabel"
-            x-intersect:enter="delayedBounce($el)" x-transition:enter="transition-transform duration-500"
-            x-transition:enter-start="scale-90 opacity-0" x-transition:enter-end="scale-100 opacity-100"></button>
+          <button @click="openEmailPopup()" class="btn btn--primary mb-4 mt-2" aria-label="Join waitlist"
+            x-text="mainCtaLabel" x-intersect:enter="delayedBounce($el)"
+            x-transition:enter="transition-transform duration-500" x-transition:enter-start="scale-90 opacity-0"
+            x-transition:enter-end="scale-100 opacity-100"></button>
         </div>
       </div>
     </section>
@@ -206,8 +214,8 @@
     </section>
 
     <!-- === SECTION: Seed to Snack Journey (Animated, Curve-Aligned, Oomph) === -->
-    <section id="journey" class="relative px-4 lg:px-12 py-16 pb-24 bg-[var(--color-glass-accent)] overflow-x-hidden"
-      x-data="journeySection()" x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
+    <section id="journey" class="relative px-4 lg:px-12 py-16 pb-24 overflow-x-hidden" x-data="journeySection()"
+      x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
       x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
       <div class="max-w-5xl mx-auto text-center relative">
         <h2
@@ -248,7 +256,8 @@
     </section>
 
     <!-- === SECTION: Super Snack Benefits === -->
-    <section id="benefits" class="px-4 lg:px-12 py-12" x-data="{...benefitsSection(), revealed: 0}"
+    <section id="benefits" class="px-4 lg:px-12 py-12  bg-[var(--rooted-yellow)]"
+      x-data="{...benefitsSection(), revealed: 0}"
       x-init="() => { $nextTick(() => { let observer = new IntersectionObserver(([e]) => { if(e.isIntersecting) { benefits.forEach((_,i)=>setTimeout(()=>{ revealed=i+1 },i*180)); observer.disconnect(); } }); observer.observe($el); }); }">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
         <h2
@@ -274,17 +283,6 @@
             </div>
           </template>
         </div>
-        <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-500 animate-none"
-          x-intersect:enter="animateIn($el, 500)" x-transition:enter="transition-all duration-700 delay-500"
-          x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100">
-          <div class="glass-base glass-light rounded-2xl p-4 inline-block">
-            <img src="./assets/product/22.png" alt="Rooted snack product Himalayan Pink Salt bag and bowl" class="w-80 h-90 lg:w-72 lg:h-72 xl:w-85 xl:h-95 object-cover rounded-2xl"
-              width="160" height="160"
-              loading="lazy" decoding="async" fetchpriority="high"
-              x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'160\' height=\'160\'\><rect width=\'160\' height=\'160\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Snack</text></svg>'"
-              role="img" aria-label="Benefits image" />
-          </div>
-        </div>
       </div>
     </section>
 
@@ -296,7 +294,7 @@
         <img src="./assets/mission/mission2.jpg" alt="Mission image 2" class="object-cover w-full h-full" />
         <img src="./assets/mission/mission3.jpg" alt="Mission image 3" class="object-cover w-full h-full" />
         <img src="./assets/mission/mission4.jpg" alt="Mission image 4" class="object-cover w-full h-full" />
-        </div>
+      </div>
       <!-- Optional overlay for readability -->
       <div class="absolute inset-0 bg-white/20 z-0"></div>
       <!-- Glass Card (Foreground) -->
@@ -340,8 +338,8 @@
     </section>
 
     <!-- === SECTION: Testimonials / Social Proof === -->
-    <section id="testimonials" class="px-4 lg:px-12 py-12" x-data="testimonialCarousel()"
-      role="region" aria-roledescription="carousel">
+    <section id="testimonials" class="px-4 lg:px-12 py-12" x-data="testimonialCarousel()" role="region"
+      aria-roledescription="carousel">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
         <h2
           class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
@@ -481,25 +479,24 @@
 
     <!-- === SECTION: Footer (Glassmorphic on Mobile) === -->
     <footer
-      class="bg-white/95 py-6 px-4 lg:px-12 text-center sticky bottom-0 md:static z-30 border-t border-[var(--rooted-green)]/15 shadow-lg md:pb-4 transition-opacity duration-700 animate-none"
+      class="py-6 px-4 lg:px-12 text-center sticky bottom-0 md:static z-30 border-t  bg-[var(--rooted-green)] shadow-lg md:pb-4 transition-opacity duration-700 animate-none"
       role="contentinfo" x-data="footerSection()" x-intersect:enter="animateIn($el, 0)"
       x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0"
       x-transition:enter-end="opacity-100">
       <div class="flex flex-col md:flex-row items-center justify-between max-w-4xl mx-auto gap-2">
         <div class="flex flex-col items-center gap-2 w-full">
           <div class="flex items-center justify-center gap-4 mb-2">
-            <a :href="instagramUrl" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-              class="hover">
+            <a :href="instagramUrl" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover">
               <img :src="instagramIcon" alt="Instagram social icon, link to Rooted Instagram"
-                class="w-6 h-6 inline grayscale hover:grayscale-0 transition" width="24" height="24" loading="lazy"
-                decoding="async" fetchpriority="high"
+                class="w-6 h-6 link-on-dark inline transition" width="24" height="24" loading="lazy" decoding="async"
+                fetchpriority="high"
                 x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\'\><rect width=\'24\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>IG</text></svg>'"
                 role="img" aria-label="Instagram icon" />
             </a>
-            <a :href="'mailto:' + email" class="link-on-light underline" aria-label="Contact Rooted" x-text="email"></a>
+            <a :href="'mailto:' + email" class="link-on-dark underline" aria-label="Contact Rooted" x-text="email"></a>
           </div>
-          <div class="text-sm md:text-base text-on-light text-center tracking-wide" x-text="brandStatement"></div>
-          <div class="text-sm md:text-base text-on-light text-center">
+          <div class="text-sm md:text-base text-on-dark text-center tracking-wide" x-text="brandStatement"></div>
+          <div class="text-sm md:text-base text-on-dark text-center">
             &copy; <span x-text="new Date().getFullYear()"></span> <span x-text="copyright"></span>
           </div>
         </div>
@@ -513,9 +510,8 @@
 
   <!-- === SCROLL-TO-TOP BUTTON (Persistent, Accessible) === -->
   <div x-data="scrollToTopButton()" x-init="init()" x-show="show && !showEmailPopup" x-transition.opacity
-    class="fixed bottom-20 right-4 z-50">
-    <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Scroll to top"
-      class="btn btn--round">
+    class="fixed bottom-20 md:bottom-30 right-4 z-50">
+    <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Scroll to top" class="btn btn--round">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
       </svg>
