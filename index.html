@@ -153,7 +153,7 @@
         <!-- Text and CTA -->
         <div class="flex-1 flex flex-col items-center justify-center text-center">
           <h1
-            class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 opacity-0 translate-y-8 transition-all duration-700 heading-on-dark"
+            class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 opacity-0 translate-y-8 transition-all duration-700 heading-on-dark"
             x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
             x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
             Your New Healthy Snack Awaits: Popped Water Lily Seeds
@@ -224,7 +224,7 @@
           x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
           From Seed to Snack
         </h2>
-        <p class="mb-8 text-lg md:text-xl font-normal text-on-light opacity-90 opacity-0 translate-y-8 transition-all duration-700 animate-none"
+        <p class="text-lg md:text-xl font-normal text-on-light opacity-90 opacity-0 translate-y-8 transition-all duration-700 animate-none"
           x-intersect:enter="animateIn($el, 100)" x-transition:enter="transition-all duration-700 delay-100"
           x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
           How we transform ancient water lily seeds into your favorite healthy snack.
@@ -261,11 +261,11 @@
       x-init="() => { $nextTick(() => { let observer = new IntersectionObserver(([e]) => { if(e.isIntersecting) { benefits.forEach((_,i)=>setTimeout(()=>{ revealed=i+1 },i*180)); observer.disconnect(); } }); observer.observe($el); }); }">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
         <h2
-          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
+          class="text-3xl md:text-4xl tracking-wide mb-6 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
           x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
           x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
           x-text="sectionTitle"></h2>
-        <div class="flex flex-wrap justify-center gap-6 md:gap-10 mb-8 items-center" role="list"
+        <div class="flex flex-wrap justify-center gap-6 md:gap-10 mb-2 items-center" role="list"
           aria-label="Product Benefits" x-ref="benefitItems">
           <template x-for="(benefit, idx) in benefits" :key="benefit.title">
             <div tabindex="0" role="listitem" :aria-label="benefit.title"
@@ -287,14 +287,14 @@
     </section>
 
     <!-- === SECTION: Feel Good Flavours (Refined) === -->
-    <section id="feel-good-flavours" class="px-4 lg:px-12 py-16 flex flex-col items-center justify-center bg-[var(--rooted-beige)] relative overflow-visible">
+    <section id="feel-good-flavours" class="px-4 lg:px-12 py-12 flex flex-col items-center justify-center relative overflow-visible">
       <!-- Heading -->
-      <h2 class="text-3xl md:text-4xl font-extrabold mb-4 heading-on-light text-center">Feel Good Flavours</h2>
-      <p class="mb-10 text-lg md:text-xl font-normal text-on-light text-center max-w-2xl">We’re not just healthy — we’re deliciously flavourful and satisfyingly crunchy. We never compromise on taste because snacking should be both nourishing and enjoyable.</p>
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light text-center">Feel Good Flavours</h2>
+      <p class="mb-4 text-lg md:text-xl font-normal text-on-light text-center max-w-2xl">We’re not just healthy — we’re deliciously flavourful and satisfyingly crunchy. We never compromise on taste because snacking should be both nourishing and enjoyable.</p>
       <div class="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl gap-8 relative">
         <!-- Product Image Left (no background) -->
         <div class="flex-1 flex justify-center items-start order-2 md:order-1">
-          <img src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, slanted" class="w-56 md:w-72 lg:w-80 transform -rotate-12 drop-shadow-xl" loading="lazy" />
+          <img src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, slanted" class="w-80 md:w-90 lg:w-110 transform -rotate-12 drop-shadow-xl" loading="lazy" />
         </div>
         <!-- Flavor Card Right (glass, with pink salt crystal behind) -->
         <div class="flex-1 flex justify-center items-start order-1 md:order-2 relative">
