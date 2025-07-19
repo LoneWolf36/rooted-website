@@ -361,21 +361,6 @@ h6 {
     min-height: 3rem !important;
   }
 
-  .journey-card-base {
-    width: 3rem !important;
-    height: 3rem !important;
-    min-width: 3rem !important;
-    min-height: 3rem !important;
-    margin-bottom: 0.25rem !important;
-  }
-
-  .journey-card-icon {
-    width: 2rem !important;
-    height: 2rem !important;
-    min-width: 2rem !important;
-    min-height: 2rem !important;
-  }
-
   .journey-step-anim span {
     font-size: 0.75rem !important;
     margin-top: 0.1rem !important;
@@ -504,4 +489,17 @@ h6 {
   .hero-product-img {
     height: 130%;
   }
+}
+
+@keyframes wobble {
+  0% { transform: rotate(-12deg) scale(1); }
+  15% { transform: rotate(-18deg) scale(1.08); }
+  30% { transform: rotate(-8deg) scale(1.04); }
+  45% { transform: rotate(-16deg) scale(1.06); }
+  60% { transform: rotate(-10deg) scale(1.02); }
+  75% { transform: rotate(-14deg) scale(1.05); }
+  100% { transform: rotate(-12deg) scale(1); }
+}
+.animate-wobble {
+  animation: wobble 0.5s cubic-bezier(.4,2,.6,1) 1;
 }

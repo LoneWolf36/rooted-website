@@ -39,27 +39,26 @@
 <body class="antialiased scroll-smooth">
   <!-- === NAVBAR: Glassmorphic Sticky Top === -->
   <header x-cloak
-    class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-base md:glass-light border-b border-[var(--rooted-green)]/30 shadow-lg rounded-b-xl md:rounded-b-2xl transition-transform duration-500 ease-in-out"
-    role="banner" x-transition:enter="transition-transform duration-500"
-    x-transition:enter-start="-translate-y-12 opacity-0" x-transition:enter-end="translate-y-0 opacity-100">
+    class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-base md:glass-light border-b border-[var(--rooted-green)]/30 shadow-lg rounded-b-xl md:rounded-b-2xl"
+    role="banner" data-gsap-navbar="header">
     <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-2" aria-label="Main navigation"
-      x-data="navBar()">
+      x-data="navBar()" data-gsap-navbar="nav">
       <!-- Logo -->
-      <a href="#hero" class="flex items-center" @click.prevent="scrollToSection('hero')">
+      <a href="#hero" class="flex items-center" @click.prevent="scrollToSection('hero')" data-gsap-navbar="logo">
         <img src="./assets/logos/logo_rooted_green.png" alt="Rooted Snacks logo" class="h-8 w-auto" width="64"
           height="32" decoding="async" fetchpriority="high" role="img"
           onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'32\'><rect width=\'64\' height=\'32\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'12\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Logo</text></svg>'" />
       </a>
       <!-- Desktop Nav Links (DRY) -->
-      <ul class="hidden md:flex gap-6 font-semibold tracking-wide">
+      <ul class="hidden md:flex gap-6 font-semibold tracking-wide" data-gsap-navbar="desktop-links">
         <template x-for="link in navLinks" :key="link.href">
           <li><a :href="link.href" :class="navLinkClass + ' link-on-light'"
-              @click.prevent="scrollToSection(link.href.substring(1))" x-text="link.label"></a></li>
+              @click.prevent="scrollToSection(link.href.substring(1))" x-text="link.label" data-gsap-navbar="nav-link"></a></li>
         </template>
       </ul>
       <!-- Mobile Hamburger -->
       <button @click="mobileNavOpen = !mobileNavOpen" :aria-expanded="mobileNavOpen"
-        aria-label="Toggle mobile navigation" class="md:hidden p-2 rounded">
+        aria-label="Toggle mobile navigation" class="md:hidden p-2 rounded" data-gsap-navbar="hamburger">
         <svg x-show="!mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -71,11 +70,11 @@
       </button>
       <!-- Mobile Nav Drawer (DRY) -->
       <div x-show="mobileNavOpen" x-transition
-        class="md:hidden absolute top-full left-0 w-full bg-white/95 shadow-2xl rounded-b-xl">
-        <ul class="flex flex-col gap-4 py-4 px-6 font-semibold tracking-wide">
+        class="md:hidden absolute top-full left-0 w-full bg-white/95 shadow-2xl rounded-b-xl" data-gsap-navbar="mobile-drawer">
+        <ul class="flex flex-col gap-4 py-4 px-6 font-semibold tracking-wide" data-gsap-navbar="mobile-links">
           <template x-for="link in navLinks" :key="'mobile-'+link.href">
             <li><a :href="link.href" @click.prevent="scrollToSection(link.href.substring(1)); mobileNavOpen = false"
-                :class="navLinkClass + ' block w-full link-on-light'" x-text="link.label"></a></li>
+                :class="navLinkClass + ' block w-full link-on-light'" x-text="link.label" data-gsap-navbar="mobile-nav-link"></a></li>
           </template>
         </ul>
       </div>
@@ -124,59 +123,46 @@
     <!-- === SECTION: Hero Product Spotlight === -->
     <section id="hero"
       class="hero-bg relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 text-center lg:text-left pt-24 md:pt-8"
-      x-data="heroSection()" x-intersect:enter="animateIn($el, 0)">
+      x-data="heroSection()" data-gsap-hero-section>
       <div
         class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex flex-col-reverse lg:flex-row items-center lg:items-start">
         <!-- Product Image -->
-        <div class="flex-shrink-0 flex justify-center items-center w-full lg:w-auto mb-12 lg:mb-0">
+        <div class="flex-shrink-0 flex justify-center items-center w-full lg:w-auto mb-12 lg:mb-0 mt-8 md:mt-0">
           <div
-            class="relative flex justify-center items-center h-96 sm:h-90 lg:h-[35rem] lg:w-[35rem] xl:h-[36rem] xl:w-[36rem] transition-all duration-700 delay-200 md:sticky md:top-28 animate-none"
-            x-data="{ show: false }" x-intersect:enter="show = true">
+            class="relative flex justify-center items-center h-96 sm:h-90 lg:h-[35rem] lg:w-[35rem] xl:h-[36rem] xl:w-[36rem] md:sticky md:top-28"
+            x-data="{ show: false }">
             <!-- Back/peeking packet 1 -->
             <img src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, back"
-              class="absolute right-40 top-8 w-10/12 max-w-[90%] -rotate-20 z-0 transition-all duration-700 opacity-0 scale-90"
-              :class="show ? 'opacity-100 scale-100' : ''" loading="eager" aria-hidden="true" />
+               class="absolute right-20 md:right-56 lg:right-70 top-8 w-10/12 max-w-[90%] z-0" data-gsap-hero="back1" style="transform: rotate(-30deg);" loading="eager" aria-hidden="true" />
             <!-- Back/peeking packet 2 -->
             <img src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, back"
-              class="absolute left-40 top-8 w-10/12 max-w-[90%] rotate-20 z-0 transition-all duration-700 opacity-0 scale-90"
-              :class="show ? 'opacity-100 scale-100' : ''" loading="eager" aria-hidden="true" />
+               class="absolute left-20 md:left-56 lg:left-70 top-8 w-10/12 max-w-[90%] z-0" data-gsap-hero="back2" style="transform: rotate(30deg);" loading="eager" aria-hidden="true" />
             <!-- Front packet (main) -->
-            <img :src="productImage" :alt="productImageAlt"
-              class="relative z-10 w-full hero-product-img object-cover transition-all duration-700 opacity-0 scale-90"
-              :class="show ? 'opacity-100 scale-100' : ''" width="448" height="448" decoding="async"
-              fetchpriority="high" loading="eager"
-              x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'448\' height=\'448\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Product</text></svg>'"
-              role="img" aria-label="Rooted Product"
-              onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'448\' height=\'448\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Product</text></svg>'" />
+            <img id="hero-product-img" src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, front"
+              class="relative z-10 w-full hero-product-img object-cover" data-gsap-hero="main" width="448" height="448" decoding="async"
+              fetchpriority="high" loading="eager" />
           </div>
         </div>
         <!-- Text and CTA -->
         <div class="flex-1 flex flex-col items-center justify-center text-center">
-          <h1
-            class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 opacity-0 translate-y-8 transition-all duration-700 heading-on-dark"
-            x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
-            x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
+          <h1 id="hero-heading"
+            class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 heading-on-dark" data-gsap-hero="heading">
             Your New Healthy Snack Awaits: Popped Water Lily Seeds
           </h1>
-          <p class="text-xl md:text-2xl font-semibold mb-6 opacity-0 translate-y-8 transition-all duration-700 delay-150 text-on-dark"
-            x-intersect:enter="animateIn($el, 120)" x-transition:enter="transition-all duration-700 delay-150"
-            x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
+          <p id="hero-subheading" class="text-xl md:text-2xl font-semibold mb-6 text-on-dark" data-gsap-hero="subheading">
             Tastier, Crunchier And Better For You
           </p>
           <!-- Use-case chip -->
-          <div
-            class="flex justify-center mb-6 text-base sm:text-lg font-semibold min-h-10 relative text-center overflow-x-auto overflow-y-hidden whitespace-nowrap gap-2 overflow-hidden">
+          <div class="flex justify-center mb-6 text-base sm:text-lg font-semibold min-h-10 relative text-center overflow-x-auto overflow-y-hidden whitespace-nowrap gap-2 overflow-hidden">
             <div class="relative w-full overflow-hidden px-4">
               <template x-if="nextUseCase === null">
-                <span x-transition:leave="transition-opacity duration-400" x-transition:leave-start="opacity-100"
-                  x-transition:leave-end="opacity-0" :class="chipClass + ' chip-text chip-text-hover'" x-ref="chip">
+                <span :class="chipClass + ' chip-text chip-text-hover'" x-ref="chip" data-gsap-hero="chip">
                   <span class="text-base opacity-70" x-text="useCases[currentUseCase].icon"></span>
                   <span class="ml-1" x-text="useCases[currentUseCase].label"></span>
                 </span>
               </template>
               <template x-if="nextUseCase !== null">
-                <span x-transition:enter="transition-opacity duration-400" x-transition:enter-start="opacity-0"
-                  x-transition:enter-end="opacity-100" :class="chipClass + ' chip-text chip-text-hover'">
+                <span :class="chipClass + ' chip-text chip-text-hover'">
                   <span class="text-base opacity-70" x-text="useCases[nextUseCase].icon"></span>
                   <span class="ml-1" x-text="useCases[nextUseCase].label"></span>
                 </span>
@@ -184,37 +170,43 @@
             </div>
           </div>
           <!-- Main CTA Button -->
-          <button @click="openEmailPopup()" class="btn btn--primary mb-4 mt-2" aria-label="Join waitlist"
-            x-text="mainCtaLabel" x-intersect:enter="delayedBounce($el)"
-            x-transition:enter="transition-transform duration-500" x-transition:enter-start="scale-90 opacity-0"
-            x-transition:enter-end="scale-100 opacity-100"></button>
+          <button id="hero-cta" @click="openEmailPopup()" class="btn btn--primary mb-4 mt-6 md:mt-2" aria-label="Join waitlist"
+            x-text="mainCtaLabel" data-gsap-hero="cta"></button>
         </div>
       </div>
     </section>
 
     <!-- === SECTION: What is a Popped Water Lily Seed? === -->
-    <section id="what-is" class="px-4 lg:px-12 py-12" x-data="whatIsSection()">
+    <section id="what-is" class="px-4 lg:px-12 py-12 relative overflow-visible">
       <div class="max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto text-center">
         <h2
-          class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
-          x-text="sectionTitle"></h2>
-        <p class="mb-8 text-lg md:text-xl font-normal text-on-light leading-relaxed max-w-2xl mx-auto text-center"
-          x-text="sectionDescription"></p>
-        <div class="flex justify-center opacity-0 scale-95 transition-all duration-700 delay-200 animate-none"
-          x-intersect:enter="animateIn($el, 200)" x-transition:enter="transition-all duration-700 delay-200"
-          x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100">
-          <img :src="illustrationImage" :alt="illustrationAlt" class="w-28 h-28 object-contain" width="112" height="112"
-            loading="lazy" decoding="async" fetchpriority="high"
-            x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'112\' height=\'112\' fill=\'%23F7C9C0\'/><ellipse cx=\'56\' cy=\'56\' rx=\'36\' ry=\'32\' fill=\'%234B6A4A\'/><ellipse cx=\'56\' cy=\'60\' rx=\'24\' ry=\'18\' fill=\'%23EDE6D6\'/><ellipse cx=\'56\' cy=\'56\' rx=\'20\' ry=\'16\' fill=\'#fff\'/><ellipse cx=\'56\' cy=\'60\' rx=\'10\' ry=\'7\' fill=\'%23F7C9C0\'/></svg>'"
-            role="img" aria-label="Rooted illustration fallback" />
+          class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light">
+          What is a Popped Water Lily Seed?
+        </h2>
+        <p class="mb-8 text-lg md:text-xl font-normal text-on-light leading-relaxed max-w-2xl mx-auto text-center">
+          Popped water lily seeds are a light, crunchy, and ancient superfood snack, enjoyed for centuries in Asia.
+          Naturally gluten-free, plant-based, and deliciously satisfying!
+        </p>
+        <!-- Animated Illustration Container (GSAP/ScrollTrigger) -->
+        <div id="seed-illustration" class="relative flex justify-center items-end h-64 md:h-80 w-full mx-auto">
+          <!-- Chips Packet (vertical) -->
+          <img src="./assets/product/2.png" alt="Vertical chips packet"
+            class="relative z-20 w-70 md:w-85 drop-shadow-xl" style="bottom: -30px;" />
+          <!-- Seeds (absolutely positioned, start hidden behind/above packet) -->
+          <img src="./assets/illustrations/lotus-img3-1.png" alt="Seed 1" class="seed-img absolute left-1/2 z-10 w-8 md:w-11"
+            style="transform: translate(-50%, 0); bottom: 4rem;" />
+          <img src="./assets/illustrations/lotus-img3-2.png" alt="Seed 2" class="seed-img absolute left-1/2 z-10 w-8 md:w-11"
+            style="transform: translate(-50%, 0); bottom: 4rem;" />
+          <img src="./assets/illustrations/lotus-img3-1.png" alt="Seed 3" class="seed-img absolute left-1/2 z-10 w-8 md:w-11"
+            style="transform: translate(-50%, 0); bottom: 4rem;" />
+          <img src="./assets/illustrations/lotus-img3-2.png" alt="Seed 4" class="seed-img absolute left-1/2 z-10 w-8 md:w-11"
+            style="transform: translate(-50%, 0); bottom: 4rem;" />
         </div>
       </div>
     </section>
 
     <!-- === SECTION: Seed to Snack Journey (Animated, Curve-Aligned, Oomph) === -->
-    <section id="journey" class="relative px-4 lg:px-12 py-16 pb-24 overflow-x-hidden" x-data="journeySection()"
+    <section id="journey" class="relative px-4 lg:px-12 py-12 lg:pb-24 overflow-x-hidden" x-data="journeySection()"
       x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
       x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
       <div class="max-w-5xl mx-auto text-center relative">
@@ -247,9 +239,8 @@
               </linearGradient>
             </defs>
           </svg>
-          <div id="journey-pulse"
-            class="absolute w-8 h-8 rounded-full bg-gradient-to-br from-[var(--rooted-orange)] to-[var(--rooted-green)] shadow-lg opacity-80 z-20 pointer-events-none"
-            style="display:none;"></div>
+          <img id="journey-pulse" src="./assets/illustrations/lotus-img3-1.png" alt="Lotus seed animating"
+            class="absolute w-12 h-12 rounded-full shadow-lg z-20 pointer-events-none" style="display:none;" />
           <div id="journey-steps" class="absolute left-0 top-0 w-full h-full z-10"></div>
         </div>
       </div>
@@ -286,34 +277,143 @@
       </div>
     </section>
 
-    <!-- === SECTION: Feel Good Flavours (Refined) === -->
-    <section id="feel-good-flavours" class="px-4 lg:px-12 py-12 flex flex-col items-center justify-center relative overflow-visible">
-      <!-- Heading -->
-      <h2 class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light text-center">Feel Good Flavours</h2>
-      <p class="mb-4 text-lg md:text-xl font-normal text-on-light text-center max-w-2xl">We’re not just healthy — we’re deliciously flavourful and satisfyingly crunchy. We never compromise on taste because snacking should be both nourishing and enjoyable.</p>
-      <div class="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl gap-8 relative">
-        <!-- Product Image Left (no background) -->
-        <div class="flex-1 flex justify-center items-start order-2 md:order-1">
-          <img src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, slanted" class="w-80 md:w-90 lg:w-110 transform -rotate-12 drop-shadow-xl" loading="lazy" />
+    <!-- === SECTION: Feel Good Flavours (Refined, Premium) === -->
+    <section id="feel-good-flavours"
+      class="px-4 lg:px-12 py-12 flex flex-col items-center justify-center relative overflow-visible">
+      <!-- Heading and Intro -->
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-4 heading-on-light text-center" data-gsap-feelgood="heading">Feel Good Flavours</h2>
+      <p class="mb-8 text-lg md:text-xl font-normal text-on-light text-center max-w-2xl" data-gsap-feelgood="subheading">We’re not just healthy — we’re
+        deliciously flavourful and satisfyingly crunchy. We never compromise on taste because snacking should be both
+        nourishing and enjoyable.</p>
+      <div class="w-full max-w-5xl mx-auto flex flex-col md:flex-row gap-10 md:gap-16 items-center justify-center">
+        <!-- Product Image Left (slanted, shadow, micro-interactions) -->
+        <div class="flex-1 flex justify-center items-start">
+          <div x-data="{
+            hovered: false,
+            clicked: false,
+            wobble() {
+              this.clicked = true;
+              setTimeout(() => this.clicked = false, 500);
+            }
+          }" class="transition-transform duration-300" :class="{
+              '-rotate-12 scale-105 drop-shadow-2xl': hovered,
+              '-rotate-12 drop-shadow-2xl': !hovered,
+              'animate-wobble': clicked
+            }" @mouseenter="hovered = true" @mouseleave="hovered = false" @focus="hovered = true"
+            @blur="hovered = false" @click="wobble()" tabindex="0" role="img"
+            aria-label="Rooted Himalayan Pink Salt Popped Water Lily Seeds packaging">
+            <img src="./assets/product/2.png"
+              alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, slanted"
+              class="w-80 md:w-96 lg:w-[32rem] xl:w-[36rem] rounded-xl select-none" loading="lazy" />
+          </div>
         </div>
-        <!-- Flavor Card Right (glass, with pink salt crystal behind) -->
-        <div class="flex-1 flex justify-center items-start order-1 md:order-2 relative mt-20 md:mt-0">
-          <!-- Pink Salt Crystal Decorative Image (behind card) -->
-          <img src="./assets/illustrations/pink_salt_crystals.png" alt="Pink salt crystals decorative" class="absolute -top-22 left-1/2 -translate-x-1/2 w-70 md:w-70 opacity-80 z-0 pointer-events-none select-none" aria-hidden="true" />
-          <!-- Glass Card -->
-          <div class="glass-base glass-light rounded-2xl shadow-xl border border-[var(--rooted-green)]/15 max-w-md w-full p-7 z-10 text-center relative">
-            <h3 class="text-2xl font-bold mb-2 heading-on-light">Himalayan Pink Salt Flavor</h3>
-            <div class="text-base font-semibold mb-2 text-on-light">The Classic One</div>
-            <p class="text-on-light">Lightly salted with real Himalayan crystals. Simple, clean, satisfying.</p>
+        <!-- Flavour Details & Accordions (glassmorphic, with decorative salt crystals) -->
+        <div class="flex-1 flex flex-col items-start justify-center w-full max-w-xl relative">
+          <!-- Decorative Pink Salt Crystals -->
+          <img src="./assets/illustrations/pink_salt_crystals.png" alt="Pink salt crystals decorative"
+            class="absolute -top-8 md:-top-16 left-1/2 -translate-x-1/2 w-40 md:w-56 opacity-80 z-0 pointer-events-none select-none"
+            aria-hidden="true" />
+          <div
+            class="glass-base glass-light rounded-2xl shadow-xl border border-[var(--rooted-green)]/15 w-full p-7 mb-6 relative z-10">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-2 heading-on-light text-center md:text-left">Himalayan
+              Pink Salt</h2>
+            <div class="text-base font-semibold mb-2 text-on-light text-center md:text-left">The Classic One</div>
+            <p class="text-on-light mb-4 text-center md:text-left">Lightly salted with real Himalayan crystals. Simple,
+              clean, satisfying. A crunchy, plant-based snack you’ll crave every day.</p>
+          </div>
+          <!-- Accordions -->
+          <div class="w-full relative z-10" x-data="{ open: null }">
+            <!-- Ingredients Accordion -->
+            <div class="mb-2">
+              <button @click="open === 1 ? open = null : open = 1" :aria-expanded="open === 1"
+                aria-controls="ingredients-panel"
+                class="w-full flex justify-between items-center px-6 py-4 glass-base glass-light rounded-xl border border-[var(--rooted-green)]/10 shadow focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] mb-2"
+                :tabindex="0" data-gsap-accordion="ingredients-btn" data-gsap-feelgood="accordion-btn">
+                <span class="font-bold text-lg text-[var(--rooted-green)]">Ingredients</span>
+                <svg :class="{'rotate-180': open === 1, 'transition-transform duration-300': true}"
+                  class="w-6 h-6 text-[var(--rooted-green)]" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div id="ingredients-panel" x-show="open === 1"
+                class="overflow-hidden glass-light rounded-xl border border-[var(--rooted-green)]/10 px-6 py-4"
+                aria-hidden="false" data-gsap-accordion="ingredients-panel" data-gsap-feelgood="accordion-panel">
+                <ul class="list-disc pl-5 text-on-light">
+                  <li>Water Lily Seeds</li>
+                  <li>Himalayan Pink Salt</li>
+                  <li>Sunflower Oil</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Nutrition Accordion -->
+            <div>
+              <button @click="open === 2 ? open = null : open = 2" :aria-expanded="open === 2"
+                aria-controls="nutrition-panel"
+                class="w-full flex justify-between items-center px-6 py-4 glass-base glass-light rounded-xl border border-[var(--rooted-green)]/10 shadow focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)]"
+                :tabindex="0" data-gsap-accordion="nutrition-btn" data-gsap-feelgood="accordion-btn">
+                <span class="font-bold text-lg text-[var(--rooted-green)]">Nutritional Information</span>
+                <svg :class="{'rotate-180': open === 2, 'transition-transform duration-300': true}"
+                  class="w-6 h-6 text-[var(--rooted-green)]" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div id="nutrition-panel" x-show="open === 2"
+                class="overflow-hidden glass-light rounded-xl border border-[var(--rooted-green)]/10 px-6 py-4"
+                aria-hidden="false" data-gsap-accordion="nutrition-panel" data-gsap-feelgood="accordion-panel">
+                <table class="w-full text-on-light text-sm md:text-base">
+                  <thead>
+                    <tr class="border-b border-[var(--rooted-green)]/10">
+                      <th class="text-left py-2 font-bold">Nutrient</th>
+                      <th class="text-right py-2 font-bold">Per 100g</th>
+                      <th class="text-right py-2 font-bold">Per 25g</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="even:bg-[var(--rooted-yellow)]/20">
+                      <td class="py-2">Energy</td>
+                      <td class="text-right py-2">400 kcal</td>
+                      <td class="text-right py-2">100 kcal</td>
+                    </tr>
+                    <tr class="even:bg-[var(--rooted-yellow)]/20">
+                      <td class="py-2">Fat</td>
+                      <td class="text-right py-2">8g</td>
+                      <td class="text-right py-2">2g</td>
+                    </tr>
+                    <tr class="even:bg-[var(--rooted-yellow)]/20">
+                      <td class="py-2">Carbohydrates</td>
+                      <td class="text-right py-2">76g</td>
+                      <td class="text-right py-2">19g</td>
+                    </tr>
+                    <tr class="even:bg-[var(--rooted-yellow)]/20">
+                      <td class="py-2">Protein</td>
+                      <td class="text-right py-2">9g</td>
+                      <td class="text-right py-2">2.3g</td>
+                    </tr>
+                    <tr class="even:bg-[var(--rooted-yellow)]/20">
+                      <td class="py-2">Fibre</td>
+                      <td class="text-right py-2">4g</td>
+                      <td class="text-right py-2">1g</td>
+                    </tr>
+                    <tr class="even:bg-[var(--rooted-yellow)]/20">
+                      <td class="py-2">Sodium</td>
+                      <td class="text-right py-2">0.5g</td>
+                      <td class="text-right py-2">0.13g</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- === SECTION: Our Mission (Brand Story) === -->
-    <section id="mission" class="relative px-4 lg:px-12 py-16 flex items-center justify-center min-h-[420px]">
+    <section id="mission" class="relative px-4 lg:px-12 py-12 flex items-center justify-center min-h-[420px]">
       <!-- 2x2 Image Grid (Background) -->
-      <div class="absolute inset-0 w-full h-full grid grid-cols-2 grid-rows-2 z-0">
+      <div class="absolute inset-0 w-full h-full grid grid-cols-2 grid-rows-2 z-0" data-gsap-mission="bg">
         <img src="./assets/mission/mission1.webp" alt="Mission image 1" class="object-cover w-full h-full" />
         <img src="./assets/mission/mission2.jpg" alt="Mission image 2" class="object-cover w-full h-full" />
         <img src="./assets/mission/mission3.jpg" alt="Mission image 3" class="object-cover w-full h-full" />
@@ -322,11 +422,11 @@
       <!-- Optional overlay for readability -->
       <div class="absolute inset-0 bg-white/20 z-0"></div>
       <!-- Glass Card (Foreground) -->
-      <div class="relative z-10 w-full max-w-lg mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide mb-6 heading-on-light text-center">
+      <div class="relative z-10 w-full max-w-lg mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10" data-gsap-mission="card">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide mb-6 heading-on-light text-center" data-gsap-mission="heading">
           Our Mission
         </h2>
-        <p class="mb-4 sm:mb-8 text-base sm:text-lg md:text-xl font-normal text-on-light leading-relaxed text-center">
+        <p class="mb-4 sm:mb-8 text-base sm:text-lg md:text-xl font-normal text-on-light leading-relaxed text-center" data-gsap-mission="desc">
           At Rooted, we believe in joyful, mindful snacking. Our mission is to bring you delicious, plant-based treats
           that nourish your body, respect the planet, and celebrate global flavors. We're committed to sustainability,
           transparency, and making healthy choices easy and delightful.
@@ -336,11 +436,10 @@
     </section>
 
     <!-- === SECTION: Our Promise (Trust & Quality) === -->
-    <section id="promise" class="relative py-16 px-4 flex items-center justify-center min-h-[420px]"
-      x-data="promiseSection()" x-init="init()">
+    <section id="promise" class="relative py-12 px-4 flex items-center justify-center min-h-[420px]" x-data="promiseSection()" x-init="init()" data-gsap-promise="section">
       <div class="absolute inset-0 pointer-events-none z-0"></div>
       <div class="relative z-10 max-w-[1200px] w-full mx-auto flex flex-col items-center justify-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-15 tracking-wide drop-shadow-lg heading-on-light">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-15 tracking-wide drop-shadow-lg heading-on-light" data-gsap-promise="heading">
           <span x-text="sectionTitle"></span>
         </h2>
         <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-6 justify-center items-stretch">
@@ -349,9 +448,8 @@
               class="promise-card w-full max-w-xs sm:max-w-sm md:max-w-[300px] mx-auto border-2 border-black rounded-[1rem] p-4 sm:p-6 flex flex-col items-center justify-between transition-transform duration-300 will-change-transform cursor-pointer text-on-light"
               :style="'transform:rotate(' + tiltAngles[idx % tiltAngles.length] + ');'" @mouseenter="hovered = idx"
               @mouseleave="hovered = null" @touchstart="hovered = idx" @touchend="hovered = null"
-              :class="{'scale-105 shadow-2xl': hovered === idx, 'rotate-[-2deg]': tiltAngles[idx % tiltAngles.length] === '-2deg', 'rotate-[2deg]': tiltAngles[idx % tiltAngles.length] === '2deg'}"
-              x-transition:enter="transition-all duration-700" x-transition:enter-start="opacity-0 scale-90"
-              x-transition:enter-end="opacity-100 scale-100">
+              :class="{'rotate-[-2deg]': tiltAngles[idx % tiltAngles.length] === '-2deg', 'rotate-[2deg]': tiltAngles[idx % tiltAngles.length] === '2deg'}"
+              data-gsap-promise="card">
               <h4 class="text-lg sm:text-xl font-bold mb-1 sm:mb-3 text-center uppercase tracking-wide heading-on-light"
                 x-text="promise.title"></h4>
               <p class="text-base sm:text-lg font-normal leading-[1.4] text-center" x-text="promise.desc"></p>
@@ -362,14 +460,10 @@
     </section>
 
     <!-- === SECTION: Testimonials / Social Proof === -->
-    <section id="testimonials" class="px-4 lg:px-12 py-12" x-data="testimonialCarousel()" role="region"
-      aria-roledescription="carousel">
+    <section id="testimonials" class="px-4 lg:px-12 py-12" x-data="testimonialCarousel()" role="region" aria-roledescription="carousel" data-gsap-testimonial="section">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
         <h2
-          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
-          x-text="sectionTitle"></h2>
+          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light" data-gsap-testimonial="heading" x-text="sectionTitle"></h2>
         <div class="relative flex items-center justify-center" @mouseenter="pauseAuto" @mouseleave="startAuto"
           @focusin="pauseAuto" @focusout="startAuto">
           <!-- Left Arrow -->
@@ -386,11 +480,7 @@
             <template x-if="!isDesktop">
               <div class="relative min-h-[180px] md:min-h-[160px] flex items-center justify-center">
                 <blockquote
-                  class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex flex-col justify-center"
-                  aria-live="polite">
-                  <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram decorative"
-                    class="absolute bottom-2 right-2 w-8 h-8 opacity-10 pointer-events-none select-none"
-                    aria-hidden="true" />
+                  class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex flex-col justify-center" aria-live="polite" data-gsap-testimonial="card">
                   <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-on-light">
                     "<span x-text="testimonials[current].quote"></span>"
                   </p>
@@ -407,11 +497,7 @@
                   <template x-if="testimonials[(current + i - 1 + testimonials.length) % testimonials.length]">
                     <blockquote
                       :key="'testimonial-group-'+((current + i - 1 + testimonials.length) % testimonials.length)"
-                      class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex-1 flex flex-col justify-center relative"
-                      aria-live="polite">
-                      <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram decorative"
-                        class="absolute bottom-2 right-2 w-8 h-8 opacity-10 pointer-events-none select-none"
-                        aria-hidden="true" />
+                      class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex-1 flex flex-col justify-center relative" aria-live="polite" data-gsap-testimonial="card">
                       <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-on-light">"<span
                           x-text="testimonials[(current + i - 1 + testimonials.length) % testimonials.length].quote"></span>"
                       </p>
@@ -446,43 +532,31 @@
     </section>
 
     <!-- === SECTION: Email Capture CTA === -->
-    <section id="signup" class="px-4 lg:px-12 py-12 text-center" x-data="emailCtaSection()">
+    <section id="signup" class="px-4 lg:px-12 py-12 text-center" x-data="emailCtaSection()" data-gsap-email-cta="section">
       <div
-        class="relative z-10 w-full max-w-xl mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10 bg-white/80 backdrop-blur-md border border-[var(--rooted-green)]/10">
+        class="relative z-10 w-full max-w-xl mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10 bg-white/80 backdrop-blur-md border border-[var(--rooted-green)]/10" data-gsap-email-cta="card">
         <h2
-          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
-          x-text="sectionTitle"></h2>
-        <p class="mb-6 text-on-light text-base md:text-lg opacity-0 translate-y-8 transition-all duration-700 delay-100 animate-none"
-          x-intersect:enter="animateIn($el, 100)" x-transition:enter="transition-all duration-700 delay-100"
-          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
-          x-text="sectionDescription"></p>
-        <button @click="openEmailPopup()" class="btn btn--primary" aria-label="Get Early Access Now"
-          x-text="buttonLabel" x-intersect:enter="delayedBounce($el)"
-          x-transition:enter="transition-transform duration-500" x-transition:enter-start="scale-90 opacity-0"
-          x-transition:enter-end="scale-100 opacity-100"></button>
+          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light" data-gsap-email-cta="heading" x-text="sectionTitle"></h2>
+        <p class="mb-6 text-on-light text-base md:text-lg" data-gsap-email-cta="subheading" x-text="sectionDescription"></p>
+        <button @click="openEmailPopup()" class="btn btn--primary" aria-label="Get Early Access Now" data-gsap-email-cta="button" x-text="buttonLabel"></button>
         <div class="mt-6 text-lg md:text-xl font-semibold text-on-light" x-text="microcopy"></div>
       </div>
     </section>
 
     <!-- === SECTION: FAQ (SEO, Brand Personality) === -->
-    <section id="faq" class="px-4 lg:px-12 py-12" x-data="faqSection()">
+    <section id="faq" class="px-4 lg:px-12 py-12" x-data="faqSection()" data-gsap-faq="section">
       <div class="max-w-3xl mx-auto relative">
         <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram background"
           class="absolute inset-0 mx-auto my-auto w-full max-w-[240px] md:max-w-[360px] h-auto opacity-10 pointer-events-none select-none object-contain z-0"
           aria-hidden="true" />
         <h2
-          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
-          x-text="sectionTitle"></h2>
+          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center heading-on-light" data-gsap-faq="heading" x-text="sectionTitle"></h2>
         <div itemscope itemtype="https://schema.org/FAQPage" class="divide-y divide-[var(--rooted-green)]/10">
           <template x-for="(faq, idx) in faqs" :key="faq.q">
             <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
               <button @click="open === idx ? open = -1 : open = idx" :aria-expanded="open === idx"
                 :aria-controls="'faq-panel-' + idx" :id="'faq-tab-' + idx"
-                class="w-full text-left font-semibold flex justify-between items-center py-2" itemprop="name">
+                class="w-full text-left font-semibold flex justify-between items-center py-2" itemprop="name" data-gsap-faq="button">
                 <span x-text="faq.q"></span>
                 <span x-text="open === idx ? '-' : '+' " aria-hidden="true" class="ml-2"></span>
               </button>
@@ -511,13 +585,22 @@
         <div class="flex flex-col items-center gap-2 w-full">
           <div class="flex items-center justify-center gap-4 mb-2">
             <a :href="instagramUrl" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover">
-              <img :src="instagramIcon" alt="Instagram social icon, link to Rooted Instagram"
-                class="w-6 h-6 link-on-dark inline transition" width="24" height="24" loading="lazy" decoding="async"
-                fetchpriority="high"
-                x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\'\><rect width=\'24\' height=\'24\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'6\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>IG</text></svg>'"
-                role="img" aria-label="Instagram icon" />
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 link-on-dark inline transition" width="24"
+                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
             </a>
-            <a :href="'mailto:' + email" class="link-on-dark underline" aria-label="Contact Rooted" x-text="email"></a>
+            <a :href="'mailto:' + email" class="link-on-dark" aria-label="Contact Rooted">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 link-on-dark inline transition" width="24"
+                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </a>
           </div>
           <div class="text-sm md:text-base text-on-dark text-center tracking-wide" x-text="brandStatement"></div>
           <div class="text-sm md:text-base text-on-dark text-center">
@@ -544,6 +627,8 @@
   <!-- Tailwind CDN safelist for animation delays -->
   <span class="hidden delay-100"></span>
   <span class="hidden delay-200"></span>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
   <script src="app.js"></script>
 </body>
 

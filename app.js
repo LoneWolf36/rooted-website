@@ -330,8 +330,7 @@ function faqSection() {
  */
 function footerSection() {
   return {
-    instagramUrl: "https://instagram.com/yourbrand",
-    instagramIcon: "PATH_TO_INSTAGRAM_ICON",
+    instagramUrl: "https://instagram.com/weare_rooted",
     email: "hello@rootedsnacks.com",
     brandStatement: "Rooted is committed to plant-based nutrition, sustainability, and global flavors. Certified vegan. Made with love.",
     logo: "./assets/logos/logo_rooted_beige.png",
@@ -405,8 +404,8 @@ function journeySection() {
   return {
     steps: window.journeySteps,
     // Per-step vertical offsets (in px)
-    stepOffsetsDesktop: [10, -30, -10, -20, -50],
-    stepOffsetsMobile: [-15, 0, -20, -40, 0], // Adjust these for mobile as needed
+    stepOffsetsDesktop: [-30, -10, -50], // for 3 steps: Seed, Pop, Snack
+    stepOffsetsMobile: [-25, -20, 0],  // for 3 steps: Seed, Pop, Snack
     getStepOffsets() {
       return window.innerWidth <= 767 ? this.stepOffsetsMobile : this.stepOffsetsDesktop;
     },
@@ -417,14 +416,14 @@ function journeySection() {
     curveContainer: null,
     svg: null,
     path: null,
-    pulse: null,
+    pulse: null, // Now an <img> instead of a <div>
     container: null,
     tooltipDiv: null,
     init() {
       this.curveContainer = document.querySelector('#journey-curve-container');
       this.svg = document.querySelector('#journey-curve');
       this.path = document.querySelector('#journeyPath');
-      this.pulse = document.querySelector('#journey-pulse');
+      this.pulse = document.querySelector('#journey-pulse'); // Now an <img> instead of a <div>
       this.container = document.querySelector('#journey-steps');
 
       this._parallax = () => this.parallax();
@@ -483,20 +482,25 @@ function journeySection() {
             const stepDiv = document.createElement('div');
             stepDiv.className = 'journey-step-anim group flex flex-col items-center absolute z-20 opacity-0 scale-90 transition-all duration-700';
             stepDiv.style.position = 'absolute';
-            let circleClass = 'flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full shadow-xl border-2 mb-2 transition-all duration-300 cursor-pointer journey-pop journey-card-base';
-            if (idx === 0) circleClass += ' bg-gradient-to-br from-[var(--rooted-green)]/80 to-white/80 border-[var(--rooted-green)] ring-4 ring-[var(--rooted-green)]/30 journey-card-seed';
-            else if (idx === this.steps.length - 1) circleClass += ' bg-gradient-to-br from-[var(--rooted-orange)]/80 to-white/80 border-[var(--rooted-orange)] ring-4 ring-[var(--rooted-orange)]/30 journey-card-snack';
-            else circleClass += ' bg-white/80 glass-base border-[var(--rooted-green)]/10';
-            const circle = document.createElement('div');
-            circle.className = circleClass;
+            // Render only the image for all steps, no circle/card
             const img = document.createElement('img');
             img.src = step.icon;
             img.alt = step.label;
-            img.className = 'w-10 h-10 md:w-12 md:h-12 object-contain journey-card-icon';
-            img.width = 48;
-            img.height = 48;
-            circle.appendChild(img);
-            stepDiv.appendChild(circle);
+            img.className = 'object-contain';
+            img.style.width = '96px'; // desktop default
+            img.style.height = '96px';
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '100%';
+            // Responsive: shrink on mobile
+            if (window.innerWidth <= 767) {
+              img.style.width = '88px';
+              img.style.height = '88px';
+            }
+            // Tilt only the Seed image
+            if (idx === 0) {
+              img.style.transform = 'rotate(-25deg)';
+            }
+            stepDiv.appendChild(img);
             const label = document.createElement('span');
             label.className = 'mt-1 text-sm md:text-base font-extrabold uppercase tracking-wider text-[var(--rooted-green)] group-hover:text-[var(--rooted-orange)] group-focus:text-[var(--rooted-orange)] transition-colors duration-200 text-center';
             label.textContent = step.label;
@@ -581,10 +585,19 @@ function journeySection() {
             const topPx = (pt.y / viewBoxHeight) * svgRect.height;
             // Clamp pulse position to stay within the visible area
             let clampedTopPx = Math.max(0, Math.min(topPx, this.curveContainer.offsetHeight - 24));
-            this.pulse.style.left = `calc(${leftPx}px - 12px)`;
-            this.pulse.style.top = `calc(${clampedTopPx}px - 12px)`;
+            // Add rotation: rotate from 0 to 360 degrees as t goes from 0 to 1
+            const rotation = 360 * t;
+            // Alternate image every 90 degrees
+            if (Math.floor(rotation / 90) % 2 === 0) {
+              this.pulse.src = './assets/illustrations/lotus-img3-1.png';
+            } else {
+              this.pulse.src = './assets/illustrations/lotus-img3-2.png';
+            }
+            this.pulse.style.left = `calc(${leftPx}px - 24px)`;
+            this.pulse.style.top = `calc(${clampedTopPx}px - 24px)`;
             this.pulse.style.opacity = 1;
             this.pulse.style.boxShadow = `0 0 32px 12px rgba(243,92,55,${0.18 + 0.12 * Math.sin(t * Math.PI)})`;
+            this.pulse.style.transform = `rotate(${rotation}deg)`;
             if (t < 1) {
               requestAnimationFrame(animatePulse);
             } else {
@@ -690,15 +703,726 @@ function journeySection() {
  * Each step contains icon, label, and microcopy.
  */
 window.journeySteps = [
-  { icon: 'PATH_TO_JOURNEY_ICON_1', label: 'Seed', micro: 'The seed is collected from the water lily plant.' },
-  { icon: 'PATH_TO_JOURNEY_ICON_2', label: 'Harvest', micro: 'The seeds are harvested from the water lily plant.' },
+  { icon: './assets/illustrations/lotus-img1.png', label: 'Seed', micro: 'The seed is collected from the water lily plant.' },
   { icon: 'PATH_TO_JOURNEY_ICON_3', label: 'Pop', micro: 'The seeds are popped in a pan to create a crunchy snack.' },
-  { icon: 'PATH_TO_JOURNEY_ICON_4', label: 'Pack', micro: 'The snack is packed into a bag for easy storage.' },
   { icon: 'PATH_TO_JOURNEY_ICON_5', label: 'Snack', micro: 'Enjoy your Rooted snack guilt-free!' }
 ];
 
 // The journey animation logic is now fully encapsulated in the journeySection Alpine.js component.
 // No global imperative setup or listeners are needed.
+
+// === GSAP ScrollTrigger: Seed Animation for 'What is a Popped Water Lily Seed?' Section ===
+(function seedScrollAnimation() {
+  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  var seeds = document.querySelectorAll('#seed-illustration .seed-img');
+  if (!seeds.length) return;
+  var seedAnims = [
+    { x: -60, y: -220, rotation: -40 }, // Seed 1: up & left
+    { x: 30,   y: -190, rotation: 30 },  // Seed 2: straight up
+    { x: 60,  y: -200, rotation: 50 },  // Seed 3: up & right
+    { x: -30, y: -210,  rotation: -25 }, // Seed 4: up & slightly left
+  ];
+  seeds.forEach(function(seed, i) {
+    gsap.fromTo(seed,
+      {
+        opacity: 0,
+        x: 0,
+        y: 0,
+        rotate: 0,
+        scale: 0.5,
+      },
+      {
+        opacity: 1,
+        x: seedAnims[i].x,
+        y: seedAnims[i].y,
+        rotate: seedAnims[i].rotation,
+        scale: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#what-is",
+          start: "top 70%",
+          end: "bottom 60%",
+          scrub: true,
+        },
+        stagger: {
+          each: 0.08,
+          from: "center"
+        }
+      }
+    );
+  });
+})();
+
+// === GSAP Hero Section Animation ===
+(function gsapHeroSectionAnimation() {
+  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top 70%',
+      end: 'bottom 40%',
+      toggleActions: 'play none none reverse',
+      // markers: true, // Uncomment for debugging
+    }
+  });
+  // Animate back/peeking packets
+  tl.fromTo('[data-gsap-hero="back1"]',
+    { opacity: 0, scale: 0.9, x: 60, y: 40 },
+    { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.7, ease: 'power2.out' }, 0.1
+  )
+  .fromTo('[data-gsap-hero="back2"]',
+    { opacity: 0, scale: 0.9, x: -60, y: 40 },
+    { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.7, ease: 'power2.out' }, 0.15
+  );
+  // Animate main product image
+  tl.fromTo('[data-gsap-hero="main"]',
+    { opacity: 0, scale: 0.9, y: 40 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 0.2
+  );
+  // Animate heading
+  tl.fromTo('[data-gsap-hero="heading"]',
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.3
+  );
+  // Animate subheading
+  tl.fromTo('[data-gsap-hero="subheading"]',
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.4
+  );
+  // Animate use-case chip (pop effect)
+  tl.fromTo('[data-gsap-hero="chip"]',
+    { opacity: 0, scale: 0.9 },
+    { opacity: 1, scale: 1.08, duration: 0.3, ease: 'back.out(2)' }, 0.5
+  )
+  .to('[data-gsap-hero="chip"]',
+    { scale: 1, duration: 0.2, ease: 'power1.in' }, 0.8
+  );
+  // Animate CTA button
+  tl.fromTo('[data-gsap-hero="cta"]',
+    { opacity: 0, scale: 0.9, y: 20 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(1.7)' }, 0.7
+  );
+})();
+
+// === GSAP Hero Section Micro-Interactions: Parallax & Hover Effects ===
+(function gsapHeroMicroInteractions() {
+  if (typeof window === 'undefined' || !window.gsap) return;
+  // Parallax for hero images (desktop only)
+  var heroSection = document.querySelector('[data-gsap-hero-section]');
+  var mainImg = document.querySelector('[data-gsap-hero="main"]');
+  var back1 = document.querySelector('[data-gsap-hero="back1"]');
+  var back2 = document.querySelector('[data-gsap-hero="back2"]');
+  var parallaxRAF = null;
+  var parallaxState = { x: 0, y: 0 };
+  var parallaxEnabled = false;
+  function enableParallax() {
+    if (!heroSection || !mainImg || !back1 || !back2) return;
+    if (parallaxEnabled) return;
+    parallaxEnabled = true;
+    heroSection.addEventListener('mousemove', onParallaxMove);
+    heroSection.addEventListener('mouseleave', onParallaxLeave);
+  }
+  function disableParallax() {
+    if (!parallaxEnabled) return;
+    parallaxEnabled = false;
+    heroSection.removeEventListener('mousemove', onParallaxMove);
+    heroSection.removeEventListener('mouseleave', onParallaxLeave);
+    parallaxState.x = 0; parallaxState.y = 0;
+    gsap.to([mainImg, back1, back2], { x: 0, y: 0, rotate: (el) => el === back1 ? -20 : el === back2 ? 20 : 0, duration: 0.7, overwrite: 'auto' });
+  }
+  function onParallaxMove(e) {
+    var rect = heroSection.getBoundingClientRect();
+    var x = ((e.clientX - rect.left) / rect.width - 0.5) * 2; // -1 to 1
+    var y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    parallaxState.x = x;
+    parallaxState.y = y;
+    if (!parallaxRAF) {
+      parallaxRAF = requestAnimationFrame(applyParallax);
+    }
+  }
+  function applyParallax() {
+    gsap.to(mainImg, { x: parallaxState.x * 12, y: parallaxState.y * 8, rotate: parallaxState.x * 3, duration: 0.5, overwrite: 'auto' });
+    gsap.to(back1, { x: parallaxState.x * 24 + 96, y: parallaxState.y * 16 + 40, rotate: -30 + parallaxState.x * 6, duration: 0.7, overwrite: 'auto' });
+    gsap.to(back2, { x: parallaxState.x * 24 - 96, y: parallaxState.y * 16 + 40, rotate: 30 + parallaxState.x * 6, duration: 0.7, overwrite: 'auto' });
+    parallaxRAF = null;
+  }
+  function onParallaxLeave() {
+    parallaxState.x = 0; parallaxState.y = 0;
+    gsap.to(mainImg, { x: 0, y: 0, rotate: 0, duration: 0.7, overwrite: 'auto' });
+    gsap.to(back1, { x: 96, y: 40, rotate: -30, duration: 0.7, overwrite: 'auto' });
+    gsap.to(back2, { x: -96, y: 40, rotate: 30, duration: 0.7, overwrite: 'auto' });
+  }
+  function checkParallax() {
+    if (window.innerWidth >= 768) {
+      enableParallax();
+    } else {
+      disableParallax();
+    }
+  }
+  if (heroSection && mainImg && back1 && back2) {
+    checkParallax();
+    window.addEventListener('resize', checkParallax);
+  }
+  // CTA Button Hover/Focus Effect
+  var cta = document.querySelector('[data-gsap-hero="cta"]');
+  if (cta) {
+    var ctaHover = function() {
+      gsap.to(cta, { scale: 1.08, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.18)', duration: 0.25, ease: 'power2.out' });
+    };
+    var ctaUnhover = function() {
+      gsap.to(cta, { scale: 1, boxShadow: '0 4px 32px 0 rgba(31,38,135,0.10)', duration: 0.25, ease: 'power2.in' });
+    };
+    cta.addEventListener('mouseenter', ctaHover);
+    cta.addEventListener('focus', ctaHover);
+    cta.addEventListener('mouseleave', ctaUnhover);
+    cta.addEventListener('blur', ctaUnhover);
+  }
+})();
+
+// === GSAP Feel Good Flavours Accordion Animation ===
+(function gsapFeelGoodAccordion() {
+  if (typeof window === 'undefined' || !window.gsap) return;
+  // Utility to animate accordion panel open/close
+  function animateAccordion(panel, open) {
+    if (!panel) return;
+    var content = panel.querySelector('ul, table, div') || panel.firstElementChild;
+    var chevron = panel.previousElementSibling && panel.previousElementSibling.querySelector('svg');
+    if (open) {
+      gsap.to(panel, { height: 'auto', opacity: 1, duration: 0.5, ease: 'power2.out', overwrite: 'auto' });
+      if (chevron) gsap.to(chevron, { rotate: 180, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+    } else {
+      gsap.to(panel, { height: 0, opacity: 0, duration: 0.4, ease: 'power2.in', overwrite: 'auto' });
+      if (chevron) gsap.to(chevron, { rotate: 0, duration: 0.3, ease: 'power2.in', overwrite: 'auto' });
+    }
+  }
+  // Observe Alpine.js state changes for the accordions
+  function setupAccordion(btnAttr, panelAttr) {
+    var btn = document.querySelector(`[data-gsap-accordion="${btnAttr}"]`);
+    var panel = document.querySelector(`[data-gsap-accordion="${panelAttr}"]`);
+    if (!btn || !panel) return;
+    // Set initial state
+    if (panel.hasAttribute('x-show')) {
+      panel.style.overflow = 'hidden';
+      panel.style.height = btn.getAttribute('aria-expanded') === 'true' ? 'auto' : '0px';
+      panel.style.opacity = btn.getAttribute('aria-expanded') === 'true' ? '1' : '0';
+    }
+    // Listen for Alpine.js state changes via MutationObserver
+    var observer = new MutationObserver(function() {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      animateAccordion(panel, open);
+    });
+    observer.observe(btn, { attributes: true, attributeFilter: ['aria-expanded'] });
+    // Animate on click for micro-interaction
+    btn.addEventListener('mousedown', function() {
+      gsap.to(btn, { scale: 0.97, duration: 0.12, overwrite: 'auto' });
+    });
+    btn.addEventListener('mouseup', function() {
+      gsap.to(btn, { scale: 1, duration: 0.18, overwrite: 'auto' });
+    });
+    btn.addEventListener('mouseleave', function() {
+      gsap.to(btn, { scale: 1, duration: 0.18, overwrite: 'auto' });
+    });
+  }
+  setupAccordion('ingredients-btn', 'ingredients-panel');
+  setupAccordion('nutrition-btn', 'nutrition-panel');
+})();
+
+// === GSAP FAQ Section Animation & Micro-Interactions ===
+(function gsapFaqSectionAnimation() {
+  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  var section = document.querySelector('[data-gsap-faq="section"]');
+  if (!section) return;
+  var heading = section.querySelector('[data-gsap-faq="heading"]');
+  var buttons = section.querySelectorAll('[data-gsap-faq="button"]');
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: 'top 70%',
+      end: 'bottom 40%',
+      toggleActions: 'play none none reverse',
+    }
+  });
+  if (heading) {
+    tl.fromTo(heading,
+      { opacity: 0.3, y: 32 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.1
+    );
+  }
+  if (buttons.length) {
+    tl.fromTo(buttons,
+      { opacity: 0.3, y: 24, scale: 0.96 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power2.out', stagger: 0.1 }, 0.18
+    );
+  }
+  // Micro-interaction: button hover/focus
+  buttons.forEach(function(button) {
+    button.addEventListener('mouseenter', function() {
+      gsap.to(button, { scale: 1.02, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.12)', duration: 0.18, overwrite: 'auto' });
+    });
+    button.addEventListener('focus', function() {
+      gsap.to(button, { scale: 1.02, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.12)', duration: 0.18, overwrite: 'auto' });
+    });
+    button.addEventListener('mouseleave', function() {
+      gsap.to(button, { scale: 1, boxShadow: 'none', duration: 0.18, overwrite: 'auto' });
+    });
+    button.addEventListener('blur', function() {
+      gsap.to(button, { scale: 1, boxShadow: 'none', duration: 0.18, overwrite: 'auto' });
+    });
+  });
+})();
+
+// === GSAP Root Alpine.js App Animation ===
+(function gsapRootedAppAnimation() {
+  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  var rootedApps = document.querySelectorAll('[data-gsap-rooted-app]');
+  if (!rootedApps.length) return;
+  rootedApps.forEach(function(app) {
+    var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: app,
+        start: 'top 70%',
+        end: 'bottom 40%',
+        toggleActions: 'play none none reverse',
+      }
+    });
+    tl.fromTo('[data-gsap-rooted-app-email-popup]',
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.1
+    );
+    tl.fromTo('[data-gsap-rooted-app-mobile-nav]',
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.2
+    );
+    tl.fromTo('[data-gsap-rooted-app-focus-trap]',
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.3
+    );
+  });
+})();
+
+// === GSAP Feel Good Flavours Section Text & Micro-Interactions ===
+(function gsapFeelGoodFlavoursText() {
+  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  var section = document.getElementById('feel-good-flavours');
+  if (!section) return;
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: 'top 70%',
+      end: 'bottom 40%',
+      toggleActions: 'play none none reverse',
+    }
+  });
+  tl.fromTo('[data-gsap-feelgood="heading"]',
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.1
+  );
+  tl.fromTo('[data-gsap-feelgood="subheading"]',
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.2
+  );
+  tl.fromTo('[data-gsap-feelgood="accordion-btn"]',
+    { opacity: 0, scale: 0.95 },
+    { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)', stagger: 0.1 }, 0.3
+  );
+  // Micro-interactions: accordion button hover/focus
+  var btns = section.querySelectorAll('[data-gsap-feelgood="accordion-btn"]');
+  btns.forEach(function(btn) {
+    btn.addEventListener('mouseenter', function() {
+      gsap.to(btn, { scale: 1.04, boxShadow: '0 6px 24px 0 rgba(31,38,135,0.13)', duration: 0.18, overwrite: 'auto' });
+    });
+    btn.addEventListener('focus', function() {
+      gsap.to(btn, { scale: 1.04, boxShadow: '0 6px 24px 0 rgba(31,38,135,0.13)', duration: 0.18, overwrite: 'auto' });
+    });
+    btn.addEventListener('mouseleave', function() {
+      gsap.to(btn, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
+    });
+    btn.addEventListener('blur', function() {
+      gsap.to(btn, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
+    });
+  });
+  // Micro-interaction: pop effect on panel open
+  var observer = new MutationObserver(function() {
+    section.querySelectorAll('[data-gsap-feelgood="accordion-panel"]').forEach(function(panel) {
+      if (panel.offsetHeight > 0 && panel.style.opacity === '1') {
+        gsap.fromTo(panel, { scale: 0.98 }, { scale: 1, duration: 0.18, ease: 'back.out(1.7)', overwrite: 'auto' });
+      }
+    });
+  });
+  section.querySelectorAll('[data-gsap-feelgood="accordion-panel"]').forEach(function(panel) {
+    observer.observe(panel, { attributes: true, attributeFilter: ['style'] });
+  });
+})();
+
+// === GSAP Our Mission Section Animation & Micro-Interactions ===
+(function gsapMissionSectionAnimation() {
+  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  var section = document.getElementById('mission');
+  if (!section) return;
+  var bg = section.querySelector('[data-gsap-mission="bg"]');
+  var card = section.querySelector('[data-gsap-mission="card"]');
+  var heading = section.querySelector('[data-gsap-mission="heading"]');
+  var desc = section.querySelector('[data-gsap-mission="desc"]');
+  // Timeline for scroll-triggered animation
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: 'top 70%',
+      end: 'bottom 40%',
+      toggleActions: 'play none none reverse',
+    }
+  });
+  // Background grid stays visible, no opacity animation
+  if (card) {
+    tl.fromTo(card,
+      { opacity: 0.3, y: 48, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power2.out' }, 0.1
+    );
+  }
+  if (heading) {
+    tl.fromTo(heading,
+      { opacity: 0.3, y: 32 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.18
+    );
+  }
+  if (desc) {
+    tl.fromTo(desc,
+      { opacity: 0.3, y: 32 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.22
+    );
+  }
+  // Micro-interaction: card hover/focus
+  if (card) {
+    card.addEventListener('mouseenter', function() {
+      gsap.to(card, { scale: 1.025, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.16)', duration: 0.18, overwrite: 'auto' });
+    });
+    card.addEventListener('focus', function() {
+      gsap.to(card, { scale: 1.025, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.16)', duration: 0.18, overwrite: 'auto' });
+    });
+    card.addEventListener('mouseleave', function() {
+      gsap.to(card, { scale: 1, boxShadow: '0 4px 32px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
+    });
+    card.addEventListener('blur', function() {
+      gsap.to(card, { scale: 1, boxShadow: '0 4px 32px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
+    });
+  }
+})();
+
+// === GSAP Our Promise Section Animation & Micro-Interactions ===
+(function gsapPromiseSectionAnimation() {
+  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  var section = document.querySelector('[data-gsap-promise="section"]');
+  if (!section) return;
+  var heading = section.querySelector('[data-gsap-promise="heading"]');
+  var cards = section.querySelectorAll('[data-gsap-promise="card"]');
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: 'top 70%',
+      end: 'bottom 40%',
+      toggleActions: 'play none none reverse',
+    }
+  });
+  if (heading) {
+    tl.fromTo(heading,
+      { opacity: 0.3, y: 32 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.1
+    );
+  }
+  if (cards.length) {
+    tl.fromTo(cards,
+      { opacity: 0.3, y: 40, scale: 0.96 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power2.out', stagger: 0.12 }, 0.18
+    );
+  }
+  // Micro-interaction: card hover/focus
+  cards.forEach(function(card) {
+    card.addEventListener('mouseenter', function() {
+      gsap.to(card, { scale: 1.045, boxShadow: '0 10px 36px 0 rgba(31,38,135,0.18)', duration: 0.18, overwrite: 'auto' });
+    });
+    card.addEventListener('focus', function() {
+      gsap.to(card, { scale: 1.045, boxShadow: '0 10px 36px 0 rgba(31,38,135,0.18)', duration: 0.18, overwrite: 'auto' });
+    });
+    card.addEventListener('mouseleave', function() {
+      gsap.to(card, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
+    });
+    card.addEventListener('blur', function() {
+      gsap.to(card, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
+    });
+  });
+})();
+
+// === GSAP Testimonials Section Animation & Micro-Interactions ===
+(function gsapTestimonialsSectionAnimation() {
+  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  var section = document.querySelector('[data-gsap-testimonial="section"]');
+  if (!section) return;
+  var heading = section.querySelector('[data-gsap-testimonial="heading"]');
+  var cards = section.querySelectorAll('[data-gsap-testimonial="card"]');
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: 'top 70%',
+      end: 'bottom 40%',
+      toggleActions: 'play none none reverse',
+    }
+  });
+  if (heading) {
+    tl.fromTo(heading,
+      { opacity: 0.3, y: 32 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.1
+    );
+  }
+  if (cards.length) {
+    tl.fromTo(cards,
+      { opacity: 0.3, y: 40, scale: 0.96 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power2.out', stagger: 0.12 }, 0.18
+    );
+  }
+  // Micro-interaction: card hover/focus
+  cards.forEach(function(card) {
+    card.addEventListener('mouseenter', function() {
+      gsap.to(card, { scale: 1.035, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.13)', duration: 0.18, overwrite: 'auto' });
+    });
+    card.addEventListener('focus', function() {
+      gsap.to(card, { scale: 1.035, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.13)', duration: 0.18, overwrite: 'auto' });
+    });
+    card.addEventListener('mouseleave', function() {
+      gsap.to(card, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
+    });
+    card.addEventListener('blur', function() {
+      gsap.to(card, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
+    });
+  });
+})();
+
+// === GSAP Email Capture CTA Section Animation & Micro-Interactions ===
+(function gsapEmailCtaSectionAnimation() {
+  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  var section = document.querySelector('[data-gsap-email-cta="section"]');
+  if (!section) return;
+  var card = section.querySelector('[data-gsap-email-cta="card"]');
+  var heading = section.querySelector('[data-gsap-email-cta="heading"]');
+  var subheading = section.querySelector('[data-gsap-email-cta="subheading"]');
+  var button = section.querySelector('[data-gsap-email-cta="button"]');
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: 'top 70%',
+      end: 'bottom 40%',
+      toggleActions: 'play none none reverse',
+    }
+  });
+  var baseDelay = 0.1;
+  var stagger = 0.18; // more pronounced stagger
+  if (card) {
+    tl.fromTo(card,
+      { opacity: 0.3, y: 40, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power2.out' }, baseDelay
+    );
+  }
+  if (heading) {
+    tl.fromTo(heading,
+      { opacity: 0.3, y: 32 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, baseDelay + stagger
+    );
+  }
+  if (subheading) {
+    tl.fromTo(subheading,
+      { opacity: 0.3, y: 24 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, baseDelay + stagger * 2
+    );
+  }
+  if (button) {
+    tl.fromTo(button,
+      { opacity: 0.3, scale: 0.92 },
+      { opacity: 1, scale: 1.12, duration: 0.5, ease: 'back.out(2.2)' }, baseDelay + stagger * 3
+    )
+    .to(button,
+      { scale: 1, duration: 0.25, ease: 'bounce.out' }, "+=0.01"
+    );
+    // Micro-interaction: button hover/focus
+    button.addEventListener('mouseenter', function() {
+      gsap.to(button, { scale: 1.07, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.16)', duration: 0.18, overwrite: 'auto' });
+    });
+    button.addEventListener('focus', function() {
+      gsap.to(button, { scale: 1.07, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.16)', duration: 0.18, overwrite: 'auto' });
+    });
+    button.addEventListener('mouseleave', function() {
+      gsap.to(button, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
+    });
+    button.addEventListener('blur', function() {
+      gsap.to(button, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
+    });
+  }
+})();
+
+// === GSAP Navbar Animation & Micro-Interactions ===
+(function gsapNavbarAnimation() {
+  if (typeof window === 'undefined' || !window.gsap) return;
+  
+  var header = document.querySelector('[data-gsap-navbar="header"]');
+  var nav = document.querySelector('[data-gsap-navbar="nav"]');
+  var logo = document.querySelector('[data-gsap-navbar="logo"]');
+  var desktopLinks = document.querySelector('[data-gsap-navbar="desktop-links"]');
+  var navLinks = document.querySelectorAll('[data-gsap-navbar="nav-link"]');
+  var hamburger = document.querySelector('[data-gsap-navbar="hamburger"]');
+  var mobileDrawer = document.querySelector('[data-gsap-navbar="mobile-drawer"]');
+  var mobileLinks = document.querySelectorAll('[data-gsap-navbar="mobile-nav-link"]');
+  
+  if (!header) return;
+  
+  // Initial state - navbar starts hidden
+  gsap.set(header, { y: -60, opacity: 0 });
+  gsap.set(logo, { x: -20, opacity: 0 });
+  gsap.set(desktopLinks, { x: 20, opacity: 0 });
+  gsap.set(navLinks, { y: -10, opacity: 0 });
+  gsap.set(hamburger, { x: 20, opacity: 0 });
+  
+  // Navbar entrance animation
+  var tl = gsap.timeline({ delay: 0.2 });
+  
+  // Header slides down
+  tl.to(header, { 
+    y: 0, 
+    opacity: 1, 
+    duration: 0.6, 
+    ease: 'power2.out' 
+  });
+  
+  // Logo slides in from left
+  tl.to(logo, { 
+    x: 0, 
+    opacity: 1, 
+    duration: 0.5, 
+    ease: 'back.out(1.7)' 
+  }, '-=0.3');
+  
+  // Desktop nav links slide in from right
+  if (desktopLinks) {
+    tl.to(desktopLinks, { 
+      x: 0, 
+      opacity: 1, 
+      duration: 0.5, 
+      ease: 'power2.out' 
+    }, '-=0.4');
+    
+    // Individual nav links stagger in
+    tl.to(navLinks, { 
+      y: 0, 
+      opacity: 1, 
+      duration: 0.4, 
+      ease: 'power2.out', 
+      stagger: 0.08 
+    }, '-=0.3');
+  }
+  
+  // Hamburger button slides in from right
+  if (hamburger) {
+    tl.to(hamburger, { 
+      x: 0, 
+      opacity: 1, 
+      duration: 0.5, 
+      ease: 'back.out(1.7)' 
+    }, '-=0.5');
+  }
+  
+  // Micro-interactions: Logo hover/focus
+  if (logo) {
+    logo.addEventListener('mouseenter', function() {
+      gsap.to(logo, { scale: 1.05, duration: 0.2, ease: 'power2.out' });
+    });
+    logo.addEventListener('focus', function() {
+      gsap.to(logo, { scale: 1.05, duration: 0.2, ease: 'power2.out' });
+    });
+    logo.addEventListener('mouseleave', function() {
+      gsap.to(logo, { scale: 1, duration: 0.2, ease: 'power2.out' });
+    });
+    logo.addEventListener('blur', function() {
+      gsap.to(logo, { scale: 1, duration: 0.2, ease: 'power2.out' });
+    });
+  }
+  
+  // Micro-interactions: Nav links hover/focus
+  navLinks.forEach(function(link) {
+    link.addEventListener('mouseenter', function() {
+      gsap.to(link, { y: -2, scale: 1.02, duration: 0.2, ease: 'power2.out' });
+    });
+    link.addEventListener('focus', function() {
+      gsap.to(link, { y: -2, scale: 1.02, duration: 0.2, ease: 'power2.out' });
+    });
+    link.addEventListener('mouseleave', function() {
+      gsap.to(link, { y: 0, scale: 1, duration: 0.2, ease: 'power2.out' });
+    });
+    link.addEventListener('blur', function() {
+      gsap.to(link, { y: 0, scale: 1, duration: 0.2, ease: 'power2.out' });
+    });
+  });
+  
+  // Micro-interactions: Hamburger button hover/focus
+  if (hamburger) {
+    hamburger.addEventListener('mouseenter', function() {
+      gsap.to(hamburger, { scale: 1.1, rotation: 5, duration: 0.2, ease: 'power2.out' });
+    });
+    hamburger.addEventListener('focus', function() {
+      gsap.to(hamburger, { scale: 1.1, rotation: 5, duration: 0.2, ease: 'power2.out' });
+    });
+    hamburger.addEventListener('mouseleave', function() {
+      gsap.to(hamburger, { scale: 1, rotation: 0, duration: 0.2, ease: 'power2.out' });
+    });
+    hamburger.addEventListener('blur', function() {
+      gsap.to(hamburger, { scale: 1, rotation: 0, duration: 0.2, ease: 'power2.out' });
+    });
+  }
+  
+  // Mobile drawer animation (when opened)
+  if (mobileDrawer && mobileLinks.length) {
+    // Set initial state for mobile drawer
+    gsap.set(mobileDrawer, { opacity: 0, y: -20 });
+    gsap.set(mobileLinks, { x: -20, opacity: 0 });
+    
+    // Watch for mobile nav state changes
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+          var isVisible = mobileDrawer.style.display !== 'none';
+          if (isVisible) {
+            // Animate mobile drawer in
+            gsap.to(mobileDrawer, { 
+              opacity: 1, 
+              y: 0, 
+              duration: 0.3, 
+              ease: 'power2.out' 
+            });
+            // Animate mobile links in with stagger
+            gsap.to(mobileLinks, { 
+              x: 0, 
+              opacity: 1, 
+              duration: 0.4, 
+              ease: 'power2.out', 
+              stagger: 0.08 
+            });
+          } else {
+            // Reset mobile drawer state
+            gsap.set(mobileDrawer, { opacity: 0, y: -20 });
+            gsap.set(mobileLinks, { x: -20, opacity: 0 });
+          }
+        }
+      });
+    });
+    
+    observer.observe(mobileDrawer, { attributes: true, attributeFilter: ['style'] });
+  }
+})();
 
 // ---------------------------------------------------------------------------
 // 3. Global Utilities
