@@ -391,7 +391,6 @@ h6 {
   max-width: 100%;
 }
 
-/* Add this to the <style> section: */
 .chip-pop-anim {
   animation: chipPop 0.5s cubic-bezier(.4, 2, .6, 1) 1;
 }

@@ -742,7 +742,7 @@ window.journeySteps = [
         scrollTrigger: {
           trigger: "#what-is",
           start: "top 70%",
-          end: "bottom 60%",
+          end: "bottom 50%",
           scrub: true,
         },
         stagger: {
