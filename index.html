@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="styles.css" />
   <!-- Preload critical images -->
   <link rel="preload" href="./assets/logos/logo_rooted_green.png" as="image" />
-  <link rel="preload" href="PATH_TO_PRODUCT_IMAGE_1" as="image" />
+  <link rel="preload" href="./assets/product/2.png" as="image" />
   <!-- Canonical tag for SEO -->
   <link rel="canonical" href="https://rootedsnacks.com" />
   <!-- Cache control for static assets -->
@@ -183,9 +183,11 @@
           class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light">
           What is a Popped Water Lily Seed?
         </h2>
+        <p class="mb-4 text-lg md:text-xl font-normal text-on-light leading-relaxed max-w-2xl mx-auto text-center">
+          Popped Water Lily Seeds come from the Euryale ferox plant found in the still ponds of Eastern India. These seeds have been sun-dried, roasted, and hand-popped into a light, crunchy snack rooted in Ayurveda for centuries.
+        </p>
         <p class="mb-8 text-lg md:text-xl font-normal text-on-light leading-relaxed max-w-2xl mx-auto text-center">
-          Popped water lily seeds are a light, crunchy, and ancient superfood snack, enjoyed for centuries in Asia.
-          Naturally gluten-free, plant-based, and deliciously satisfying!
+          We’ve given this ancient superfood a modern twist—roasted in olive oil for real flavor and a satisfying crunch. Naturally gluten-free, plant-based, and nutrient-rich, they’re a wholesome snack that’s as delicious as it is good for you.
         </p>
         <!-- Animated Illustration Container (GSAP/ScrollTrigger) -->
         <div id="seed-illustration" class="relative flex justify-center items-end h-64 md:h-80 w-full mx-auto">
@@ -219,7 +221,7 @@
         <p class="text-lg md:text-xl font-normal text-on-light opacity-90 opacity-0 translate-y-8 transition-all duration-700 animate-none"
           x-intersect:enter="animateIn($el, 100)" x-transition:enter="transition-all duration-700 delay-100"
           x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
-          How we transform ancient water lily seeds into your favorite healthy snack.
+          How water lily seeds become your favorite healthy, crunchy snack.
         </p>
         <img src='./assets/logos/logo_rooted_green.png' alt=""
           class="absolute left-1/2 top-2/3 -translate-x-1/2 -translate-y-1/2 w-[320px] md:w-[420px] opacity-10 pointer-events-none z-0 object-contain"
@@ -340,9 +342,10 @@
                 class="overflow-hidden glass-light rounded-xl border border-[var(--rooted-green)]/10 px-6 py-4"
                 aria-hidden="false" data-gsap-accordion="ingredients-panel" data-gsap-feelgood="accordion-panel">
                 <ul class="list-disc pl-5 text-on-light">
-                  <li>Water Lily Seeds</li>
-                  <li>Himalayan Pink Salt</li>
-                  <li>Sunflower Oil</li>
+                  <li>Popped Lily Seeds / Makhana (85%)</li>
+                  <li>Olive Oil (12%)</li>
+                  <li>Himalayan Pink Salt (2.5%)</li>
+                  <li>Rosemary Extract</li>
                 </ul>
               </div>
             </div>
@@ -373,39 +376,59 @@
                   <tbody>
                     <tr class="even:bg-[var(--rooted-yellow)]/20">
                       <td class="py-2">Energy</td>
-                      <td class="text-right py-2">400 kcal</td>
-                      <td class="text-right py-2">100 kcal</td>
+                      <td class="text-right py-2">402.1 kcal</td>
+                      <td class="text-right py-2">100.52 kcal</td>
                     </tr>
                     <tr class="even:bg-[var(--rooted-yellow)]/20">
-                      <td class="py-2">Fat</td>
-                      <td class="text-right py-2">8g</td>
-                      <td class="text-right py-2">2g</td>
+                      <td class="py-2">Total Fat</td>
+                      <td class="text-right py-2">10.5 g</td>
+                      <td class="text-right py-2">2.62 g</td>
+                    </tr>
+                    <tr class="even:bg-[var(--rooted-yellow)]/20">
+                      <td class="py-2">of which Saturated</td>
+                      <td class="text-right py-2">1.62 g</td>
+                      <td class="text-right py-2">0.4 g</td>
                     </tr>
                     <tr class="even:bg-[var(--rooted-yellow)]/20">
                       <td class="py-2">Carbohydrates</td>
-                      <td class="text-right py-2">76g</td>
-                      <td class="text-right py-2">19g</td>
+                      <td class="text-right py-2">68.32 g</td>
+                      <td class="text-right py-2">17.08 g</td>
                     </tr>
                     <tr class="even:bg-[var(--rooted-yellow)]/20">
-                      <td class="py-2">Protein</td>
-                      <td class="text-right py-2">9g</td>
-                      <td class="text-right py-2">2.3g</td>
+                      <td class="py-2">of which Sugars</td>
+                      <td class="text-right py-2">&lt;0.2 g</td>
+                      <td class="text-right py-2">&lt;0.05 g</td>
                     </tr>
                     <tr class="even:bg-[var(--rooted-yellow)]/20">
                       <td class="py-2">Fibre</td>
-                      <td class="text-right py-2">4g</td>
-                      <td class="text-right py-2">1g</td>
+                      <td class="text-right py-2">10.2 g</td>
+                      <td class="text-right py-2">2.55 g</td>
+                    </tr>
+                    <tr class="even:bg-[var(--rooted-yellow)]/20">
+                      <td class="py-2">Protein</td>
+                      <td class="text-right py-2">8.58 g</td>
+                      <td class="text-right py-2">2.15 g</td>
                     </tr>
                     <tr class="even:bg-[var(--rooted-yellow)]/20">
                       <td class="py-2">Sodium</td>
-                      <td class="text-right py-2">0.5g</td>
-                      <td class="text-right py-2">0.13g</td>
+                      <td class="text-right py-2">251.0 mg</td>
+                      <td class="text-right py-2">62.75 mg</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      
+      <!-- We're Just Getting Started! -->
+      <div class="w-full max-w-4xl mx-auto mt-12 text-center">
+        <div class="glass-base glass-light rounded-2xl shadow-xl border border-[var(--rooted-green)]/15 p-8 md:p-10">
+          <h3 class="text-2xl md:text-3xl font-extrabold mb-4 heading-on-light">We're Just Getting Started!</h3>
+          <p class="text-lg md:text-xl font-normal text-on-light leading-relaxed">
+            We're in our sampling phase right now and fine‑tuning our recipes with your feedback. More exciting flavors are on the way – stay tuned!
+          </p>
         </div>
       </div>
     </section>
@@ -424,14 +447,11 @@
       <!-- Glass Card (Foreground) -->
       <div class="relative z-10 w-full max-w-lg mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10" data-gsap-mission="card">
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide mb-6 heading-on-light text-center" data-gsap-mission="heading">
-          Our Mission
+          Why Rooted Exists
         </h2>
         <p class="mb-4 sm:mb-8 text-base sm:text-lg md:text-xl font-normal text-on-light leading-relaxed text-center" data-gsap-mission="desc">
-          At Rooted, we believe in joyful, mindful snacking. Our mission is to bring you delicious, plant-based treats
-          that nourish your body, respect the planet, and celebrate global flavors. We're committed to sustainability,
-          transparency, and making healthy choices easy and delightful.
+          We are here to fuel your day with clean, plant-powered energy from ancient, community-grown, climate-smart plants. We source these potent, single-origin ingredients from tradition-dense farms of South Asia to bring diverse, wholesome nutrition to the modern world.
         </p>
-        <!-- Optionally, you can add a mission image or icon here -->
       </div>
     </section>
 
@@ -445,7 +465,7 @@
         <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-6 justify-center items-stretch">
           <template x-for="(promise, idx) in promises" :key="promise.title">
             <div
-              class="promise-card w-full max-w-xs sm:max-w-sm md:max-w-[300px] mx-auto border-2 border-black rounded-[1rem] p-4 sm:p-6 flex flex-col items-center justify-between transition-transform duration-300 will-change-transform cursor-pointer text-on-light"
+              class="promise-card w-full max-w-xs sm:max-w-sm md:max-w-[300px] mx-auto border-2 border-black rounded-[1rem] p-4 sm:p-6 flex flex-col items-center transition-transform duration-300 will-change-transform cursor-pointer text-on-light"
               :style="'transform:rotate(' + tiltAngles[idx % tiltAngles.length] + ');'" @mouseenter="hovered = idx"
               @mouseleave="hovered = null" @touchstart="hovered = idx" @touchend="hovered = null"
               :class="{'rotate-[-2deg]': tiltAngles[idx % tiltAngles.length] === '-2deg', 'rotate-[2deg]': tiltAngles[idx % tiltAngles.length] === '2deg'}"
@@ -493,7 +513,7 @@
               <div class="flex flex-row gap-6 w-full justify-center transition-opacity duration-500"
                 :class="{ 'opacity-0 pointer-events-none': groupFading, 'opacity-100': !groupFading }"
                 @transitionend="groupFading = false">
-                <template x-for="i in 3">
+                <template x-for="i in 2">
                   <template x-if="testimonials[(current + i - 1 + testimonials.length) % testimonials.length]">
                     <blockquote
                       :key="'testimonial-group-'+((current + i - 1 + testimonials.length) % testimonials.length)"
@@ -602,7 +622,6 @@
               </svg>
             </a>
           </div>
-          <div class="text-sm md:text-base text-on-dark text-center tracking-wide" x-text="brandStatement"></div>
           <div class="text-sm md:text-base text-on-dark text-center">
             &copy; <span x-text="new Date().getFullYear()"></span> <span x-text="copyright"></span>
           </div>

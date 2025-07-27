@@ -102,7 +102,7 @@ function heroSection() {
       'chip-max-w',
       'chip-pop-anim'
     ].join(' '),
-    mainCtaLabel: '🎉 Get 15% Off – Snack Smarter!',
+    mainCtaLabel: '🎉 Get 15% Off Your First Order & Free Samples',
     mainCtaClass: 'btn btn--primary',
     useCaseInterval: null,
     chipRef: null,
@@ -191,15 +191,15 @@ function promiseSection() {
     promises: [
       {
         title: 'Nutritious',
-        desc: 'Packed with plant-based protein, minerals, and antioxidants.'
+        desc: 'We get you powerful, plant-based nutrition sourced from ancient, climate-smart plants that support your well-being.'
       },
       {
         title: 'Delicious',
-        desc: "Crunchy, light, and full of flavor – a snack you'll crave."
+        desc: 'Flavor is at the heart of everything we do. We never cut corners, every bite is packed with satisfying flavors.'
       },
       {
         title: 'Diverse',
-        desc: 'Rooted celebrates global flavors and ancient superfoods.'
+        desc: 'By partnering closely with local farms, we honor the rich heritage and biodiversity of South Asia, bringing you unique, thoughtfully sourced ingredients.'
       }
     ],
     tiltAngles: ['-2deg', '2deg', '-2deg'],
@@ -217,10 +217,8 @@ function testimonialCarousel() {
   return {
     sectionTitle: "What Snackers Are Saying",
     testimonials: [
-      { quote: 'Absolutely delicious and guilt-free. My new go-to snack!', author: 'Alex, Yoga Instructor' },
-      { quote: 'Perfect for my lunchbox and post-workout cravings.', author: 'Jamie, Student' },
-      { quote: 'Crispy, light, and so satisfying. Love the Himalayan salt flavor!', author: 'Priya, Designer' },
-      { quote: 'Finally, a snack that fits my plant-based lifestyle.', author: 'Morgan, Runner' }
+      { quote: 'Absolutely delicious and guilt-free. My new go-to snack!', author: 'Alex' },
+      { quote: 'Crispy, light, and so satisfying. Love the Himalayan salt flavor!', author: 'Priya' }
     ],
     current: 0,
     autoInterval: null,
@@ -310,15 +308,27 @@ function faqSection() {
     open: 0,
     faqs: [
       {
-        q: "Are popped water lily seeds really healthy?",
-        a: "Absolutely! They're naturally gluten-free, plant-based, and packed with protein, minerals, and antioxidants. Plus, they're deliciously crunchy. (Your taste buds and your body will thank you!)"
+        q: "What are popped water lily seeds?",
+        a: "Popped water lily seeds come from the Euryale ferox plant, traditionally sun-dried, roasted, and hand-popped to create a light, crunchy snack packed with nutrients. These seeds are harvested from water lilies that grow in the still ponds of Eastern India and surrounding regions."
       },
       {
-        q: "Is Rooted vegan and allergen-friendly?",
-        a: "Yes! Rooted snacks are 100% vegan and free from gluten, soy, and artificial nasties. Snack happy, snack safe."
+        q: "Are popped water lily seeds gluten-free?",
+        a: "Yes! Popped water lily seeds are naturally gluten-free, making them a great snack option for those with gluten sensitivities."
       },
       {
-        q: "How do I get early access and my 15% off?",
+        q: "What nutritional benefits do popped water lily seeds offer?",
+        a: "They're rich in plant-based protein, antioxidants, and essential minerals, providing clean, wholesome energy."
+      },
+      {
+        q: "Are popped water lily seeds suitable for vegans?",
+        a: "Absolutely! They're 100% plant-based and free from any animal products."
+      },
+      {
+        q: "Can I use popped water lily seeds in recipes?",
+        a: "Yes! They're great as a snack on their own or as a crunchy topping for salads, yogurt, and more."
+      },
+      {
+        q: "How do I get early access, free samples, and my 15% off?",
         a: "Just join our waitlist above! We'll send you a code as soon as we launch. Welcome to the Rooted fam! 🌱"
       }
     ]
@@ -331,8 +341,7 @@ function faqSection() {
 function footerSection() {
   return {
     instagramUrl: "https://instagram.com/weare_rooted",
-    email: "hello@rootedsnacks.com",
-    brandStatement: "Rooted is committed to plant-based nutrition, sustainability, and global flavors. Certified vegan. Made with love.",
+    email: "hello@rootedfoods.com",
     logo: "./assets/logos/logo_rooted_beige.png",
     logoAlt: "Rooted Snacks logo",
     copyright: "Rooted. All rights reserved."
@@ -491,14 +500,41 @@ function journeySection() {
             img.style.height = '96px';
             img.style.maxWidth = '100%';
             img.style.maxHeight = '100%';
+            img.style.flexShrink = '0';
+            img.style.flexGrow = '0';
             // Responsive: shrink on mobile
             if (window.innerWidth <= 767) {
               img.style.width = '88px';
               img.style.height = '88px';
             }
-            // Tilt only the Seed image
+            // Tilt the Seed image (index 0) and Snack image (index 2)
             if (idx === 0) {
               img.style.transform = 'rotate(-25deg)';
+            } else if (idx === 1) {
+              // Make pop image bigger
+              img.style.width = '140px';
+              img.style.height = '140px';
+              img.style.minWidth = '140px';
+              img.style.minHeight = '140px';
+              if (window.innerWidth <= 767) {
+                img.style.width = '110px';
+                img.style.height = '110px';
+                img.style.minWidth = '110px';
+                img.style.minHeight = '110px';
+              }
+            } else if (idx === 2) {
+              // Make snack image much bigger and slanted
+              img.style.width = '160px';
+              img.style.height = '160px';
+              img.style.minWidth = '160px';
+              img.style.minHeight = '160px';
+              if (window.innerWidth <= 767) {
+                img.style.width = '110px';
+                img.style.height = '110px';
+                img.style.minWidth = '110px';
+                img.style.minHeight = '110px';
+              }
+              img.style.transform = 'rotate(15deg)';
             }
             stepDiv.appendChild(img);
             const label = document.createElement('span');
@@ -527,8 +563,31 @@ function journeySection() {
           const leftPx = (pt.x / viewBoxWidth) * svgRect.width;
           const offset = this.getStepOffsets()[idx] || 0;
           const topPx = (pt.y / viewBoxHeight) * svgRect.height + offset;
-          stepDiv.style.left = `${leftPx - 24}px`;
-          stepDiv.style.top = `${topPx - 24}px`;
+          
+          // Adjust positioning based on step type
+          let offsetX = 24; // default offset
+          let offsetY = 24; // default offset
+          
+          if (idx === 1) {
+            // Pop image is bigger, so adjust positioning
+            offsetX = 70; // half of 140px
+            offsetY = 70; // half of 140px
+            if (window.innerWidth <= 767) {
+              offsetX = 40; // half of 120px
+              offsetY = 50; // half of 120px
+            }
+          } else if (idx === 2) {
+            // Snack image is bigger, so adjust positioning
+            offsetX = 80; // half of 160px
+            offsetY = 80; // half of 160px
+            if (window.innerWidth <= 767) {
+              offsetX = 40; // half of 120px
+              offsetY = 50; // half of 120px
+            }
+          }
+          
+          stepDiv.style.left = `${leftPx - offsetX}px`;
+          stepDiv.style.top = `${topPx - offsetY}px`;
         });
       });
     },
@@ -704,8 +763,8 @@ function journeySection() {
  */
 window.journeySteps = [
   { icon: './assets/illustrations/lotus-img1.png', label: 'Seed', micro: 'The seed is collected from the water lily plant.' },
-  { icon: 'PATH_TO_JOURNEY_ICON_3', label: 'Pop', micro: 'The seeds are popped in a pan to create a crunchy snack.' },
-  { icon: 'PATH_TO_JOURNEY_ICON_5', label: 'Snack', micro: 'Enjoy your Rooted snack guilt-free!' }
+  { icon: './assets/illustrations/lotus-seeds.svg', label: 'Pop', micro: 'The seeds are popped in a pan to create a crunchy snack.' },
+  { icon: './assets/product/2.png', label: 'Snack', micro: 'Enjoy your Rooted snack guilt-free!' }
 ];
 
 // The journey animation logic is now fully encapsulated in the journeySection Alpine.js component.
@@ -758,6 +817,19 @@ window.journeySteps = [
 (function gsapHeroSectionAnimation() {
   if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
+  
+  // Check if all required elements exist before proceeding
+  var back1 = document.querySelector('[data-gsap-hero="back1"]');
+  var back2 = document.querySelector('[data-gsap-hero="back2"]');
+  var main = document.querySelector('[data-gsap-hero="main"]');
+  var heading = document.querySelector('[data-gsap-hero="heading"]');
+  var subheading = document.querySelector('[data-gsap-hero="subheading"]');
+  var chip = document.querySelector('[data-gsap-hero="chip"]');
+  var cta = document.querySelector('[data-gsap-hero="cta"]');
+  
+  // Only proceed if we have the essential elements
+  if (!back1 || !back2 || !main) return;
+  
   var tl = gsap.timeline({
     scrollTrigger: {
       trigger: '#hero',
@@ -781,29 +853,37 @@ window.journeySteps = [
     { opacity: 0, scale: 0.9, y: 40 },
     { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 0.2
   );
-  // Animate heading
-  tl.fromTo('[data-gsap-hero="heading"]',
-    { opacity: 0, y: 40 },
-    { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.3
-  );
-  // Animate subheading
-  tl.fromTo('[data-gsap-hero="subheading"]',
-    { opacity: 0, y: 40 },
-    { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.4
-  );
-  // Animate use-case chip (pop effect)
-  tl.fromTo('[data-gsap-hero="chip"]',
-    { opacity: 0, scale: 0.9 },
-    { opacity: 1, scale: 1.08, duration: 0.3, ease: 'back.out(2)' }, 0.5
-  )
-  .to('[data-gsap-hero="chip"]',
-    { scale: 1, duration: 0.2, ease: 'power1.in' }, 0.8
-  );
-  // Animate CTA button
-  tl.fromTo('[data-gsap-hero="cta"]',
-    { opacity: 0, scale: 0.9, y: 20 },
-    { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(1.7)' }, 0.7
-  );
+  // Animate heading if it exists
+  if (heading) {
+    tl.fromTo('[data-gsap-hero="heading"]',
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.3
+    );
+  }
+  // Animate subheading if it exists
+  if (subheading) {
+    tl.fromTo('[data-gsap-hero="subheading"]',
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.4
+    );
+  }
+  // Animate use-case chip (pop effect) if it exists
+  if (chip) {
+    tl.fromTo('[data-gsap-hero="chip"]',
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1.08, duration: 0.3, ease: 'back.out(2)' }, 0.5
+    )
+    .to('[data-gsap-hero="chip"]',
+      { scale: 1, duration: 0.2, ease: 'power1.in' }, 0.8
+    );
+  }
+  // Animate CTA button if it exists
+  if (cta) {
+    tl.fromTo('[data-gsap-hero="cta"]',
+      { opacity: 0, scale: 0.9, y: 20 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(1.7)' }, 0.7
+    );
+  }
 })();
 
 // === GSAP Hero Section Micro-Interactions: Parallax & Hover Effects ===
@@ -827,12 +907,17 @@ window.journeySteps = [
   function disableParallax() {
     if (!parallaxEnabled) return;
     parallaxEnabled = false;
-    heroSection.removeEventListener('mousemove', onParallaxMove);
-    heroSection.removeEventListener('mouseleave', onParallaxLeave);
+    if (heroSection) {
+      heroSection.removeEventListener('mousemove', onParallaxMove);
+      heroSection.removeEventListener('mouseleave', onParallaxLeave);
+    }
     parallaxState.x = 0; parallaxState.y = 0;
-    gsap.to([mainImg, back1, back2], { x: 0, y: 0, rotate: (el) => el === back1 ? -20 : el === back2 ? 20 : 0, duration: 0.7, overwrite: 'auto' });
+    if (mainImg && back1 && back2) {
+      gsap.to([mainImg, back1, back2], { x: 0, y: 0, rotate: (el) => el === back1 ? -20 : el === back2 ? 20 : 0, duration: 0.7, overwrite: 'auto' });
+    }
   }
   function onParallaxMove(e) {
+    if (!heroSection) return;
     var rect = heroSection.getBoundingClientRect();
     var x = ((e.clientX - rect.left) / rect.width - 0.5) * 2; // -1 to 1
     var y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
@@ -843,16 +928,16 @@ window.journeySteps = [
     }
   }
   function applyParallax() {
-    gsap.to(mainImg, { x: parallaxState.x * 12, y: parallaxState.y * 8, rotate: parallaxState.x * 3, duration: 0.5, overwrite: 'auto' });
-    gsap.to(back1, { x: parallaxState.x * 24 + 96, y: parallaxState.y * 16 + 40, rotate: -30 + parallaxState.x * 6, duration: 0.7, overwrite: 'auto' });
-    gsap.to(back2, { x: parallaxState.x * 24 - 96, y: parallaxState.y * 16 + 40, rotate: 30 + parallaxState.x * 6, duration: 0.7, overwrite: 'auto' });
+    if (mainImg) gsap.to(mainImg, { x: parallaxState.x * 12, y: parallaxState.y * 8, rotate: parallaxState.x * 3, duration: 0.5, overwrite: 'auto' });
+    if (back1) gsap.to(back1, { x: parallaxState.x * 24 + 96, y: parallaxState.y * 16 + 40, rotate: -30 + parallaxState.x * 6, duration: 0.7, overwrite: 'auto' });
+    if (back2) gsap.to(back2, { x: parallaxState.x * 24 - 96, y: parallaxState.y * 16 + 40, rotate: 30 + parallaxState.x * 6, duration: 0.7, overwrite: 'auto' });
     parallaxRAF = null;
   }
   function onParallaxLeave() {
     parallaxState.x = 0; parallaxState.y = 0;
-    gsap.to(mainImg, { x: 0, y: 0, rotate: 0, duration: 0.7, overwrite: 'auto' });
-    gsap.to(back1, { x: 96, y: 40, rotate: -30, duration: 0.7, overwrite: 'auto' });
-    gsap.to(back2, { x: -96, y: 40, rotate: 30, duration: 0.7, overwrite: 'auto' });
+    if (mainImg) gsap.to(mainImg, { x: 0, y: 0, rotate: 0, duration: 0.7, overwrite: 'auto' });
+    if (back1) gsap.to(back1, { x: 96, y: 40, rotate: -30, duration: 0.7, overwrite: 'auto' });
+    if (back2) gsap.to(back2, { x: -96, y: 40, rotate: 30, duration: 0.7, overwrite: 'auto' });
   }
   function checkParallax() {
     if (window.innerWidth >= 768) {
@@ -1283,10 +1368,12 @@ window.journeySteps = [
   
   // Initial state - navbar starts hidden
   gsap.set(header, { y: -60, opacity: 0 });
-  gsap.set(logo, { x: -20, opacity: 0 });
-  gsap.set(desktopLinks, { x: 20, opacity: 0 });
-  gsap.set(navLinks, { y: -10, opacity: 0 });
-  gsap.set(hamburger, { x: 20, opacity: 0 });
+  
+  // Only set initial states for elements that exist
+  if (logo) gsap.set(logo, { x: -20, opacity: 0 });
+  if (desktopLinks) gsap.set(desktopLinks, { x: 20, opacity: 0 });
+  if (navLinks && navLinks.length > 0) gsap.set(navLinks, { y: -10, opacity: 0 });
+  if (hamburger) gsap.set(hamburger, { x: 20, opacity: 0 });
   
   // Navbar entrance animation
   var tl = gsap.timeline({ delay: 0.2 });
@@ -1299,15 +1386,17 @@ window.journeySteps = [
     ease: 'power2.out' 
   });
   
-  // Logo slides in from left
-  tl.to(logo, { 
-    x: 0, 
-    opacity: 1, 
-    duration: 0.5, 
-    ease: 'back.out(1.7)' 
-  }, '-=0.3');
+  // Logo slides in from left if it exists
+  if (logo) {
+    tl.to(logo, { 
+      x: 0, 
+      opacity: 1, 
+      duration: 0.5, 
+      ease: 'back.out(1.7)' 
+    }, '-=0.3');
+  }
   
-  // Desktop nav links slide in from right
+  // Desktop nav links slide in from right if they exist
   if (desktopLinks) {
     tl.to(desktopLinks, { 
       x: 0, 
@@ -1316,17 +1405,19 @@ window.journeySteps = [
       ease: 'power2.out' 
     }, '-=0.4');
     
-    // Individual nav links stagger in
-    tl.to(navLinks, { 
-      y: 0, 
-      opacity: 1, 
-      duration: 0.4, 
-      ease: 'power2.out', 
-      stagger: 0.08 
-    }, '-=0.3');
+    // Individual nav links stagger in if they exist
+    if (navLinks && navLinks.length > 0) {
+      tl.to(navLinks, { 
+        y: 0, 
+        opacity: 1, 
+        duration: 0.4, 
+        ease: 'power2.out', 
+        stagger: 0.08 
+      }, '-=0.3');
+    }
   }
   
-  // Hamburger button slides in from right
+  // Hamburger button slides in from right if it exists
   if (hamburger) {
     tl.to(hamburger, { 
       x: 0, 
@@ -1353,20 +1444,22 @@ window.journeySteps = [
   }
   
   // Micro-interactions: Nav links hover/focus
-  navLinks.forEach(function(link) {
-    link.addEventListener('mouseenter', function() {
-      gsap.to(link, { y: -2, scale: 1.02, duration: 0.2, ease: 'power2.out' });
+  if (navLinks && navLinks.length > 0) {
+    navLinks.forEach(function(link) {
+      link.addEventListener('mouseenter', function() {
+        gsap.to(link, { y: -2, scale: 1.02, duration: 0.2, ease: 'power2.out' });
+      });
+      link.addEventListener('focus', function() {
+        gsap.to(link, { y: -2, scale: 1.02, duration: 0.2, ease: 'power2.out' });
+      });
+      link.addEventListener('mouseleave', function() {
+        gsap.to(link, { y: 0, scale: 1, duration: 0.2, ease: 'power2.out' });
+      });
+      link.addEventListener('blur', function() {
+        gsap.to(link, { y: 0, scale: 1, duration: 0.2, ease: 'power2.out' });
+      });
     });
-    link.addEventListener('focus', function() {
-      gsap.to(link, { y: -2, scale: 1.02, duration: 0.2, ease: 'power2.out' });
-    });
-    link.addEventListener('mouseleave', function() {
-      gsap.to(link, { y: 0, scale: 1, duration: 0.2, ease: 'power2.out' });
-    });
-    link.addEventListener('blur', function() {
-      gsap.to(link, { y: 0, scale: 1, duration: 0.2, ease: 'power2.out' });
-    });
-  });
+  }
   
   // Micro-interactions: Hamburger button hover/focus
   if (hamburger) {
