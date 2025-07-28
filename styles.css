@@ -502,3 +502,24 @@ h6 {
 .animate-wobble {
   animation: wobble 0.5s cubic-bezier(.4,2,.6,1) 1;
 }
+
+@media (min-width: 768px) {
+  [data-gsap-navbar="desktop-links"] {
+    gap: 1.25rem; /* reduced from gap-6 (1.5rem) */
+  }
+  [data-gsap-navbar="nav-link"] {
+    font-size: 1rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+@media (min-width: 1024px) {
+  [data-gsap-navbar="desktop-links"] {
+    gap: 1.75rem;
+  }
+  [data-gsap-navbar="nav-link"] {
+    font-size: 1.08rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

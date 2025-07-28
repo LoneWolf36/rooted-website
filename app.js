@@ -26,8 +26,8 @@ function navBar() {
     navLinks: [
       { href: '#hero', label: 'Home' },
       { href: '#benefits', label: 'Benefits' },
-      { href: '#mission', label: 'Mission' },
-      { href: '#signup', label: 'Sign Up' }
+      { href: '#mission', label: 'Our Mission' },
+      { href: '#signup', label: 'Get Early Access' }
     ],
     navLinkClass: 'relative px-2 py-1',
     scrollToSection(id) {
@@ -191,7 +191,7 @@ function promiseSection() {
     promises: [
       {
         title: 'Nutritious',
-        desc: 'We get you powerful, plant-based nutrition sourced from ancient, climate-smart plants that support your well-being.'
+        desc: 'We get you powerful, plant-based nutrition sourced from climate-smart plants that support your well-being.'
       },
       {
         title: 'Delicious',
@@ -1474,6 +1474,10 @@ window.journeySteps = [
     });
     hamburger.addEventListener('blur', function() {
       gsap.to(hamburger, { scale: 1, rotation: 0, duration: 0.2, ease: 'power2.out' });
+    });
+    // Reset rotation on click (menu toggle)
+    hamburger.addEventListener('click', function() {
+      gsap.to(hamburger, { rotation: 0, duration: 0.2, ease: 'power2.out' });
     });
   }
   
