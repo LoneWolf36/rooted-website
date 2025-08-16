@@ -428,29 +428,18 @@ function rootedApp() {
           return;
         }
     
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(data.email)) {
-          alert('Please enter a valid email address.');
-          return;
-        }
-    
         // Show loading state
         submitBtn.disabled = true;
         submitText.classList.add('hidden');
         submitLoading.classList.remove('hidden');
     
         try {
-          // Create FormData for the request
-          const requestFormData = new FormData();
-          requestFormData.append('firstName', data.firstName);
-          requestFormData.append('email', data.email);
-    
-          const response = await fetch('https://script.google.com/macros/s/AKfycby4CTPAUvruxiwTnbKIwv4oZFY3lCn0h8mk7wDtrshwPkoa-rG1pwbhl6fQcZCk3RaTSQ/exec', {
-            method: 'POST',
-            body: requestFormData
+          // Use GET request with query parameters
+          const params = new URLSearchParams(data);
+          const response = await fetch(`https://script.google.com/macros/s/AKfycbxGD4uPOnZVj20c0T0HnKlMjtoSjQ-n0tsS6Z0XCAqlmRjO3PSnyCUY8_DG5_zv1YqrVw/exec?${params}`, {
+            method: 'GET'
           });
     
-          // Check if response is ok
           if (!response.ok) {
             throw new Error(`Server responded with status: ${response.status}`);
           }
@@ -458,14 +447,11 @@ function rootedApp() {
           const result = await response.json();
     
           if (result.success) {
-            // Show success message
             formElement.classList.add('hidden');
             successMessage.classList.remove('hidden');
     
-            // Close popup after 3 seconds
             setTimeout(() => {
               this.closeEmailPopup();
-              // Reset form
               form.reset();
               formElement.classList.remove('hidden');
               successMessage.classList.add('hidden');
@@ -477,13 +463,13 @@ function rootedApp() {
           console.error('Error submitting form:', error);
           alert('Sorry, something went wrong. Please try again.');
         } finally {
-          // Reset button state
           submitBtn.disabled = false;
           submitText.classList.remove('hidden');
           submitLoading.classList.add('hidden');
         }
       });
     },
+    
 
     destroy() {
       if (this._onEscape) window.removeEventListener('keydown', this._onEscape);
