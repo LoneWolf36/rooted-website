@@ -406,45 +406,62 @@ function rootedApp() {
     setupWaitlistForm() {
       const form = document.getElementById('waitlist-form');
       if (!form) return;
-
+    
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
+    
         const submitBtn = document.getElementById('submit-btn');
         const submitText = document.getElementById('submit-text');
         const submitLoading = document.getElementById('submit-loading');
         const successMessage = document.getElementById('success-message');
         const formElement = document.getElementById('waitlist-form');
-
-        // Show loading state
-        submitBtn.disabled = true;
-        submitText.classList.add('hidden');
-        submitLoading.classList.remove('hidden');
-
+    
         const formData = new FormData(form);
         const data = {
           firstName: formData.get('firstName') || formData.get('name'),
           email: formData.get('email')
         };
-
+    
+        // Frontend validation
+        if (!data.firstName || !data.email) {
+          alert('Please fill in all required fields.');
+          return;
+        }
+    
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email)) {
+          alert('Please enter a valid email address.');
+          return;
+        }
+    
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.classList.add('hidden');
+        submitLoading.classList.remove('hidden');
+    
         try {
           // Create FormData for the request
           const requestFormData = new FormData();
           requestFormData.append('firstName', data.firstName);
           requestFormData.append('email', data.email);
-
+    
           const response = await fetch('https://script.google.com/macros/s/AKfycbysXfx5w2jvz0YkGL3Sz9AfJ7MDmi_pZbo7GSEU5hy9Jxnxhl7zWR3yC8LWkIZh2F3vzg/exec', {
             method: 'POST',
             body: requestFormData
           });
-
+    
+          // Check if response is ok
+          if (!response.ok) {
+            throw new Error(`Server responded with status: ${response.status}`);
+          }
+    
           const result = await response.json();
-
+    
           if (result.success) {
             // Show success message
             formElement.classList.add('hidden');
             successMessage.classList.remove('hidden');
-
+    
             // Close popup after 3 seconds
             setTimeout(() => {
               this.closeEmailPopup();
