@@ -305,7 +305,7 @@ function emailCtaSection() {
 function faqSection() {
   return {
     sectionTitle: "Frequently Asked Questions",
-    open: 0,
+    open: -1,
     faqs: [
       {
         q: "What are popped water lily seeds?",
