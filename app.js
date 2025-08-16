@@ -441,7 +441,7 @@ function rootedApp() {
 
         try {
           const params = new URLSearchParams(data);
-          await fetch('https://script.google.com/macros/s/AKfycbwc7oz8BU7pkUxLOdiitDPDl7s2fWeNkILOl5fZ3SQZStkHm-C0tHQaQMYQQFVCV9l8GQ/exec', {
+          await fetch('https://script.google.com/macros/s/AKfycbxynR7VhfN9fFmQg_s4Z7z-qf_3W5kjcXFwLDVe2B06YaiYLY97aIhf6hffirlSx5hG/exec', {
             method: 'POST',
             mode: 'no-cors',
             headers: {
