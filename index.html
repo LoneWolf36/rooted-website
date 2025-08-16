@@ -53,7 +53,8 @@
       <ul class="hidden md:flex gap-6 font-semibold tracking-wide" data-gsap-navbar="desktop-links">
         <template x-for="link in navLinks" :key="link.href">
           <li><a :href="link.href" :class="navLinkClass + ' link-on-light'"
-              @click.prevent="scrollToSection(link.href.substring(1))" x-text="link.label" data-gsap-navbar="nav-link"></a></li>
+              @click.prevent="scrollToSection(link.href.substring(1))" x-text="link.label"
+              data-gsap-navbar="nav-link"></a></li>
         </template>
       </ul>
       <!-- Mobile Hamburger -->
@@ -70,11 +71,13 @@
       </button>
       <!-- Mobile Nav Drawer (DRY) -->
       <div x-show="mobileNavOpen" x-transition
-        class="md:hidden absolute top-full left-0 w-full bg-white/95 shadow-2xl rounded-b-xl" data-gsap-navbar="mobile-drawer">
+        class="md:hidden absolute top-full left-0 w-full bg-white/95 shadow-2xl rounded-b-xl"
+        data-gsap-navbar="mobile-drawer">
         <ul class="flex flex-col gap-4 py-4 px-6 font-semibold tracking-wide" data-gsap-navbar="mobile-links">
           <template x-for="link in navLinks" :key="'mobile-'+link.href">
             <li><a :href="link.href" @click.prevent="scrollToSection(link.href.substring(1)); mobileNavOpen = false"
-                :class="navLinkClass + ' block w-full link-on-light'" x-text="link.label" data-gsap-navbar="mobile-nav-link"></a></li>
+                :class="navLinkClass + ' block w-full link-on-light'" x-text="link.label"
+                data-gsap-navbar="mobile-nav-link"></a></li>
           </template>
         </ul>
       </div>
@@ -107,7 +110,42 @@
           Waitlist</h2>
         <p class="mb-4 text-on-light text-lg">Get 15% off your first order and early access!</p>
         <div class="glass-light rounded-xl p-4 text-on-light border border-[var(--rooted-green)]/10">
-          [MailerLite Form Placeholder]</div>
+          <form id="waitlist-form" class="space-y-4">
+            <div class="space-y-3">
+              <div>
+                <label for="firstName" class="block text-sm font-medium mb-1">First Name</label>
+                <input type="text" id="firstName" name="firstName" required
+                  class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[var(--rooted-green)] focus:ring-2 focus:ring-[var(--rooted-green)]/20 outline-none transition-all"
+                  placeholder="Your first name" />
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium mb-1">Email Address</label>
+                <input type="email" id="email" name="email" required
+                  class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[var(--rooted-green)] focus:ring-2 focus:ring-[var(--rooted-green)]/20 outline-none transition-all"
+                  placeholder="your@email.com" />
+              </div>
+            </div>
+
+            <button type="submit" id="submit-btn" class="btn btn--primary w-full py-4 text-lg font-bold">
+              <span id="submit-text">🌱 Join the Waitlist</span>
+              <span id="submit-loading" class="hidden">
+                <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"
+                    fill="none" />
+                  <path fill="currentColor" class="opacity-75"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                Joining...
+              </span>
+            </button>
+          </form>
+
+          <div id="success-message" class="hidden text-center py-8">
+            <div class="text-6xl mb-4">🎉</div>
+            <h3 class="text-2xl font-bold mb-2 heading-on-light">Welcome to the family!</h3>
+            <p class="text-lg">You're all set! Watch for our launch email with your 15% discount.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -133,27 +171,32 @@
             x-data="{ show: false }">
             <!-- Back/peeking packet 1 -->
             <img src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, back"
-               class="absolute right-20 md:right-56 lg:right-70 top-8 w-10/12 max-w-[90%] z-0" data-gsap-hero="back1" style="transform: rotate(-30deg);" loading="eager" aria-hidden="true" />
+              class="absolute right-20 md:right-56 lg:right-70 top-8 w-10/12 max-w-[90%] z-0" data-gsap-hero="back1"
+              style="transform: rotate(-30deg);" loading="eager" aria-hidden="true" />
             <!-- Back/peeking packet 2 -->
             <img src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, back"
-               class="absolute left-20 md:left-56 lg:left-70 top-8 w-10/12 max-w-[90%] z-0" data-gsap-hero="back2" style="transform: rotate(30deg);" loading="eager" aria-hidden="true" />
+              class="absolute left-20 md:left-56 lg:left-70 top-8 w-10/12 max-w-[90%] z-0" data-gsap-hero="back2"
+              style="transform: rotate(30deg);" loading="eager" aria-hidden="true" />
             <!-- Front packet (main) -->
-            <img id="hero-product-img" src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, front"
-              class="relative z-10 w-full hero-product-img object-cover" data-gsap-hero="main" width="448" height="448" decoding="async"
-              fetchpriority="high" loading="eager" />
+            <img id="hero-product-img" src="./assets/product/2.png"
+              alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, front"
+              class="relative z-10 w-full hero-product-img object-cover" data-gsap-hero="main" width="448" height="448"
+              decoding="async" fetchpriority="high" loading="eager" />
           </div>
         </div>
         <!-- Text and CTA -->
         <div class="flex-1 flex flex-col items-center justify-center text-center">
-          <h1 id="hero-heading"
-            class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 heading-on-dark" data-gsap-hero="heading">
+          <h1 id="hero-heading" class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 heading-on-dark"
+            data-gsap-hero="heading">
             Your New Healthy Snack Awaits: Popped Water Lily Seeds
           </h1>
-          <p id="hero-subheading" class="text-xl md:text-2xl font-semibold mb-6 text-on-dark" data-gsap-hero="subheading">
+          <p id="hero-subheading" class="text-xl md:text-2xl font-semibold mb-6 text-on-dark"
+            data-gsap-hero="subheading">
             Tastier, Crunchier And Better For You
           </p>
           <!-- Use-case chip -->
-          <div class="flex justify-center mb-6 text-base sm:text-lg font-semibold min-h-10 relative text-center overflow-x-auto overflow-y-hidden whitespace-nowrap gap-2 overflow-hidden">
+          <div
+            class="flex justify-center mb-6 text-base sm:text-lg font-semibold min-h-10 relative text-center overflow-x-auto overflow-y-hidden whitespace-nowrap gap-2 overflow-hidden">
             <div class="relative w-full overflow-hidden px-4">
               <template x-if="nextUseCase === null">
                 <span :class="chipClass + ' chip-text chip-text-hover'" x-ref="chip" data-gsap-hero="chip">
@@ -170,8 +213,8 @@
             </div>
           </div>
           <!-- Main CTA Button -->
-          <button id="hero-cta" @click="openEmailPopup()" class="btn btn--primary mb-4 mt-6 md:mt-2" aria-label="Join waitlist"
-            x-text="mainCtaLabel" data-gsap-hero="cta"></button>
+          <button id="hero-cta" @click="openEmailPopup()" class="btn btn--primary mb-4 mt-6 md:mt-2"
+            aria-label="Join waitlist" x-text="mainCtaLabel" data-gsap-hero="cta"></button>
         </div>
       </div>
     </section>
@@ -179,15 +222,18 @@
     <!-- === SECTION: What is a Popped Water Lily Seed? === -->
     <section id="what-is" class="px-4 lg:px-12 py-12 relative overflow-visible">
       <div class="max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto text-center">
-        <h2
-          class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light">
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light">
           What is a Popped Water Lily Seed?
         </h2>
         <p class="mb-4 text-lg md:text-xl font-normal text-on-light leading-relaxed max-w-2xl mx-auto text-center">
-          Popped Water Lily Seeds come from the Euryale ferox plant found in the still ponds of Eastern India. These seeds have been sun-dried, roasted, and hand-popped into a light, crunchy snack rooted in Ayurveda for centuries.
+          Popped Water Lily Seeds come from the Euryale ferox plant found in the still ponds of Eastern India. These
+          seeds have been sun-dried, roasted, and hand-popped into a light, crunchy snack rooted in Ayurveda for
+          centuries.
         </p>
         <p class="mb-8 text-lg md:text-xl font-normal text-on-light leading-relaxed max-w-2xl mx-auto text-center">
-          We’ve given this superfood a modern twist—roasted in olive oil for real flavor and a satisfying crunch. Naturally gluten-free, plant-based, and nutrient-rich, they’re a wholesome snack that’s as delicious as it is good for you.
+          We’ve given this superfood a modern twist—roasted in olive oil for real flavor and a satisfying crunch.
+          Naturally gluten-free, plant-based, and nutrient-rich, they’re a wholesome snack that’s as delicious as it is
+          good for you.
         </p>
         <!-- Animated Illustration Container (GSAP/ScrollTrigger) -->
         <div id="seed-illustration" class="relative flex justify-center items-end h-64 md:h-80 w-full mx-auto">
@@ -195,14 +241,14 @@
           <img src="./assets/product/2.png" alt="Vertical chips packet"
             class="relative z-20 w-70 md:w-85 drop-shadow-xl" style="bottom: -30px;" />
           <!-- Seeds (absolutely positioned, start hidden behind/above packet) -->
-          <img src="./assets/illustrations/lotus-img3-1.png" alt="Seed 1" class="seed-img absolute left-1/2 z-10 w-8 md:w-11"
-            style="transform: translate(-50%, 0); bottom: 4rem;" />
-          <img src="./assets/illustrations/lotus-img3-2.png" alt="Seed 2" class="seed-img absolute left-1/2 z-10 w-8 md:w-11"
-            style="transform: translate(-50%, 0); bottom: 4rem;" />
-          <img src="./assets/illustrations/lotus-img3-1.png" alt="Seed 3" class="seed-img absolute left-1/2 z-10 w-8 md:w-11"
-            style="transform: translate(-50%, 0); bottom: 4rem;" />
-          <img src="./assets/illustrations/lotus-img3-2.png" alt="Seed 4" class="seed-img absolute left-1/2 z-10 w-8 md:w-11"
-            style="transform: translate(-50%, 0); bottom: 4rem;" />
+          <img src="./assets/illustrations/lotus-img3-1.png" alt="Seed 1"
+            class="seed-img absolute left-1/2 z-10 w-8 md:w-11" style="transform: translate(-50%, 0); bottom: 4rem;" />
+          <img src="./assets/illustrations/lotus-img3-2.png" alt="Seed 2"
+            class="seed-img absolute left-1/2 z-10 w-8 md:w-11" style="transform: translate(-50%, 0); bottom: 4rem;" />
+          <img src="./assets/illustrations/lotus-img3-1.png" alt="Seed 3"
+            class="seed-img absolute left-1/2 z-10 w-8 md:w-11" style="transform: translate(-50%, 0); bottom: 4rem;" />
+          <img src="./assets/illustrations/lotus-img3-2.png" alt="Seed 4"
+            class="seed-img absolute left-1/2 z-10 w-8 md:w-11" style="transform: translate(-50%, 0); bottom: 4rem;" />
         </div>
       </div>
     </section>
@@ -285,8 +331,10 @@
     <section id="feel-good-flavours"
       class="px-4 lg:px-12 py-12 flex flex-col items-center justify-center relative overflow-visible">
       <!-- Heading and Intro -->
-      <h2 class="text-3xl md:text-4xl font-extrabold mb-4 heading-on-light text-center" data-gsap-feelgood="heading">Feel Good Flavours</h2>
-      <p class="mb-8 text-lg md:text-xl font-normal text-on-light text-center max-w-2xl" data-gsap-feelgood="subheading">We’re not just healthy — we’re
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-4 heading-on-light text-center" data-gsap-feelgood="heading">
+        Feel Good Flavours</h2>
+      <p class="mb-8 text-lg md:text-xl font-normal text-on-light text-center max-w-2xl"
+        data-gsap-feelgood="subheading">We’re not just healthy — we’re
         deliciously flavourful and satisfyingly crunchy. We never compromise on taste because snacking should be both
         nourishing and enjoyable.</p>
       <div class="w-full max-w-5xl mx-auto flex flex-col md:flex-row gap-10 md:gap-16 items-center justify-center">
@@ -423,13 +471,14 @@
           </div>
         </div>
       </div>
-      
+
       <!-- We're Just Getting Started! -->
       <div class="w-full max-w-4xl mx-auto mt-12 text-center">
         <div class="glass-base glass-light rounded-2xl shadow-xl border border-[var(--rooted-green)]/15 p-8 md:p-10">
           <h2 class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light">We're Just Getting Started!</h2>
           <p class="text-lg md:text-xl font-normal text-on-light leading-relaxed">
-            We're in our sampling phase right now and fine‑tuning our recipes with your feedback. More exciting flavors are on the way – stay tuned!
+            We're in our sampling phase right now and fine‑tuning our recipes with your feedback. More exciting flavors
+            are on the way – stay tuned!
           </p>
         </div>
       </div>
@@ -447,21 +496,28 @@
       <!-- Optional overlay for readability -->
       <div class="absolute inset-0 bg-white/20 z-0"></div>
       <!-- Glass Card (Foreground) -->
-      <div class="relative z-10 w-full max-w-lg mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10" data-gsap-mission="card">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-6 heading-on-light text-center" data-gsap-mission="heading">
+      <div class="relative z-10 w-full max-w-lg mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10"
+        data-gsap-mission="card">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-6 heading-on-light text-center"
+          data-gsap-mission="heading">
           Why Rooted Exists
         </h2>
-        <p class="mb-4 sm:mb-8 text-base sm:text-lg md:text-xl font-normal text-on-light leading-relaxed text-center" data-gsap-mission="desc">
-          We are here to fuel your day with clean, plant-powered energy from ancient, community-grown, climate-smart plants. We source these potent, single-origin ingredients from tradition-dense farms of South Asia to bring diverse, wholesome nutrition to the modern world.
+        <p class="mb-4 sm:mb-8 text-base sm:text-lg md:text-xl font-normal text-on-light leading-relaxed text-center"
+          data-gsap-mission="desc">
+          We are here to fuel your day with clean, plant-powered energy from ancient, community-grown, climate-smart
+          plants. We source these potent, single-origin ingredients from tradition-dense farms of South Asia to bring
+          diverse, wholesome nutrition to the modern world.
         </p>
       </div>
     </section>
 
     <!-- === SECTION: Our Promise (Trust & Quality) === -->
-    <section id="promise" class="relative py-12 px-4 flex items-center justify-center min-h-[420px]" x-data="promiseSection()" x-init="init()" data-gsap-promise="section">
+    <section id="promise" class="relative py-12 px-4 flex items-center justify-center min-h-[420px]"
+      x-data="promiseSection()" x-init="init()" data-gsap-promise="section">
       <div class="absolute inset-0 pointer-events-none z-0"></div>
       <div class="relative z-10 max-w-[1200px] w-full mx-auto flex flex-col items-center justify-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-15 tracking-wide drop-shadow-lg heading-on-light" data-gsap-promise="heading">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-15 tracking-wide drop-shadow-lg heading-on-light"
+          data-gsap-promise="heading">
           <span x-text="sectionTitle"></span>
         </h2>
         <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-6 justify-center items-stretch">
@@ -482,10 +538,11 @@
     </section>
 
     <!-- === SECTION: Testimonials / Social Proof === -->
-    <section id="testimonials" class="px-4 lg:px-12 py-12" x-data="testimonialCarousel()" role="region" aria-roledescription="carousel" data-gsap-testimonial="section">
+    <section id="testimonials" class="px-4 lg:px-12 py-12" x-data="testimonialCarousel()" role="region"
+      aria-roledescription="carousel" data-gsap-testimonial="section">
       <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
-        <h2
-          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light" data-gsap-testimonial="heading" x-text="sectionTitle"></h2>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light"
+          data-gsap-testimonial="heading" x-text="sectionTitle"></h2>
         <div class="relative flex items-center justify-center" @mouseenter="pauseAuto" @mouseleave="startAuto"
           @focusin="pauseAuto" @focusout="startAuto">
           <!-- Left Arrow -->
@@ -502,7 +559,8 @@
             <template x-if="!isDesktop">
               <div class="relative min-h-[180px] md:min-h-[160px] flex items-center justify-center">
                 <blockquote
-                  class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex flex-col justify-center" aria-live="polite" data-gsap-testimonial="card">
+                  class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex flex-col justify-center"
+                  aria-live="polite" data-gsap-testimonial="card">
                   <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-on-light">
                     "<span x-text="testimonials[current].quote"></span>"
                   </p>
@@ -519,7 +577,8 @@
                   <template x-if="testimonials[(current + i - 1 + testimonials.length) % testimonials.length]">
                     <blockquote
                       :key="'testimonial-group-'+((current + i - 1 + testimonials.length) % testimonials.length)"
-                      class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex-1 flex flex-col justify-center relative" aria-live="polite" data-gsap-testimonial="card">
+                      class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex-1 flex flex-col justify-center relative"
+                      aria-live="polite" data-gsap-testimonial="card">
                       <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-on-light">"<span
                           x-text="testimonials[(current + i - 1 + testimonials.length) % testimonials.length].quote"></span>"
                       </p>
@@ -554,13 +613,17 @@
     </section>
 
     <!-- === SECTION: Email Capture CTA === -->
-    <section id="signup" class="px-4 lg:px-12 py-12 text-center" x-data="emailCtaSection()" data-gsap-email-cta="section">
+    <section id="signup" class="px-4 lg:px-12 py-12 text-center" x-data="emailCtaSection()"
+      data-gsap-email-cta="section">
       <div
-        class="relative z-10 w-full max-w-xl mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10 bg-white/80 backdrop-blur-md border border-[var(--rooted-green)]/10" data-gsap-email-cta="card">
-        <h2
-          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light" data-gsap-email-cta="heading" x-text="sectionTitle"></h2>
-        <p class="mb-6 text-on-light text-base md:text-lg" data-gsap-email-cta="subheading" x-text="sectionDescription"></p>
-        <button @click="openEmailPopup()" class="btn btn--primary" aria-label="Get Early Access Now" data-gsap-email-cta="button" x-text="buttonLabel"></button>
+        class="relative z-10 w-full max-w-xl mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10 bg-white/80 backdrop-blur-md border border-[var(--rooted-green)]/10"
+        data-gsap-email-cta="card">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light"
+          data-gsap-email-cta="heading" x-text="sectionTitle"></h2>
+        <p class="mb-6 text-on-light text-base md:text-lg" data-gsap-email-cta="subheading" x-text="sectionDescription">
+        </p>
+        <button @click="openEmailPopup()" class="btn btn--primary" aria-label="Get Early Access Now"
+          data-gsap-email-cta="button" x-text="buttonLabel"></button>
         <div class="mt-6 text-lg md:text-xl font-semibold text-on-light" x-text="microcopy"></div>
       </div>
     </section>
@@ -571,14 +634,15 @@
         <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram background"
           class="absolute inset-0 mx-auto my-auto w-full max-w-[240px] md:max-w-[360px] h-auto opacity-10 pointer-events-none select-none object-contain z-0"
           aria-hidden="true" />
-        <h2
-          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center heading-on-light" data-gsap-faq="heading" x-text="sectionTitle"></h2>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center heading-on-light"
+          data-gsap-faq="heading" x-text="sectionTitle"></h2>
         <div itemscope itemtype="https://schema.org/FAQPage" class="divide-y divide-[var(--rooted-green)]/10">
           <template x-for="(faq, idx) in faqs" :key="faq.q">
             <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
               <button @click="open === idx ? open = -1 : open = idx" :aria-expanded="open === idx"
                 :aria-controls="'faq-panel-' + idx" :id="'faq-tab-' + idx"
-                class="w-full text-left font-semibold flex justify-between items-center py-2" itemprop="name" data-gsap-faq="button">
+                class="w-full text-left font-semibold flex justify-between items-center py-2" itemprop="name"
+                data-gsap-faq="button">
                 <span x-text="faq.q"></span>
                 <span x-text="open === idx ? '-' : '+' " aria-hidden="true" class="ml-2"></span>
               </button>

@@ -399,6 +399,71 @@ function rootedApp() {
         if (e.key === 'Escape' && this.showEmailPopup) this.closeEmailPopup();
       };
       window.addEventListener('keydown', this._onEscape);
+
+      // Handle waitlist form submission
+      this.setupWaitlistForm();
+    },
+    setupWaitlistForm() {
+      const form = document.getElementById('waitlist-form');
+      if (!form) return;
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submit-btn');
+        const submitText = document.getElementById('submit-text');
+        const submitLoading = document.getElementById('submit-loading');
+        const successMessage = document.getElementById('success-message');
+        const formElement = document.getElementById('waitlist-form');
+
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.classList.add('hidden');
+        submitLoading.classList.remove('hidden');
+
+        const formData = new FormData(form);
+        const data = {
+          firstName: formData.get('firstName') || formData.get('name'), // Handle both field names
+          email: formData.get('email')
+        };
+
+        try {
+          const response = await fetch('https://script.google.com/macros/s/AKfycbwrjLkUk1JTlOxGOlpI8_nYRlvTicgzxqgvvmt5BzXyAsc8xIku4BPdWksFQseJIInwPw/exec', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            // Show success message
+            formElement.classList.add('hidden');
+            successMessage.classList.remove('hidden');
+
+            // Close popup after 3 seconds
+            setTimeout(() => {
+              this.closeEmailPopup();
+              // Reset form
+              form.reset();
+              formElement.classList.remove('hidden');
+              successMessage.classList.add('hidden');
+            }, 3000);
+          } else {
+            throw new Error(result.error || 'Submission failed');
+          }
+        } catch (error) {
+          console.error('Error submitting form:', error);
+          alert('Sorry, something went wrong. Please try again.');
+        } finally {
+          // Reset button state
+          submitBtn.disabled = false;
+          submitText.classList.remove('hidden');
+          submitLoading.classList.add('hidden');
+        }
+      });
     },
     destroy() {
       if (this._onEscape) window.removeEventListener('keydown', this._onEscape);
@@ -563,11 +628,11 @@ function journeySection() {
           const leftPx = (pt.x / viewBoxWidth) * svgRect.width;
           const offset = this.getStepOffsets()[idx] || 0;
           const topPx = (pt.y / viewBoxHeight) * svgRect.height + offset;
-          
+
           // Adjust positioning based on step type
           let offsetX = 24; // default offset
           let offsetY = 24; // default offset
-          
+
           if (idx === 1) {
             // Pop image is bigger, so adjust positioning
             offsetX = 70; // half of 140px
@@ -585,7 +650,7 @@ function journeySection() {
               offsetY = 50; // half of 120px
             }
           }
-          
+
           stepDiv.style.left = `${leftPx - offsetX}px`;
           stepDiv.style.top = `${topPx - offsetY}px`;
         });
@@ -778,11 +843,11 @@ window.journeySteps = [
   if (!seeds.length) return;
   var seedAnims = [
     { x: -60, y: -220, rotation: -40 }, // Seed 1: up & left
-    { x: 30,   y: -190, rotation: 30 },  // Seed 2: straight up
-    { x: 60,  y: -200, rotation: 50 },  // Seed 3: up & right
-    { x: -30, y: -210,  rotation: -25 }, // Seed 4: up & slightly left
+    { x: 30, y: -190, rotation: 30 },  // Seed 2: straight up
+    { x: 60, y: -200, rotation: 50 },  // Seed 3: up & right
+    { x: -30, y: -210, rotation: -25 }, // Seed 4: up & slightly left
   ];
-  seeds.forEach(function(seed, i) {
+  seeds.forEach(function (seed, i) {
     gsap.fromTo(seed,
       {
         opacity: 0,
@@ -817,7 +882,7 @@ window.journeySteps = [
 (function gsapHeroSectionAnimation() {
   if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
-  
+
   // Check if all required elements exist before proceeding
   var back1 = document.querySelector('[data-gsap-hero="back1"]');
   var back2 = document.querySelector('[data-gsap-hero="back2"]');
@@ -826,10 +891,10 @@ window.journeySteps = [
   var subheading = document.querySelector('[data-gsap-hero="subheading"]');
   var chip = document.querySelector('[data-gsap-hero="chip"]');
   var cta = document.querySelector('[data-gsap-hero="cta"]');
-  
+
   // Only proceed if we have the essential elements
   if (!back1 || !back2 || !main) return;
-  
+
   var tl = gsap.timeline({
     scrollTrigger: {
       trigger: '#hero',
@@ -844,10 +909,10 @@ window.journeySteps = [
     { opacity: 0, scale: 0.9, x: 60, y: 40 },
     { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.7, ease: 'power2.out' }, 0.1
   )
-  .fromTo('[data-gsap-hero="back2"]',
-    { opacity: 0, scale: 0.9, x: -60, y: 40 },
-    { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.7, ease: 'power2.out' }, 0.15
-  );
+    .fromTo('[data-gsap-hero="back2"]',
+      { opacity: 0, scale: 0.9, x: -60, y: 40 },
+      { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.7, ease: 'power2.out' }, 0.15
+    );
   // Animate main product image
   tl.fromTo('[data-gsap-hero="main"]',
     { opacity: 0, scale: 0.9, y: 40 },
@@ -873,9 +938,9 @@ window.journeySteps = [
       { opacity: 0, scale: 0.9 },
       { opacity: 1, scale: 1.08, duration: 0.3, ease: 'back.out(2)' }, 0.5
     )
-    .to('[data-gsap-hero="chip"]',
-      { scale: 1, duration: 0.2, ease: 'power1.in' }, 0.8
-    );
+      .to('[data-gsap-hero="chip"]',
+        { scale: 1, duration: 0.2, ease: 'power1.in' }, 0.8
+      );
   }
   // Animate CTA button if it exists
   if (cta) {
@@ -953,10 +1018,10 @@ window.journeySteps = [
   // CTA Button Hover/Focus Effect
   var cta = document.querySelector('[data-gsap-hero="cta"]');
   if (cta) {
-    var ctaHover = function() {
+    var ctaHover = function () {
       gsap.to(cta, { scale: 1.08, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.18)', duration: 0.25, ease: 'power2.out' });
     };
-    var ctaUnhover = function() {
+    var ctaUnhover = function () {
       gsap.to(cta, { scale: 1, boxShadow: '0 4px 32px 0 rgba(31,38,135,0.10)', duration: 0.25, ease: 'power2.in' });
     };
     cta.addEventListener('mouseenter', ctaHover);
@@ -994,19 +1059,19 @@ window.journeySteps = [
       panel.style.opacity = btn.getAttribute('aria-expanded') === 'true' ? '1' : '0';
     }
     // Listen for Alpine.js state changes via MutationObserver
-    var observer = new MutationObserver(function() {
+    var observer = new MutationObserver(function () {
       var open = btn.getAttribute('aria-expanded') === 'true';
       animateAccordion(panel, open);
     });
     observer.observe(btn, { attributes: true, attributeFilter: ['aria-expanded'] });
     // Animate on click for micro-interaction
-    btn.addEventListener('mousedown', function() {
+    btn.addEventListener('mousedown', function () {
       gsap.to(btn, { scale: 0.97, duration: 0.12, overwrite: 'auto' });
     });
-    btn.addEventListener('mouseup', function() {
+    btn.addEventListener('mouseup', function () {
       gsap.to(btn, { scale: 1, duration: 0.18, overwrite: 'auto' });
     });
-    btn.addEventListener('mouseleave', function() {
+    btn.addEventListener('mouseleave', function () {
       gsap.to(btn, { scale: 1, duration: 0.18, overwrite: 'auto' });
     });
   }
@@ -1043,17 +1108,17 @@ window.journeySteps = [
     );
   }
   // Micro-interaction: button hover/focus
-  buttons.forEach(function(button) {
-    button.addEventListener('mouseenter', function() {
+  buttons.forEach(function (button) {
+    button.addEventListener('mouseenter', function () {
       gsap.to(button, { scale: 1.02, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.12)', duration: 0.18, overwrite: 'auto' });
     });
-    button.addEventListener('focus', function() {
+    button.addEventListener('focus', function () {
       gsap.to(button, { scale: 1.02, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.12)', duration: 0.18, overwrite: 'auto' });
     });
-    button.addEventListener('mouseleave', function() {
+    button.addEventListener('mouseleave', function () {
       gsap.to(button, { scale: 1, boxShadow: 'none', duration: 0.18, overwrite: 'auto' });
     });
-    button.addEventListener('blur', function() {
+    button.addEventListener('blur', function () {
       gsap.to(button, { scale: 1, boxShadow: 'none', duration: 0.18, overwrite: 'auto' });
     });
   });
@@ -1065,7 +1130,7 @@ window.journeySteps = [
   gsap.registerPlugin(ScrollTrigger);
   var rootedApps = document.querySelectorAll('[data-gsap-rooted-app]');
   if (!rootedApps.length) return;
-  rootedApps.forEach(function(app) {
+  rootedApps.forEach(function (app) {
     var tl = gsap.timeline({
       scrollTrigger: {
         trigger: app,
@@ -1117,29 +1182,29 @@ window.journeySteps = [
   );
   // Micro-interactions: accordion button hover/focus
   var btns = section.querySelectorAll('[data-gsap-feelgood="accordion-btn"]');
-  btns.forEach(function(btn) {
-    btn.addEventListener('mouseenter', function() {
+  btns.forEach(function (btn) {
+    btn.addEventListener('mouseenter', function () {
       gsap.to(btn, { scale: 1.04, boxShadow: '0 6px 24px 0 rgba(31,38,135,0.13)', duration: 0.18, overwrite: 'auto' });
     });
-    btn.addEventListener('focus', function() {
+    btn.addEventListener('focus', function () {
       gsap.to(btn, { scale: 1.04, boxShadow: '0 6px 24px 0 rgba(31,38,135,0.13)', duration: 0.18, overwrite: 'auto' });
     });
-    btn.addEventListener('mouseleave', function() {
+    btn.addEventListener('mouseleave', function () {
       gsap.to(btn, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
     });
-    btn.addEventListener('blur', function() {
+    btn.addEventListener('blur', function () {
       gsap.to(btn, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
     });
   });
   // Micro-interaction: pop effect on panel open
-  var observer = new MutationObserver(function() {
-    section.querySelectorAll('[data-gsap-feelgood="accordion-panel"]').forEach(function(panel) {
+  var observer = new MutationObserver(function () {
+    section.querySelectorAll('[data-gsap-feelgood="accordion-panel"]').forEach(function (panel) {
       if (panel.offsetHeight > 0 && panel.style.opacity === '1') {
         gsap.fromTo(panel, { scale: 0.98 }, { scale: 1, duration: 0.18, ease: 'back.out(1.7)', overwrite: 'auto' });
       }
     });
   });
-  section.querySelectorAll('[data-gsap-feelgood="accordion-panel"]').forEach(function(panel) {
+  section.querySelectorAll('[data-gsap-feelgood="accordion-panel"]').forEach(function (panel) {
     observer.observe(panel, { attributes: true, attributeFilter: ['style'] });
   });
 })();
@@ -1184,16 +1249,16 @@ window.journeySteps = [
   }
   // Micro-interaction: card hover/focus
   if (card) {
-    card.addEventListener('mouseenter', function() {
+    card.addEventListener('mouseenter', function () {
       gsap.to(card, { scale: 1.025, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.16)', duration: 0.18, overwrite: 'auto' });
     });
-    card.addEventListener('focus', function() {
+    card.addEventListener('focus', function () {
       gsap.to(card, { scale: 1.025, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.16)', duration: 0.18, overwrite: 'auto' });
     });
-    card.addEventListener('mouseleave', function() {
+    card.addEventListener('mouseleave', function () {
       gsap.to(card, { scale: 1, boxShadow: '0 4px 32px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
     });
-    card.addEventListener('blur', function() {
+    card.addEventListener('blur', function () {
       gsap.to(card, { scale: 1, boxShadow: '0 4px 32px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
     });
   }
@@ -1228,17 +1293,17 @@ window.journeySteps = [
     );
   }
   // Micro-interaction: card hover/focus
-  cards.forEach(function(card) {
-    card.addEventListener('mouseenter', function() {
+  cards.forEach(function (card) {
+    card.addEventListener('mouseenter', function () {
       gsap.to(card, { scale: 1.045, boxShadow: '0 10px 36px 0 rgba(31,38,135,0.18)', duration: 0.18, overwrite: 'auto' });
     });
-    card.addEventListener('focus', function() {
+    card.addEventListener('focus', function () {
       gsap.to(card, { scale: 1.045, boxShadow: '0 10px 36px 0 rgba(31,38,135,0.18)', duration: 0.18, overwrite: 'auto' });
     });
-    card.addEventListener('mouseleave', function() {
+    card.addEventListener('mouseleave', function () {
       gsap.to(card, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
     });
-    card.addEventListener('blur', function() {
+    card.addEventListener('blur', function () {
       gsap.to(card, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
     });
   });
@@ -1273,17 +1338,17 @@ window.journeySteps = [
     );
   }
   // Micro-interaction: card hover/focus
-  cards.forEach(function(card) {
-    card.addEventListener('mouseenter', function() {
+  cards.forEach(function (card) {
+    card.addEventListener('mouseenter', function () {
       gsap.to(card, { scale: 1.035, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.13)', duration: 0.18, overwrite: 'auto' });
     });
-    card.addEventListener('focus', function() {
+    card.addEventListener('focus', function () {
       gsap.to(card, { scale: 1.035, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.13)', duration: 0.18, overwrite: 'auto' });
     });
-    card.addEventListener('mouseleave', function() {
+    card.addEventListener('mouseleave', function () {
       gsap.to(card, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
     });
-    card.addEventListener('blur', function() {
+    card.addEventListener('blur', function () {
       gsap.to(card, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
     });
   });
@@ -1332,20 +1397,20 @@ window.journeySteps = [
       { opacity: 0.3, scale: 0.92 },
       { opacity: 1, scale: 1.12, duration: 0.5, ease: 'back.out(2.2)' }, baseDelay + stagger * 3
     )
-    .to(button,
-      { scale: 1, duration: 0.25, ease: 'bounce.out' }, "+=0.01"
-    );
+      .to(button,
+        { scale: 1, duration: 0.25, ease: 'bounce.out' }, "+=0.01"
+      );
     // Micro-interaction: button hover/focus
-    button.addEventListener('mouseenter', function() {
+    button.addEventListener('mouseenter', function () {
       gsap.to(button, { scale: 1.07, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.16)', duration: 0.18, overwrite: 'auto' });
     });
-    button.addEventListener('focus', function() {
+    button.addEventListener('focus', function () {
       gsap.to(button, { scale: 1.07, boxShadow: '0 8px 32px 0 rgba(31,38,135,0.16)', duration: 0.18, overwrite: 'auto' });
     });
-    button.addEventListener('mouseleave', function() {
+    button.addEventListener('mouseleave', function () {
       gsap.to(button, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
     });
-    button.addEventListener('blur', function() {
+    button.addEventListener('blur', function () {
       gsap.to(button, { scale: 1, boxShadow: '0 4px 16px 0 rgba(31,38,135,0.10)', duration: 0.18, overwrite: 'auto' });
     });
   }
@@ -1354,7 +1419,7 @@ window.journeySteps = [
 // === GSAP Navbar Animation & Micro-Interactions ===
 (function gsapNavbarAnimation() {
   if (typeof window === 'undefined' || !window.gsap) return;
-  
+
   var header = document.querySelector('[data-gsap-navbar="header"]');
   var nav = document.querySelector('[data-gsap-navbar="nav"]');
   var logo = document.querySelector('[data-gsap-navbar="logo"]');
@@ -1363,150 +1428,150 @@ window.journeySteps = [
   var hamburger = document.querySelector('[data-gsap-navbar="hamburger"]');
   var mobileDrawer = document.querySelector('[data-gsap-navbar="mobile-drawer"]');
   var mobileLinks = document.querySelectorAll('[data-gsap-navbar="mobile-nav-link"]');
-  
+
   if (!header) return;
-  
+
   // Initial state - navbar starts hidden
   gsap.set(header, { y: -60, opacity: 0 });
-  
+
   // Only set initial states for elements that exist
   if (logo) gsap.set(logo, { x: -20, opacity: 0 });
   if (desktopLinks) gsap.set(desktopLinks, { x: 20, opacity: 0 });
   if (navLinks && navLinks.length > 0) gsap.set(navLinks, { y: -10, opacity: 0 });
   if (hamburger) gsap.set(hamburger, { x: 20, opacity: 0 });
-  
+
   // Navbar entrance animation
   var tl = gsap.timeline({ delay: 0.2 });
-  
+
   // Header slides down
-  tl.to(header, { 
-    y: 0, 
-    opacity: 1, 
-    duration: 0.6, 
-    ease: 'power2.out' 
+  tl.to(header, {
+    y: 0,
+    opacity: 1,
+    duration: 0.6,
+    ease: 'power2.out'
   });
-  
+
   // Logo slides in from left if it exists
   if (logo) {
-    tl.to(logo, { 
-      x: 0, 
-      opacity: 1, 
-      duration: 0.5, 
-      ease: 'back.out(1.7)' 
+    tl.to(logo, {
+      x: 0,
+      opacity: 1,
+      duration: 0.5,
+      ease: 'back.out(1.7)'
     }, '-=0.3');
   }
-  
+
   // Desktop nav links slide in from right if they exist
   if (desktopLinks) {
-    tl.to(desktopLinks, { 
-      x: 0, 
-      opacity: 1, 
-      duration: 0.5, 
-      ease: 'power2.out' 
+    tl.to(desktopLinks, {
+      x: 0,
+      opacity: 1,
+      duration: 0.5,
+      ease: 'power2.out'
     }, '-=0.4');
-    
+
     // Individual nav links stagger in if they exist
     if (navLinks && navLinks.length > 0) {
-      tl.to(navLinks, { 
-        y: 0, 
-        opacity: 1, 
-        duration: 0.4, 
-        ease: 'power2.out', 
-        stagger: 0.08 
+      tl.to(navLinks, {
+        y: 0,
+        opacity: 1,
+        duration: 0.4,
+        ease: 'power2.out',
+        stagger: 0.08
       }, '-=0.3');
     }
   }
-  
+
   // Hamburger button slides in from right if it exists
   if (hamburger) {
-    tl.to(hamburger, { 
-      x: 0, 
-      opacity: 1, 
-      duration: 0.5, 
-      ease: 'back.out(1.7)' 
+    tl.to(hamburger, {
+      x: 0,
+      opacity: 1,
+      duration: 0.5,
+      ease: 'back.out(1.7)'
     }, '-=0.5');
   }
-  
+
   // Micro-interactions: Logo hover/focus
   if (logo) {
-    logo.addEventListener('mouseenter', function() {
+    logo.addEventListener('mouseenter', function () {
       gsap.to(logo, { scale: 1.05, duration: 0.2, ease: 'power2.out' });
     });
-    logo.addEventListener('focus', function() {
+    logo.addEventListener('focus', function () {
       gsap.to(logo, { scale: 1.05, duration: 0.2, ease: 'power2.out' });
     });
-    logo.addEventListener('mouseleave', function() {
+    logo.addEventListener('mouseleave', function () {
       gsap.to(logo, { scale: 1, duration: 0.2, ease: 'power2.out' });
     });
-    logo.addEventListener('blur', function() {
+    logo.addEventListener('blur', function () {
       gsap.to(logo, { scale: 1, duration: 0.2, ease: 'power2.out' });
     });
   }
-  
+
   // Micro-interactions: Nav links hover/focus
   if (navLinks && navLinks.length > 0) {
-    navLinks.forEach(function(link) {
-      link.addEventListener('mouseenter', function() {
+    navLinks.forEach(function (link) {
+      link.addEventListener('mouseenter', function () {
         gsap.to(link, { y: -2, scale: 1.02, duration: 0.2, ease: 'power2.out' });
       });
-      link.addEventListener('focus', function() {
+      link.addEventListener('focus', function () {
         gsap.to(link, { y: -2, scale: 1.02, duration: 0.2, ease: 'power2.out' });
       });
-      link.addEventListener('mouseleave', function() {
+      link.addEventListener('mouseleave', function () {
         gsap.to(link, { y: 0, scale: 1, duration: 0.2, ease: 'power2.out' });
       });
-      link.addEventListener('blur', function() {
+      link.addEventListener('blur', function () {
         gsap.to(link, { y: 0, scale: 1, duration: 0.2, ease: 'power2.out' });
       });
     });
   }
-  
+
   // Micro-interactions: Hamburger button hover/focus
   if (hamburger) {
-    hamburger.addEventListener('mouseenter', function() {
+    hamburger.addEventListener('mouseenter', function () {
       gsap.to(hamburger, { scale: 1.1, rotation: 5, duration: 0.2, ease: 'power2.out' });
     });
-    hamburger.addEventListener('focus', function() {
+    hamburger.addEventListener('focus', function () {
       gsap.to(hamburger, { scale: 1.1, rotation: 5, duration: 0.2, ease: 'power2.out' });
     });
-    hamburger.addEventListener('mouseleave', function() {
+    hamburger.addEventListener('mouseleave', function () {
       gsap.to(hamburger, { scale: 1, rotation: 0, duration: 0.2, ease: 'power2.out' });
     });
-    hamburger.addEventListener('blur', function() {
+    hamburger.addEventListener('blur', function () {
       gsap.to(hamburger, { scale: 1, rotation: 0, duration: 0.2, ease: 'power2.out' });
     });
     // Reset rotation on click (menu toggle)
-    hamburger.addEventListener('click', function() {
+    hamburger.addEventListener('click', function () {
       gsap.to(hamburger, { rotation: 0, duration: 0.2, ease: 'power2.out' });
     });
   }
-  
+
   // Mobile drawer animation (when opened)
   if (mobileDrawer && mobileLinks.length) {
     // Set initial state for mobile drawer
     gsap.set(mobileDrawer, { opacity: 0, y: -20 });
     gsap.set(mobileLinks, { x: -20, opacity: 0 });
-    
+
     // Watch for mobile nav state changes
-    var observer = new MutationObserver(function(mutations) {
-      mutations.forEach(function(mutation) {
+    var observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
         if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
           var isVisible = mobileDrawer.style.display !== 'none';
           if (isVisible) {
             // Animate mobile drawer in
-            gsap.to(mobileDrawer, { 
-              opacity: 1, 
-              y: 0, 
-              duration: 0.3, 
-              ease: 'power2.out' 
+            gsap.to(mobileDrawer, {
+              opacity: 1,
+              y: 0,
+              duration: 0.3,
+              ease: 'power2.out'
             });
             // Animate mobile links in with stagger
-            gsap.to(mobileLinks, { 
-              x: 0, 
-              opacity: 1, 
-              duration: 0.4, 
-              ease: 'power2.out', 
-              stagger: 0.08 
+            gsap.to(mobileLinks, {
+              x: 0,
+              opacity: 1,
+              duration: 0.4,
+              ease: 'power2.out',
+              stagger: 0.08
             });
           } else {
             // Reset mobile drawer state
@@ -1516,7 +1581,7 @@ window.journeySteps = [
         }
       });
     });
-    
+
     observer.observe(mobileDrawer, { attributes: true, attributeFilter: ['style'] });
   }
 })();
