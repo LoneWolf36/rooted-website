@@ -433,7 +433,7 @@ function rootedApp() {
           requestFormData.append('firstName', data.firstName);
           requestFormData.append('email', data.email);
 
-          const response = await fetch('https://script.google.com/macros/s/AKfycbwrjLkUk1JTlOxGOlpI8_nYRlvTicgzxqgvvmt5BzXyAsc8xIku4BPdWksFQseJIInwPw/exec', {
+          const response = await fetch('https://script.google.com/macros/s/AKfycbysXfx5w2jvz0YkGL3Sz9AfJ7MDmi_pZbo7GSEU5hy9Jxnxhl7zWR3yC8LWkIZh2F3vzg/exec', {
             method: 'POST',
             body: requestFormData
           });
