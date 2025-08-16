@@ -423,17 +423,19 @@ function rootedApp() {
 
         const formData = new FormData(form);
         const data = {
-          firstName: formData.get('firstName') || formData.get('name'), // Handle both field names
+          firstName: formData.get('firstName') || formData.get('name'),
           email: formData.get('email')
         };
 
         try {
+          // Create FormData for the request
+          const requestFormData = new FormData();
+          requestFormData.append('firstName', data.firstName);
+          requestFormData.append('email', data.email);
+
           const response = await fetch('https://script.google.com/macros/s/AKfycbwrjLkUk1JTlOxGOlpI8_nYRlvTicgzxqgvvmt5BzXyAsc8xIku4BPdWksFQseJIInwPw/exec', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
+            body: requestFormData
           });
 
           const result = await response.json();
@@ -465,6 +467,7 @@ function rootedApp() {
         }
       });
     },
+
     destroy() {
       if (this._onEscape) window.removeEventListener('keydown', this._onEscape);
     }
