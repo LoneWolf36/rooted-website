@@ -467,8 +467,7 @@ function rootedApp() {
           setTimeout(() => { submitBtn.disabled = false; }, 1000);  // Re-enable after delay
         }
       });
-    }
-    
+    },   
     
     destroy() {
       if (this._onEscape) window.removeEventListener('keydown', this._onEscape);
