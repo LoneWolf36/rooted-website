@@ -395,17 +395,26 @@ function rootedApp() {
     },
     init() {
       // Accessibility: Close popup on Escape
-      this._onEscape = (e) => {
-        if (e.key === 'Escape' && this.showEmailPopup) this.closeEmailPopup();
-      };
+      this._onEscape = (e) => { /* ... */ };
       window.addEventListener('keydown', this._onEscape);
-
-      // Handle waitlist form submission
       this.setupWaitlistForm();
+
+      // Delayed popup: Show after 10 seconds, only once per session
+      if (!sessionStorage.getItem('popupShown')) {
+        setTimeout(() => {
+          if (!this.showEmailPopup) {  // Only if not already open
+            this.openEmailPopup();
+            sessionStorage.setItem('popupShown', 'true');  // Mark as shown
+          }
+        }, 10000);  // 10 seconds delay (adjust as needed)
+      }
     },
     setupWaitlistForm() {
       const form = document.getElementById('waitlist-form');
       if (!form) return;
+      if (form.dataset.listenerAdded) return;  // Skip if already added
+      form.dataset.listenerAdded = 'true';     // Flag to prevent duplicates
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const submitBtn = document.getElementById('submit-btn');
@@ -418,29 +427,29 @@ function rootedApp() {
           firstName: formData.get('firstName') || formData.get('name'),
           email: formData.get('email')
         };
-    
+
         // Frontend validation
         if (!data.firstName || !data.email) {
           alert('Please fill in all required fields.');
           return;
         }
-    
-        // Show loading state
+
+        // Disable button immediately to prevent double-submits
         submitBtn.disabled = true;
         submitText.classList.add('hidden');
         submitLoading.classList.remove('hidden');
-    
+
         try {
           const params = new URLSearchParams(data);
           await fetch('https://script.google.com/macros/s/AKfycbwc7oz8BU7pkUxLOdiitDPDl7s2fWeNkILOl5fZ3SQZStkHm-C0tHQaQMYQQFVCV9l8GQ/exec', {
             method: 'POST',
-            mode: 'no-cors',  // Bypasses CORS enforcement
+            mode: 'no-cors',
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: params
           });
-          // Assume success (request sent, server will handle)
+          // Assume success
           formElement.classList.add('hidden');
           successMessage.classList.remove('hidden');
           setTimeout(() => {
@@ -451,14 +460,15 @@ function rootedApp() {
           }, 3000);
         } catch (error) {
           console.error('Error submitting form:', error);
-          alert('Sorry, something went wrong. Please try again.');  // Only triggers on network failures
+          alert('Sorry, something went wrong. Please try again.');
         } finally {
-          submitBtn.disabled = false;
           submitText.classList.remove('hidden');
           submitLoading.classList.add('hidden');
+          setTimeout(() => { submitBtn.disabled = false; }, 1000);  // Re-enable after delay
         }
       });
-    },
+    }
+    
     
     destroy() {
       if (this._onEscape) window.removeEventListener('keydown', this._onEscape);
