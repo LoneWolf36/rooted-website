@@ -179,7 +179,175 @@ h3 {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* === 5. Marquee Animation === */
+/* === 5. HERO SECTION === */
+.hero-section {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #2C6752 0%, #1a4d3a 100%);
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 238, 201, 0.1) 0%, transparent 70%);
+  animation: pulse-glow 8s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #FFEEC9 0%, #FFC344 50%, #F35C37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 6s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  color: rgba(255, 238, 201, 0.9);
+  letter-spacing: 0.03em;
+}
+
+/* Hero Image Carousel */
+.hero-image-wrapper {
+  position: relative;
+  height: 500px;
+  perspective: 1000px;
+}
+
+.hero-image {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.4));
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+/* === 6. PREMIUM MARQUEE === */
+.marquee-premium {
+  background: linear-gradient(
+    135deg,
+    #2C6752 0%,
+    #1a4d3a 25%,
+    #2C6752 50%,
+    #1a4d3a 75%,
+    #2C6752 100%
+  );
+  background-size: 200% 100%;
+  animation: gradient-flow 15s linear infinite;
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid rgba(255, 238, 201, 0.2);
+  border-bottom: 2px solid rgba(255, 238, 201, 0.2);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.marquee-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 238, 201, 0.1),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+}
+
+@keyframes gradient-flow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+.marquee-content-premium {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(2rem, 8vw, 8rem);
+  animation: marquee-smooth 60s linear infinite;
+  will-change: transform;
+}
+
+.marquee-content-premium span {
+  display: inline-block;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  color: #F3F1E6;
+  text-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 238, 201, 0.2);
+  transition: all 0.3s ease;
+}
+
+.marquee-content-premium .marquee-separator {
+  color: #FFC344;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  animation: pulse-separator 2s ease-in-out infinite;
+  text-shadow: 0 0 20px rgba(255, 195, 68, 0.6);
+}
+
+@keyframes pulse-separator {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes marquee-smooth {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Pause on hover for accessibility */
+.marquee-premium:hover .marquee-content-premium {
+  animation-play-state: paused;
+}
+
+/* === 7. Marquee Animation (OLD - keeping for compatibility) === */
 .marquee-container {
   overflow: hidden;
   white-space: nowrap;
@@ -189,7 +357,6 @@ h3 {
 .marquee-content {
   display: inline-block;
   animation: marquee 45s linear infinite;
-  /* Slower and smoother */
 }
 
 @keyframes marquee {
@@ -202,7 +369,7 @@ h3 {
   }
 }
 
-/* === 6. Ritual Section (Mobile) === */
+/* === 8. Ritual Section (Mobile) === */
 .ritual-scroll-snap {
   display: flex;
   overflow-x: auto;
@@ -210,9 +377,7 @@ h3 {
   gap: 1rem;
   padding-bottom: 2rem;
   -ms-overflow-style: none;
-  /* IE and Edge */
   scrollbar-width: none;
-  /* Firefox */
 }
 
 .ritual-scroll-snap::-webkit-scrollbar {
@@ -224,7 +389,28 @@ h3 {
   scroll-snap-align: center;
 }
 
-/* === 7. Utility Classes === */
+/* === 9. Instagram Grid === */
+.instagram-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .instagram-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .instagram-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* === 10. Utility Classes === */
 .text-shadow-sm {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -233,7 +419,7 @@ h3 {
   filter: drop-shadow(0 0 25px rgba(255, 238, 201, 0.5));
 }
 
-/* === 8. Premium Hover Effects === */
+/* === 11. Premium Hover Effects === */
 .hover-lift {
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
 }
@@ -251,9 +437,41 @@ h3 {
   transform: scale(1.08);
 }
 
-/* === 9. Footer Mobile Accordion (Optional if using JS, but CSS-only approach for layout) === */
+/* === 12. Mobile Optimizations === */
 @media (max-width: 767px) {
+  .hero-section {
+    min-height: auto;
+    padding: 6rem 0 4rem;
+  }
+  
+  .hero-image-wrapper {
+    height: 350px;
+    margin-top: 2rem;
+  }
+  
+  .marquee-premium {
+    padding: 1.5rem 0;
+  }
+  
   .footer-col {
     margin-bottom: 2rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .marquee-premium:hover .marquee-content-premium {
+    animation-play-state: running;
+  }
+}
+
+/* High-performance animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
