@@ -14,9 +14,9 @@
   <meta property="og:title" content="Rooted – Healthy Popped Water Lily Seed Snacks" />
   <meta property="og:description"
     content="Discover a new and healthy way to snack. Himalayan Pink Salt Popped Water Lily Seeds. Join the waitlist for 15% off!" />
-  <meta property="og:image" content="/PATH_TO_OG_IMAGE.jpg" /> <!-- TODO: Replace with actual OG image path -->
+  <meta property="og:image" content="/PATH_TO_OG_IMAGE.jpg" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://rootedsnacks.com" /> <!-- TODO: Update with actual URL -->
+  <meta property="og:url" content="https://rootedsnacks.com" />
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <!-- Alpine.js CDN -->
@@ -31,690 +31,692 @@
   <!-- Cache control for static assets -->
   <meta http-equiv="Cache-Control" content="public, max-age=31536000" />
   <!-- Preload Fonts & Favicon -->
-  <link rel="preload" href="./assets/fonts/Transcity.otf" as="font" type="font/otf" crossorigin>
-  <link rel="preload" href="./assets/fonts/Jost-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="./assets/fonts/Transcity.otf" as="font" type="font/otf" crossorigin />
+  <link rel="preload" href="./assets/fonts/Jost-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin />
   <link rel="icon" type="image/png" href="./assets/monograms/monogram_rooted_green_beige.png" />
 </head>
 
 <body class="antialiased scroll-smooth">
   <!-- === NAVBAR: Glassmorphic Sticky Top === -->
   <header x-cloak
-    class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-base md:glass-light border-b border-[var(--rooted-green)]/30 shadow-lg rounded-b-xl md:rounded-b-2xl"
+    class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-base md:glass-light border-b border-[var(--rooted-green)]/30 shadow-lg rounded-b-xl md:rounded-b-2xl transition-all duration-300"
     role="banner" data-gsap-navbar="header">
-    <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-2" aria-label="Main navigation"
+    <nav class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3" aria-label="Main navigation"
       x-data="navBar()" data-gsap-navbar="nav">
       <!-- Logo -->
-      <a href="#hero" class="flex items-center" @click.prevent="scrollToSection('hero')" data-gsap-navbar="logo">
-        <img src="./assets/logos/logo_rooted_green.png" alt="Rooted Snacks logo" class="h-8 w-auto" width="64"
-          height="32" decoding="async" fetchpriority="high" role="img"
-          onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'32\'><rect width=\'64\' height=\'32\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'12\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Logo</text></svg>'" />
+      <a href="#sanctuary" class="flex items-center group" @click.prevent="scrollToSection('sanctuary')"
+        data-gsap-navbar="logo">
+        <img src="./assets/logos/logo_rooted_green.png" alt="Rooted Snacks logo"
+          class="h-10 w-auto transition-transform group-hover:scale-105" width="80" height="40" decoding="async"
+          fetchpriority="high" />
       </a>
       <!-- Desktop Nav Links (DRY) -->
-      <ul class="hidden md:flex gap-6 font-semibold tracking-wide" data-gsap-navbar="desktop-links">
+      <ul class="hidden md:flex gap-8 font-semibold tracking-wide text-lg" data-gsap-navbar="desktop-links">
         <template x-for="link in navLinks" :key="link.href">
-          <li><a :href="link.href" :class="navLinkClass + ' link-on-light'"
-              @click.prevent="scrollToSection(link.href.substring(1))" x-text="link.label"
-              data-gsap-navbar="nav-link"></a></li>
+          <li>
+            <a :href="link.href" :class="navLinkClass + ' link-on-light relative group'"
+              @click.prevent="scrollToSection(link.href.substring(1))" data-gsap-navbar="nav-link">
+              <span x-text="link.label"></span>
+              <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[var(--rooted-green)] transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </li>
         </template>
       </ul>
       <!-- Mobile Hamburger -->
       <button @click="mobileNavOpen = !mobileNavOpen" :aria-expanded="mobileNavOpen"
-        aria-label="Toggle mobile navigation" class="md:hidden p-2 rounded" data-gsap-navbar="hamburger">
-        <svg x-show="!mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+        aria-label="Toggle mobile navigation" class="md:hidden p-2 rounded text-[var(--rooted-green)]"
+        data-gsap-navbar="hamburger">
+        <svg x-show="!mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
-        <svg x-show="mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+        <svg x-show="mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
       <!-- Mobile Nav Drawer (DRY) -->
       <div x-show="mobileNavOpen" x-transition
-        class="md:hidden absolute top-full left-0 w-full bg-white/95 shadow-2xl rounded-b-xl"
+        class="md:hidden absolute top-full left-0 w-full bg-white/98 shadow-2xl rounded-b-xl border-t border-[var(--rooted-green)]/10"
         data-gsap-navbar="mobile-drawer">
-        <ul class="flex flex-col gap-4 py-4 px-6 font-semibold tracking-wide" data-gsap-navbar="mobile-links">
+        <ul class="flex flex-col gap-6 py-8 px-8 font-display text-2xl tracking-wide text-center"
+          data-gsap-navbar="mobile-links">
           <template x-for="link in navLinks" :key="'mobile-'+link.href">
-            <li><a :href="link.href" @click.prevent="scrollToSection(link.href.substring(1)); mobileNavOpen = false"
-                :class="navLinkClass + ' block w-full link-on-light'" x-text="link.label"
-                data-gsap-navbar="mobile-nav-link"></a></li>
+            <li>
+              <a :href="link.href" @click.prevent="scrollToSection(link.href.substring(1)); mobileNavOpen = false"
+                :class="navLinkClass + ' block w-full link-on-light hover:text-[var(--rooted-orange)] transition-colors'"
+                x-text="link.label" data-gsap-navbar="mobile-nav-link"></a>
+            </li>
           </template>
         </ul>
       </div>
     </nav>
   </header>
 
-  <!-- === STICKY CTA BAR (Mobile, Glassmorphic) === -->
+  <!-- === STICKY CTA BAR (Mobile) === -->
   <div
-    class="fixed bottom-0 left-0 right-0 z-40 md:hidden glass-base glass-light border-t border-[var(--rooted-green)]/15 shadow-lg flex items-center justify-between px-4 py-2 text-sm md:text-lg transition-transform duration-300 rounded-t-xl"
+    class="fixed bottom-0 left-0 right-0 z-40 md:hidden glass-base glass-light border-t border-[var(--rooted-green)]/15 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] flex items-center justify-between px-6 py-4 text-sm md:text-lg transition-transform duration-300 rounded-t-2xl"
     x-data="stickyCtaBar()" x-init="init()" x-show="!showEmailPopup && visible" x-transition>
-    <span class="font-semibold text-base md:text-xl" x-text="ctaText"></span>
-    <button @click="openEmailPopup()" :class="buttonClass" aria-label="Open email signup" x-text="buttonLabel"></button>
+    <span class="font-bold text-[var(--rooted-green)] text-base" x-text="ctaText"></span>
+    <button @click="openEmailPopup()" :class="buttonClass + ' text-sm px-6 py-2'" aria-label="Open email signup"
+      x-text="buttonLabel"></button>
   </div>
 
-  <!-- === EMAIL POPUP (Glassmorphic, Focus Trap) === -->
+  <!-- === EMAIL POPUP === -->
   <div x-show="showEmailPopup === true" x-cloak x-transition.opacity
-    class="fixed inset-0 z-50 flex items-center justify-center glass-base glass-dark bg-black/40"
+    class="fixed inset-0 z-50 flex items-center justify-center glass-base glass-dark bg-black/60 backdrop-blur-sm"
     @mousedown.self="closeEmailPopup()" @keydown.escape.window="closeEmailPopup()">
     <div
-      class="glass-base glass-light bg-white/90 rounded-2xl shadow-2xl border border-[var(--rooted-green)]/15 max-w-md w-full p-9 relative"
+      class="glass-base glass-light bg-[#F3F1E6] rounded-3xl shadow-2xl border border-[var(--rooted-green)]/20 max-w-lg w-full p-10 relative overflow-hidden"
       tabindex="-1" @keydown.tab.prevent="focusTrap($event)" x-ref="popup">
-      <img src="./assets/monograms/monogram_rooted_green_beige.png" alt=""
-        class="absolute opacity-10 w-16 h-16 bottom-2 right-2 pointer-events-none select-none z-0" aria-hidden="true" />
+      <!-- Decorative Elements -->
+      <div
+        class="absolute top-0 left-0 w-32 h-32 bg-[var(--rooted-green)] opacity-5 rounded-full -translate-x-1/2 -translate-y-1/2">
+      </div>
+      <div
+        class="absolute bottom-0 right-0 w-40 h-40 bg-[var(--rooted-orange)] opacity-5 rounded-full translate-x-1/3 translate-y-1/3">
+      </div>
       <button @click="closeEmailPopup()"
-        class="absolute top-2 right-2 glass-base glass-light text-gray-400 hover:text-[var(--rooted-green)] text-2xl w-10 h-10 flex items-center justify-center z-10"
-        aria-label="Close popup">&times;</button>
-      <div class="text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-4 heading-on-light text-on-light">Join the
-          Rooted
-          Waitlist</h2>
-        <p class="mb-4 text-on-light text-lg">Get 15% off your first order and early access!</p>
-        <div class="glass-light rounded-xl p-4 text-on-light border border-[var(--rooted-green)]/10">
-          <form id="waitlist-form" class="space-y-4">
-            <div class="space-y-3">
-              <div>
-                <label for="firstName" class="block text-sm font-medium mb-1">First Name</label>
-                <input type="text" id="firstName" name="firstName" required
-                  class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[var(--rooted-green)] focus:ring-2 focus:ring-[var(--rooted-green)]/20 outline-none transition-all"
-                  placeholder="Your first name" />
-              </div>
-              <div>
-                <label for="email" class="block text-sm font-medium mb-1">Email Address</label>
-                <input type="email" id="email" name="email" required
-                  class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[var(--rooted-green)] focus:ring-2 focus:ring-[var(--rooted-green)]/20 outline-none transition-all"
-                  placeholder="your@email.com" />
-              </div>
-            </div>
+        class="absolute top-4 right-4 text-[var(--rooted-green)] hover:text-[var(--rooted-orange)] transition-colors p-2 rounded-full hover:bg-black/5"
+        aria-label="Close popup">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
 
-            <button type="submit" id="submit-btn" class="btn btn--primary w-full py-4 text-lg font-bold">
-              <span id="submit-text">🌱 Join the Waitlist</span>
-              <span id="submit-loading" class="hidden">
-                <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"
-                    fill="none" />
-                  <path fill="currentColor" class="opacity-75"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                Joining...
-              </span>
+      <div class="text-center relative z-10">
+        <span class="text-sm font-bold tracking-widest text-[var(--rooted-orange)] uppercase mb-2 block">Early
+          Access</span>
+        <h2 class="text-4xl md:text-5xl font-display text-[var(--rooted-green)] mb-4 leading-tight">
+          Join the<br />Rooted Family
+        </h2>
+        <p class="mb-8 text-[var(--rooted-brown)] text-lg">
+          Be the first to crunch. Get <strong>15% off</strong> your first order when we launch!
+        </p>
+
+        <form id="waitlist-form" class="space-y-4">
+          <div class="space-y-4">
+            <input type="text" id="firstName" name="firstName" required
+              class="w-full px-6 py-4 rounded-xl border-2 border-[var(--rooted-green)]/10 bg-white/50 focus:bg-white focus:border-[var(--rooted-green)] outline-none transition-all placeholder-[var(--rooted-green)]/40 text-[var(--rooted-green)] font-medium"
+              placeholder="First Name" />
+            <input type="email" id="email" name="email" required
+              class="w-full px-6 py-4 rounded-xl border-2 border-[var(--rooted-green)]/10 bg-white/50 focus:bg-white focus:border-[var(--rooted-green)] outline-none transition-all placeholder-[var(--rooted-green)]/40 text-[var(--rooted-green)] font-medium"
+              placeholder="Email Address" />
+            <button type="submit"
+              class="w-full py-4 bg-[var(--rooted-green)] text-white font-bold rounded-xl hover:bg-[var(--rooted-orange)] transition-colors duration-300 hover-lift">
+              Get 15% Off
             </button>
-          </form>
-
-          <div id="success-message" class="hidden text-center py-8">
-            <div class="text-6xl mb-4">🎉</div>
-            <h3 class="text-2xl font-bold mb-2 heading-on-light">Welcome to the family!</h3>
-            <p class="text-lg">You're all set! Watch for our launch email with your 15% discount.</p>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
 
-  <!-- === DESKTOP FLOATING CTA BUTTON (Glassmorphic) === -->
-  <div class="hidden md:block fixed bottom-8 right-8 z-40" x-data="desktopCtaButton()" x-show="!showEmailPopup"
-    x-transition>
-    <button @click="openEmailPopup()" :class="buttonClass" aria-label="Get 15% Off – Join Waitlist"
-      x-text="buttonLabel"></button>
-  </div>
+  <main>
+    <!-- === NEW: BENEFITS MARQUEE (Polished) === -->
+    <div
+      class="bg-[var(--rooted-green)] text-[#F3F1E6] py-8 border-y border-[#F3F1E6]/10 overflow-hidden relative z-20">
+      <div class="marquee-container flex items-center">
+        <div
+          class="marquee-content flex gap-32 px-6 font-display text-2xl md:text-3xl tracking-widest uppercase items-center opacity-90">
+          <!-- Content duplicated for seamless loop -->
+          <span>Gluten Free</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>Vegan</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>Non-GMO</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>96 Calories</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>Plant Protein</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>Ancient Superfood</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>Sustainably Grown</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <!-- Duplicate -->
+          <span>Gluten Free</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>Vegan</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>Non-GMO</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>96 Calories</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>Plant Protein</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>Ancient Superfood</span> <span class="text-[var(--rooted-yellow)]">•</span>
+          <span>Sustainably Grown</span> <span class="text-[var(--rooted-yellow)]">•</span>
+        </div>
+      </div>
+    </div>
 
-  <main class="overflow-x-hidden" role="main" id="main-content">
-    <!-- === SECTION: Hero Product Spotlight === -->
-    <section id="hero"
-      class="hero-bg relative flex flex-col lg:flex-row items-center justify-center min-h-[90vh] px-4 lg:px-12 text-center lg:text-left pt-24 md:pt-8"
-      x-data="heroSection()" data-gsap-hero-section>
-      <div
-        class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex flex-col-reverse lg:flex-row items-center lg:items-start">
-        <!-- Product Image -->
-        <div class="flex-shrink-0 flex justify-center items-center w-full lg:w-auto mb-12 lg:mb-0 mt-8 md:mt-0">
+    <!-- === SECTION 2: THE ORIGIN (Story) - Cinematic Macro === -->
+    <section id="origin" class="relative py-24 md:py-32 bg-[#F3F1E6] overflow-hidden" data-gsap-section="origin">
+      <div class="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+        <!-- Visual -->
+        <div
+          class="relative h-[500px] md:h-[600px] rounded-[3rem] overflow-hidden shadow-2xl group border-4 border-white">
+          <img src="./assets/generated/origin_artistic_seed.png" alt="Cinematic Macro of Euryale Ferox Seed"
+            class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 filter brightness-90 contrast-110" />
+          <!-- Overlay Text -->
           <div
-            class="relative flex justify-center items-center h-96 sm:h-90 lg:h-[35rem] lg:w-[35rem] xl:h-[36rem] xl:w-[36rem] md:sticky md:top-28"
-            x-data="{ show: false }">
-            <!-- Back/peeking packet 1 -->
-            <img src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, back"
-              class="absolute right-20 md:right-56 lg:right-70 top-8 w-10/12 max-w-[90%] z-0" data-gsap-hero="back1"
-              style="transform: rotate(-30deg);" loading="eager" aria-hidden="true" />
-            <!-- Back/peeking packet 2 -->
-            <img src="./assets/product/2.png" alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, back"
-              class="absolute left-20 md:left-56 lg:left-70 top-8 w-10/12 max-w-[90%] z-0" data-gsap-hero="back2"
-              style="transform: rotate(30deg);" loading="eager" aria-hidden="true" />
-            <!-- Front packet (main) -->
-            <img id="hero-product-img" src="./assets/product/2.png"
-              alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, front"
-              class="relative z-10 w-full hero-product-img object-cover" data-gsap-hero="main" width="448" height="448"
-              decoding="async" fetchpriority="high" loading="eager" />
+            class="absolute bottom-0 left-0 right-0 p-10 bg-gradient-to-t from-black/70 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <p class="font-display text-2xl">Euryale Ferox</p>
+            <p class="text-sm opacity-80 tracking-wide">Native to Eastern India</p>
           </div>
         </div>
-        <!-- Text and CTA -->
-        <div class="flex-1 flex flex-col items-center justify-center text-center">
-          <h1 id="hero-heading" class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 heading-on-dark"
-            data-gsap-hero="heading">
-            Your New Healthy Snack Awaits: Popped Water Lily Seeds
-          </h1>
-          <p id="hero-subheading" class="text-xl md:text-2xl font-semibold mb-6 text-on-dark"
-            data-gsap-hero="subheading">
-            Tastier, Crunchier And Better For You
+        <!-- Text -->
+        <div class="text-left md:pl-10">
+          <span
+            class="text-[var(--rooted-orange)] font-bold tracking-widest uppercase text-sm mb-4 block flex items-center gap-2">
+            <span class="w-12 h-px bg-[var(--rooted-orange)]"></span> The Origin
+          </span>
+          <h2 class="font-display text-5xl md:text-7xl text-[var(--rooted-green)] mb-8 leading-[0.9]">
+            Born in the<br /><span class="italic text-[var(--rooted-brown)]">Still Waters.</span>
+          </h2>
+          <p class="font-body text-xl text-[var(--rooted-brown)] mb-6 leading-relaxed">
+            Before it was a snack, it was a seed. Harvested from the
+            <em>Euryale ferox</em> lily in the ponds of Bihar, India, our seeds are
+            hand-picked by farming communities that have cultivated them for centuries.
           </p>
-          <!-- Use-case chip -->
-          <div
-            class="flex justify-center mb-6 text-base sm:text-lg font-semibold min-h-10 relative text-center overflow-x-auto overflow-y-hidden whitespace-nowrap gap-2 overflow-hidden">
-            <div class="relative w-full overflow-hidden px-4">
-              <template x-if="nextUseCase === null">
-                <span :class="chipClass + ' chip-text chip-text-hover'" x-ref="chip" data-gsap-hero="chip">
-                  <span class="text-base opacity-70" x-text="useCases[currentUseCase].icon"></span>
-                  <span class="ml-1" x-text="useCases[currentUseCase].label"></span>
-                </span>
-              </template>
-              <template x-if="nextUseCase !== null">
-                <span :class="chipClass + ' chip-text chip-text-hover'">
-                  <span class="text-base opacity-70" x-text="useCases[nextUseCase].icon"></span>
-                  <span class="ml-1" x-text="useCases[nextUseCase].label"></span>
-                </span>
-              </template>
-            </div>
-          </div>
-          <!-- Main CTA Button -->
-          <button id="hero-cta" @click="openEmailPopup()" class="btn btn--primary mb-4 mt-6 md:mt-2"
-            aria-label="Join waitlist" x-text="mainCtaLabel" data-gsap-hero="cta"></button>
-        </div>
-      </div>
-    </section>
-
-    <!-- === SECTION: What is a Popped Water Lily Seed? === -->
-    <section id="what-is" class="px-4 lg:px-12 py-12 relative overflow-visible">
-      <div class="max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light">
-          What is a Popped Water Lily Seed?
-        </h2>
-        <p class="mb-4 text-lg md:text-xl font-normal text-on-light leading-relaxed max-w-2xl mx-auto text-center">
-          Popped Water Lily Seeds come from the Euryale ferox plant found in the still ponds of Eastern India. These
-          seeds have been sun-dried, roasted, and hand-popped into a light, crunchy snack rooted in Ayurveda for
-          centuries.
-        </p>
-        <p class="mb-8 text-lg md:text-xl font-normal text-on-light leading-relaxed max-w-2xl mx-auto text-center">
-          We’ve given this superfood a modern twist—roasted in olive oil for real flavor and a satisfying crunch.
-          Naturally gluten-free, plant-based, and nutrient-rich, they’re a wholesome snack that’s as delicious as it is
-          good for you.
-        </p>
-        <!-- Animated Illustration Container (GSAP/ScrollTrigger) -->
-        <div id="seed-illustration" class="relative flex justify-center items-end h-64 md:h-80 w-full mx-auto">
-          <!-- Chips Packet (vertical) -->
-          <img src="./assets/product/2.png" alt="Vertical chips packet"
-            class="relative z-20 w-70 md:w-85 drop-shadow-xl" style="bottom: -30px;" />
-          <!-- Seeds (absolutely positioned, start hidden behind/above packet) -->
-          <img src="./assets/illustrations/lotus-img3-1.png" alt="Seed 1"
-            class="seed-img absolute left-1/2 z-10 w-8 md:w-11" style="transform: translate(-50%, 0); bottom: 4rem;" />
-          <img src="./assets/illustrations/lotus-img3-2.png" alt="Seed 2"
-            class="seed-img absolute left-1/2 z-10 w-8 md:w-11" style="transform: translate(-50%, 0); bottom: 4rem;" />
-          <img src="./assets/illustrations/lotus-img3-1.png" alt="Seed 3"
-            class="seed-img absolute left-1/2 z-10 w-8 md:w-11" style="transform: translate(-50%, 0); bottom: 4rem;" />
-          <img src="./assets/illustrations/lotus-img3-2.png" alt="Seed 4"
-            class="seed-img absolute left-1/2 z-10 w-8 md:w-11" style="transform: translate(-50%, 0); bottom: 4rem;" />
-        </div>
-      </div>
-    </section>
-
-    <!-- === SECTION: Seed to Snack Journey (Animated, Curve-Aligned, Oomph) === -->
-    <!--
-    <section id="journey" class="relative px-4 lg:px-12 py-12 lg:pb-24 overflow-x-hidden" x-data="journeySection()"
-      x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
-      x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
-      <div class="max-w-5xl mx-auto text-center relative">
-        <h2
-          class="text-3xl md:text-4xl font-extrabold tracking-wide mb-6 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
-          From Seed to Snack
-        </h2>
-        <p class="text-lg md:text-xl font-normal text-on-light opacity-90 opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 100)" x-transition:enter="transition-all duration-700 delay-100"
-          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0">
-          How water lily seeds become your favorite healthy, crunchy snack.
-        </p>
-        <img src='./assets/logos/logo_rooted_green.png' alt=""
-          class="absolute left-1/2 top-2/3 -translate-x-1/2 -translate-y-1/2 w-[320px] md:w-[420px] opacity-10 pointer-events-none z-0 object-contain"
-          aria-hidden="true" />
-        <div id="journey-curve-container" class="relative w-full h-[260px] md:h-[320px] mx-auto z-10">
-          <svg id="journey-curve"
-            class="absolute left-0 top-0 w-full h-full pointer-events-none z-0 opacity-0 translate-y-8 transition-all duration-700 animate-none"
-            x-intersect:enter="animateIn($el, 200)" x-transition:enter="transition-all duration-700 delay-200"
-            x-transition:enter-start="opacity-0 translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
-            viewBox="0 0 1000 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path id="journeyPath" d="M60 200 Q 250 60 500 160 T 940 120" stroke="url(#journeyGradient)"
-              stroke-width="8" fill="none" stroke-linecap="round" />
-            <defs>
-              <linearGradient id="journeyGradient" x1="0" y1="0" x2="1000" y2="0" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#2C6752" stop-opacity="0.18" />
-                <stop offset="1" stop-color="#F35C37" stop-opacity="0.18" />
-              </linearGradient>
-            </defs>
-          </svg>
-          <img id="journey-pulse" src="./assets/illustrations/lotus-img3-1.png" alt="Lotus seed animating"
-            class="absolute w-12 h-12 rounded-full shadow-lg z-20 pointer-events-none" style="display:none;" />
-          <div id="journey-steps" class="absolute left-0 top-0 w-full h-full z-10"></div>
-        </div>
-      </div>
-    </section>
-    -->
-
-    <!-- === SECTION: Super Snack Benefits === -->
-    <section id="benefits" class="px-4 lg:px-12 py-12  bg-[var(--rooted-yellow)]"
-      x-data="{...benefitsSection(), revealed: 0}"
-      x-init="() => { $nextTick(() => { let observer = new IntersectionObserver(([e]) => { if(e.isIntersecting) { benefits.forEach((_,i)=>setTimeout(()=>{ revealed=i+1 },i*180)); observer.disconnect(); } }); observer.observe($el); }); }">
-      <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
-        <h2
-          class="text-3xl md:text-4xl tracking-wide mb-6 heading-on-light opacity-0 translate-y-8 transition-all duration-700 animate-none"
-          x-intersect:enter="animateIn($el, 0)" x-transition:enter="transition-all duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-8" x-transition:enter-end="opacity-100 translate-y-0"
-          x-text="sectionTitle"></h2>
-        <div class="flex flex-wrap justify-center gap-6 md:gap-10 mb-2 items-center" role="list"
-          aria-label="Product Benefits" x-ref="benefitItems">
-          <template x-for="(benefit, idx) in benefits" :key="benefit.title">
-            <div tabindex="0" role="listitem" :aria-label="benefit.title"
-              class="group flex flex-col items-center w-28 md:w-32 transition-all duration-700 outline-none cursor-pointer opacity-0 scale-90 animate-none"
-              :class="{ 'opacity-100 scale-100': revealed > idx }">
-              <div class="icon-bg group-hover:scale-110 group-focus:scale-110 transition-transform duration-200">
-                <img :src="benefit.icon" :alt="benefit.alt"
-                  class="w-12 h-12 md:w-16 md:h-16 max-w-full max-h-full mx-auto my-auto object-contain" width="64"
-                  height="64" loading="lazy" decoding="async" fetchpriority="high"
-                  x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\'\><rect width=\'64\' height=\'64\' fill=\'%23EDE6D6\'/><text x=\'50%\' y=\'50%\' font-size=\'16\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Icon</text></svg>'" />
-              </div>
-              <span
-                class="mt-1 text-sm md:text-base font-extrabold uppercase tracking-wider benefit-title benefit-title-hover transition-colors duration-200 text-center"
-                x-text="benefit.title"></span>
-            </div>
-          </template>
-        </div>
-      </div>
-    </section>
-
-    <!-- === SECTION: Feel Good Flavours (Refined, Premium) === -->
-    <section id="feel-good-flavours"
-      class="px-4 lg:px-12 py-12 flex flex-col items-center justify-center relative overflow-visible">
-      <!-- Heading and Intro -->
-      <h2 class="text-3xl md:text-4xl font-extrabold mb-4 heading-on-light text-center" data-gsap-feelgood="heading">
-        Feel Good Flavours</h2>
-      <p class="mb-8 text-lg md:text-xl font-normal text-on-light text-center max-w-2xl"
-        data-gsap-feelgood="subheading">We’re not just healthy — we’re
-        deliciously flavourful and satisfyingly crunchy. We never compromise on taste because snacking should be both
-        nourishing and enjoyable.</p>
-      <div class="w-full max-w-5xl mx-auto flex flex-col md:flex-row gap-10 md:gap-16 items-center justify-center">
-        <!-- Product Image Left (slanted, shadow, micro-interactions) -->
-        <div class="flex-1 flex justify-center items-start">
-          <div x-data="{
-            hovered: false,
-            clicked: false,
-            wobble() {
-              this.clicked = true;
-              setTimeout(() => this.clicked = false, 500);
-            }
-          }" class="transition-transform duration-300" :class="{
-              '-rotate-12 scale-105 drop-shadow-2xl': hovered,
-              '-rotate-12 drop-shadow-2xl': !hovered,
-              'animate-wobble': clicked
-            }" @mouseenter="hovered = true" @mouseleave="hovered = false" @focus="hovered = true"
-            @blur="hovered = false" @click="wobble()" tabindex="0" role="img"
-            aria-label="Rooted Himalayan Pink Salt Popped Water Lily Seeds packaging">
-            <img src="./assets/product/2.png"
-              alt="Rooted Himalayan Pink Salt Popped Water Lily Seeds snack bag, slanted"
-              class="w-80 md:w-96 lg:w-[32rem] xl:w-[36rem] rounded-xl select-none" loading="lazy" />
-          </div>
-        </div>
-        <!-- Flavour Details & Accordions (glassmorphic, with decorative salt crystals) -->
-        <div class="flex-1 flex flex-col items-start justify-center w-full max-w-xl relative">
-          <!-- Decorative Pink Salt Crystals -->
-          <img src="./assets/illustrations/pink_salt_crystals.png" alt="Pink salt crystals decorative"
-            class="absolute -top-8 md:-top-16 left-1/2 -translate-x-1/2 w-40 md:w-56 opacity-80 z-0 pointer-events-none select-none"
-            aria-hidden="true" />
-          <div
-            class="glass-base glass-light rounded-2xl shadow-xl border border-[var(--rooted-green)]/15 w-full p-7 mb-6 relative z-10">
-            <h2 class="text-3xl md:text-4xl font-extrabold mb-2 heading-on-light text-center md:text-left">Himalayan
-              Pink Salt</h2>
-            <div class="text-base font-semibold mb-2 text-on-light text-center md:text-left">The Classic One</div>
-            <p class="text-on-light mb-4 text-center md:text-left">Lightly salted with real Himalayan crystals. Simple,
-              clean, satisfying. A crunchy, plant-based snack you’ll crave every day.</p>
-          </div>
-          <!-- Accordions -->
-          <div class="w-full relative z-10" x-data="{ open: null }">
-            <!-- Ingredients Accordion -->
-            <div class="mb-2">
-              <button @click="open === 1 ? open = null : open = 1" :aria-expanded="open === 1"
-                aria-controls="ingredients-panel"
-                class="w-full flex justify-between items-center px-6 py-4 glass-base glass-light rounded-xl border border-[var(--rooted-green)]/10 shadow focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)] mb-2"
-                :tabindex="0" data-gsap-accordion="ingredients-btn" data-gsap-feelgood="accordion-btn">
-                <span class="font-bold text-lg text-[var(--rooted-green)]">Ingredients</span>
-                <svg :class="{'rotate-180': open === 1, 'transition-transform duration-300': true}"
-                  class="w-6 h-6 text-[var(--rooted-green)]" fill="none" stroke="currentColor" stroke-width="2"
-                  viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div id="ingredients-panel" x-show="open === 1"
-                class="overflow-hidden glass-light rounded-xl border border-[var(--rooted-green)]/10 px-6 py-4"
-                aria-hidden="false" data-gsap-accordion="ingredients-panel" data-gsap-feelgood="accordion-panel">
-                <ul class="list-disc pl-5 text-on-light text-sm">
-                  <li>Popped Lily Seeds / Makhana (85%)</li>
-                  <li>Olive Oil (12%)</li>
-                  <li>Himalayan Pink Salt (2.5%)</li>
-                  <li>Rosemary Extract</li>
-                </ul>
-              </div>
-            </div>
-            <!-- Nutrition Accordion -->
-            <div>
-              <button @click="open === 2 ? open = null : open = 2" :aria-expanded="open === 2"
-                aria-controls="nutrition-panel"
-                class="w-full flex justify-between items-center px-6 py-4 glass-base glass-light rounded-xl border border-[var(--rooted-green)]/10 shadow focus:outline-none focus:ring-2 focus:ring-[var(--rooted-green)]"
-                :tabindex="0" data-gsap-accordion="nutrition-btn" data-gsap-feelgood="accordion-btn">
-                <span class="font-bold text-lg text-[var(--rooted-green)]">Nutritional Information</span>
-                <svg :class="{'rotate-180': open === 2, 'transition-transform duration-300': true}"
-                  class="w-6 h-6 text-[var(--rooted-green)]" fill="none" stroke="currentColor" stroke-width="2"
-                  viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div id="nutrition-panel" x-show="open === 2"
-                class="overflow-hidden glass-light rounded-xl border border-[var(--rooted-green)]/10 px-6 py-4"
-                aria-hidden="false" data-gsap-accordion="nutrition-panel" data-gsap-feelgood="accordion-panel">
-                <table class="w-full text-on-light text-sm md:text-base">
-                  <thead>
-                    <tr class="border-b border-[var(--rooted-green)]/10">
-                      <th class="text-left py-2 font-bold">Nutrient</th>
-                      <th class="text-right py-2 font-bold">Per 100g</th>
-                      <th class="text-right py-2 font-bold">Per 25g</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="even:bg-[var(--rooted-yellow)]/20">
-                      <td class="py-2">Energy</td>
-                      <td class="text-right py-2">402.1 kcal</td>
-                      <td class="text-right py-2">100.52 kcal</td>
-                    </tr>
-                    <tr class="even:bg-[var(--rooted-yellow)]/20">
-                      <td class="py-2">Total Fat</td>
-                      <td class="text-right py-2">10.5 g</td>
-                      <td class="text-right py-2">2.62 g</td>
-                    </tr>
-                    <tr class="even:bg-[var(--rooted-yellow)]/20">
-                      <td class="py-2">of which Saturated</td>
-                      <td class="text-right py-2">1.62 g</td>
-                      <td class="text-right py-2">0.4 g</td>
-                    </tr>
-                    <tr class="even:bg-[var(--rooted-yellow)]/20">
-                      <td class="py-2">Carbohydrates</td>
-                      <td class="text-right py-2">68.32 g</td>
-                      <td class="text-right py-2">17.08 g</td>
-                    </tr>
-                    <tr class="even:bg-[var(--rooted-yellow)]/20">
-                      <td class="py-2">of which Sugars</td>
-                      <td class="text-right py-2">&lt;0.2 g</td>
-                      <td class="text-right py-2">&lt;0.05 g</td>
-                    </tr>
-                    <tr class="even:bg-[var(--rooted-yellow)]/20">
-                      <td class="py-2">Fibre</td>
-                      <td class="text-right py-2">10.2 g</td>
-                      <td class="text-right py-2">2.55 g</td>
-                    </tr>
-                    <tr class="even:bg-[var(--rooted-yellow)]/20">
-                      <td class="py-2">Protein</td>
-                      <td class="text-right py-2">8.58 g</td>
-                      <td class="text-right py-2">2.15 g</td>
-                    </tr>
-                    <tr class="even:bg-[var(--rooted-yellow)]/20">
-                      <td class="py-2">Sodium</td>
-                      <td class="text-right py-2">251.0 mg</td>
-                      <td class="text-right py-2">62.75 mg</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- We're Just Getting Started! -->
-      <div class="w-full max-w-4xl mx-auto mt-12 text-center">
-        <div class="glass-base glass-light rounded-2xl shadow-xl border border-[var(--rooted-green)]/15 p-8 md:p-10">
-          <h2 class="text-3xl md:text-4xl font-extrabold mb-6 heading-on-light">We're Just Getting Started!</h2>
-          <p class="text-lg md:text-xl font-normal text-on-light leading-relaxed">
-            We're in our sampling phase right now and fine‑tuning our recipes with your feedback. More exciting flavors
-            are on the way – stay tuned!
+          <p class="font-body text-xl text-[var(--rooted-brown)] leading-relaxed mb-8">
+            No machinery, no chemicals. Just sun, water, and tradition.
           </p>
+          <a href="#ritual"
+            class="inline-flex items-center gap-2 text-[var(--rooted-green)] font-bold hover:text-[var(--rooted-orange)] transition-colors group text-lg">
+            Follow the Journey
+            <svg xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- === SECTION: Our Mission (Brand Story) === -->
-    <section id="mission" class="relative px-4 lg:px-12 py-12 flex items-center justify-center min-h-[420px]">
-      <!-- 2x2 Image Grid (Background) -->
-      <div class="absolute inset-0 w-full h-full grid grid-cols-2 grid-rows-2 z-0" data-gsap-mission="bg">
-        <img src="./assets/mission/mission1.webp" alt="Mission image 1" class="object-cover w-full h-full" />
-        <img src="./assets/mission/mission2.jpg" alt="Mission image 2" class="object-cover w-full h-full" />
-        <img src="./assets/mission/mission3.jpg" alt="Mission image 3" class="object-cover w-full h-full" />
-        <img src="./assets/mission/mission4.jpg" alt="Mission image 4" class="object-cover w-full h-full" />
-      </div>
-      <!-- Optional overlay for readability -->
-      <div class="absolute inset-0 bg-white/20 z-0"></div>
-      <!-- Glass Card (Foreground) -->
-      <div class="relative z-10 w-full max-w-lg mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10"
-        data-gsap-mission="card">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-6 heading-on-light text-center"
-          data-gsap-mission="heading">
-          Why Rooted Exists
+    <!-- === SECTION 3: THE RITUAL (Vertical Journey) === -->
+    <section id="ritual" class="relative py-24 bg-white" data-gsap-section="ritual">
+      <div class="container mx-auto px-6 text-center mb-16">
+        <span class="text-[var(--rooted-orange)] font-bold tracking-widest uppercase text-sm mb-2 block">Process</span>
+        <h2 class="font-display text-4xl md:text-6xl text-[var(--rooted-green)] mb-6">
+          The Ritual
         </h2>
-        <p class="mb-4 sm:mb-8 text-base sm:text-lg md:text-xl font-normal text-on-light leading-relaxed text-center"
-          data-gsap-mission="desc">
-          We are here to fuel your day with clean, plant-powered energy from ancient, community-grown, climate-smart
-          plants. We source these potent, single-origin ingredients from tradition-dense farms of South Asia to bring
-          diverse, wholesome nutrition to the modern world.
+        <p class="font-body text-xl text-[var(--rooted-brown)] max-w-2xl mx-auto">
+          From seed to snack, a process perfected by time and patience.
         </p>
       </div>
-    </section>
 
-    <!-- === SECTION: Our Promise (Trust & Quality) === -->
-    <section id="promise" class="relative py-12 px-4 flex items-center justify-center min-h-[420px]"
-      x-data="promiseSection()" x-init="init()" data-gsap-promise="section">
-      <div class="absolute inset-0 pointer-events-none z-0"></div>
-      <div class="relative z-10 max-w-[1200px] w-full mx-auto flex flex-col items-center justify-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-15 tracking-wide drop-shadow-lg heading-on-light"
-          data-gsap-promise="heading">
-          <span x-text="sectionTitle"></span>
-        </h2>
-        <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-6 justify-center items-stretch">
-          <template x-for="(promise, idx) in promises" :key="promise.title">
+      <!-- Desktop Vertical Layout (Hidden on Mobile) -->
+      <div class="hidden md:block relative container mx-auto px-6 max-w-5xl">
+        <div class="absolute left-1/2 top-0 bottom-0 w-px bg-[var(--rooted-green)]/20 -translate-x-1/2"></div>
+        <!-- Steps -->
+        <!-- Step 1 -->
+        <div class="relative flex flex-row items-center justify-between mb-32 group">
+          <div class="w-5/12 text-right pr-12">
+            <h3 class="font-display text-3xl text-[var(--rooted-green)] mb-2">
+              Harvested
+            </h3>
+            <p class="font-body text-lg text-[var(--rooted-brown)]">
+              Farmers dive into the ponds to hand-pick the prickly water lily
+              pods.
+            </p>
+          </div>
+          <div class="w-2/12 flex justify-center relative z-10">
             <div
-              class="promise-card w-full max-w-xs sm:max-w-sm md:max-w-[300px] mx-auto border-2 border-black rounded-[1rem] p-4 sm:p-6 flex flex-col items-center transition-transform duration-300 will-change-transform cursor-pointer text-on-light"
-              :style="'transform:rotate(' + tiltAngles[idx % tiltAngles.length] + ');'" @mouseenter="hovered = idx"
-              @mouseleave="hovered = null" @touchstart="hovered = idx" @touchend="hovered = null"
-              :class="{'rotate-[-2deg]': tiltAngles[idx % tiltAngles.length] === '-2deg', 'rotate-[2deg]': tiltAngles[idx % tiltAngles.length] === '2deg'}"
-              data-gsap-promise="card">
-              <h4 class="text-lg sm:text-xl font-bold mb-1 sm:mb-3 text-center uppercase tracking-wide heading-on-light"
-                x-text="promise.title"></h4>
-              <p class="text-base sm:text-lg font-normal leading-[1.4] text-center" x-text="promise.desc"></p>
+              class="w-20 h-20 bg-[#F3F1E6] rounded-full border-2 border-[var(--rooted-green)] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-500 text-3xl">
+              🪷
             </div>
-          </template>
+          </div>
+          <div class="w-5/12 pl-12">
+            <div
+              class="w-full h-64 bg-gray-100 rounded-2xl overflow-hidden shadow-md rotate-3 group-hover:rotate-0 transition-transform duration-500 hover-scale-img">
+              <img src="./assets/generated/ritual_harvest.png" alt="Harvest" class="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
+        <!-- Step 2 -->
+        <div class="relative flex flex-row items-center justify-between mb-32 group">
+          <div class="w-5/12 text-right pr-12">
+            <div
+              class="w-full h-64 bg-gray-100 rounded-2xl overflow-hidden shadow-md -rotate-3 group-hover:rotate-0 transition-transform duration-500 hover-scale-img">
+              <img src="./assets/generated/ritual_sundried.png" alt="Sun Dried" class="w-full h-full object-cover" />
+            </div>
+          </div>
+          <div class="w-2/12 flex justify-center relative z-10">
+            <div
+              class="w-20 h-20 bg-[#F3F1E6] rounded-full border-2 border-[var(--rooted-green)] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-500 text-3xl">
+              ☀️
+            </div>
+          </div>
+          <div class="w-5/12 pl-12">
+            <h3 class="font-display text-3xl text-[var(--rooted-green)] mb-2">
+              Sun-Dried
+            </h3>
+            <p class="font-body text-lg text-[var(--rooted-brown)]">
+              The seeds are dried under the intense Indian sun to reduce
+              moisture naturally.
+            </p>
+          </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="relative flex flex-row items-center justify-between mb-32 group">
+          <div class="w-5/12 text-right pr-12">
+            <h3 class="font-display text-3xl text-[var(--rooted-green)] mb-2">
+              Roasted &amp; Popped
+            </h3>
+            <p class="font-body text-lg text-[var(--rooted-brown)]">
+              Roasted in clay pots over a fire, then hand-popped with a wooden
+              mallet.
+            </p>
+          </div>
+          <div class="w-2/12 flex justify-center relative z-10">
+            <div
+              class="w-20 h-20 bg-[#F3F1E6] rounded-full border-2 border-[var(--rooted-green)] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-500 text-3xl">
+              🔥
+            </div>
+          </div>
+          <div class="w-5/12 pl-12">
+            <div
+              class="w-full h-64 bg-gray-100 rounded-2xl overflow-hidden shadow-md rotate-3 group-hover:rotate-0 transition-transform duration-500 hover-scale-img">
+              <img src="./assets/generated/ritual_popping.png" alt="Popping" class="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
+        <!-- Step 4 -->
+        <div class="relative flex flex-row items-center justify-between group">
+          <div class="w-5/12 text-right pr-12">
+            <div
+              class="w-full h-64 bg-gray-100 rounded-2xl overflow-hidden shadow-md -rotate-3 group-hover:rotate-0 transition-transform duration-500 hover-scale-img">
+              <img src="./assets/generated/ritual_seasoning.png" alt="Seasoned" class="w-full h-full object-cover" />
+            </div>
+          </div>
+          <div class="w-2/12 flex justify-center relative z-10">
+            <div
+              class="w-20 h-20 bg-[#F3F1E6] rounded-full border-2 border-[var(--rooted-green)] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-500 text-3xl">
+              🧂
+            </div>
+          </div>
+          <div class="w-5/12 pl-12">
+            <h3 class="font-display text-3xl text-[var(--rooted-green)] mb-2">
+              Seasoned
+            </h3>
+            <p class="font-body text-lg text-[var(--rooted-brown)]">
+              Tossed in olive oil and dusted with Himalayan Pink Salt. Simple.
+              Perfect.
+            </p>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- === SECTION: Testimonials / Social Proof === -->
-    <section id="testimonials" class="px-4 lg:px-12 py-12" x-data="testimonialCarousel()" role="region"
-      aria-roledescription="carousel" data-gsap-testimonial="section">
-      <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light"
-          data-gsap-testimonial="heading" x-text="sectionTitle"></h2>
-        <div class="relative flex items-center justify-center" @mouseenter="pauseAuto" @mouseleave="startAuto"
-          @focusin="pauseAuto" @focusout="startAuto">
-          <!-- Left Arrow -->
-          <button @click="prev" aria-label="Previous testimonial"
-            class="absolute left-0 top-1/2 -translate-y-1/2 z-10 btn btn--round">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <!-- Testimonial Slides: Responsive Grouping -->
+      <!-- Mobile Horizontal Scroll (Snap) -->
+      <div class="md:hidden container mx-auto px-6">
+        <div class="ritual-scroll-snap pb-8">
+          <!-- Card 1 -->
           <div
-            class="w-full min-h-[120px] flex flex-col md:flex-row justify-center items-stretch gap-6 relative mb-4 md:mb-0">
-            <template x-if="!isDesktop">
-              <div class="relative min-h-[180px] md:min-h-[160px] flex items-center justify-center">
-                <blockquote
-                  class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex flex-col justify-center"
-                  aria-live="polite" data-gsap-testimonial="card">
-                  <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-on-light">
-                    "<span x-text="testimonials[current].quote"></span>"
-                  </p>
-                  <footer class="text-sm md:text-base testimonial-author font-semibold tracking-wide mt-2"
-                    x-text="'– ' + testimonials[current].author"></footer>
-                </blockquote>
-              </div>
-            </template>
-            <template x-if="isDesktop">
-              <div class="flex flex-row gap-6 w-full justify-center transition-opacity duration-500"
-                :class="{ 'opacity-0 pointer-events-none': groupFading, 'opacity-100': !groupFading }"
-                @transitionend="groupFading = false">
-                <template x-for="i in 2">
-                  <template x-if="testimonials[(current + i - 1 + testimonials.length) % testimonials.length]">
-                    <blockquote
-                      :key="'testimonial-group-'+((current + i - 1 + testimonials.length) % testimonials.length)"
-                      class="card border border-[var(--rooted-green)]/10 rounded-2xl p-8 shadow text-on-light flex-1 flex flex-col justify-center relative"
-                      aria-live="polite" data-gsap-testimonial="card">
-                      <p class="mb-4 text-xl md:text-2xl font-semibold leading-relaxed text-on-light">"<span
-                          x-text="testimonials[(current + i - 1 + testimonials.length) % testimonials.length].quote"></span>"
-                      </p>
-                      <footer class="text-sm md:text-base testimonial-author font-semibold tracking-wide mt-2"
-                        x-text="'– ' + testimonials[(current + i - 1 + testimonials.length) % testimonials.length].author">
-                      </footer>
-                    </blockquote>
-                  </template>
-                </template>
-              </div>
-            </template>
+            class="ritual-card bg-[#F3F1E6] rounded-3xl p-8 flex flex-col items-center text-center shadow-sm border border-[var(--rooted-green)]/10">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-4 shadow-sm">
+              🪷
+            </div>
+            <h3 class="font-display text-2xl text-[var(--rooted-green)] mb-2">
+              Harvested
+            </h3>
+            <p class="text-[var(--rooted-brown)] text-sm mb-4">
+              Farmers dive into the ponds to hand-pick the prickly water lily
+              pods.
+            </p>
+            <div class="w-full h-40 rounded-xl overflow-hidden">
+              <img src="./assets/generated/ritual_harvest.png" class="w-full h-full object-cover" alt="Harvest" />
+            </div>
           </div>
-          <!-- Right Arrow -->
-          <button @click="next" aria-label="Next testimonial"
-            class="absolute right-0 top-1/2 -translate-y-1/2 z-10 btn btn--round">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+          <!-- Card 2 -->
+          <div
+            class="ritual-card bg-[#F3F1E6] rounded-3xl p-8 flex flex-col items-center text-center shadow-sm border border-[var(--rooted-green)]/10">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-4 shadow-sm">
+              ☀️
+            </div>
+            <h3 class="font-display text-2xl text-[var(--rooted-green)] mb-2">
+              Sun-Dried
+            </h3>
+            <p class="text-[var(--rooted-brown)] text-sm mb-4">
+              The seeds are dried under the intense Indian sun to reduce
+              moisture naturally.
+            </p>
+            <div class="w-full h-40 rounded-xl overflow-hidden">
+              <img src="./assets/generated/ritual_sundried.png" class="w-full h-full object-cover" alt="Sun Dried" />
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div
+            class="ritual-card bg-[#F3F1E6] rounded-3xl p-8 flex flex-col items-center text-center shadow-sm border border-[var(--rooted-green)]/10">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-4 shadow-sm">
+              🔥
+            </div>
+            <h3 class="font-display text-2xl text-[var(--rooted-green)] mb-2">
+              Roasted &amp; Popped
+            </h3>
+            <p class="text-[var(--rooted-brown)] text-sm mb-4">
+              Roasted in clay pots over a fire, then hand-popped with a wooden
+              mallet.
+            </p>
+            <div class="w-full h-40 rounded-xl overflow-hidden">
+              <img src="./assets/generated/ritual_popping.png" class="w-full h-full object-cover" alt="Popping" />
+            </div>
+          </div>
+          <!-- Card 4 -->
+          <div
+            class="ritual-card bg-[#F3F1E6] rounded-3xl p-8 flex flex-col items-center text-center shadow-sm border border-[var(--rooted-green)]/10">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-4 shadow-sm">
+              🧂
+            </div>
+            <h3 class="font-display text-2xl text-[var(--rooted-green)] mb-2">
+              Seasoned
+            </h3>
+            <p class="text-[var(--rooted-brown)] text-sm mb-4">
+              Tossed in olive oil and dusted with Himalayan Pink Salt. Simple.
+              Perfect.
+            </p>
+            <div class="w-full h-40 rounded-xl overflow-hidden bg-white">
+              <img src="./assets/product/2.png" class="w-full h-full object-contain p-2" alt="Seasoned" />
+            </div>
+          </div>
         </div>
-        <!-- Progress Dots -->
-        <div class="flex justify-center gap-2 mt-4 md:mt-4" role="tablist" aria-label="Testimonial navigation dots">
-          <template x-for="(t, idx) in testimonials" :key="'dot-'+idx">
-            <span @click="goTo(idx)" tabindex="0" role="tab" :aria-selected="idx === current"
-              @keydown.enter.space="goTo(idx)" :aria-label="'Go to testimonial ' + (idx+1)"
-              :class="{'bg-[var(--rooted-green)]/60': idx === current, 'bg-[var(--rooted-orange)]/30': idx !== current }"
-              class="w-3 h-3 rounded-full transition-colors duration-300 inline-block cursor-pointer outline-none"></span>
-          </template>
-        </div>
-      </div>
-    </section>
-
-    <!-- === SECTION: Email Capture CTA === -->
-    <section id="signup" class="px-4 lg:px-12 py-12 text-center" x-data="emailCtaSection()"
-      data-gsap-email-cta="section">
-      <div
-        class="relative z-10 w-full max-w-xl mx-auto glass-base glass-light rounded-2xl shadow-2xl p-6 sm:p-10 bg-white/80 backdrop-blur-md border border-[var(--rooted-green)]/10"
-        data-gsap-email-cta="card">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 heading-on-light"
-          data-gsap-email-cta="heading" x-text="sectionTitle"></h2>
-        <p class="mb-6 text-on-light text-base md:text-lg" data-gsap-email-cta="subheading" x-text="sectionDescription">
+        <p class="text-center text-sm text-[var(--rooted-green)]/60 mt-2">
+          Swipe to explore the journey →
         </p>
-        <button @click="openEmailPopup()" class="btn btn--primary" aria-label="Get Early Access Now"
-          data-gsap-email-cta="button" x-text="buttonLabel"></button>
-        <div class="mt-6 text-lg md:text-xl font-semibold text-on-light" x-text="microcopy"></div>
       </div>
     </section>
 
-    <!-- === SECTION: FAQ (SEO, Brand Personality) === -->
-    <section id="faq" class="px-4 lg:px-12 py-12" x-data="faqSection()" data-gsap-faq="section">
-      <div class="max-w-3xl mx-auto relative">
-        <img src="./assets/monograms/monogram_rooted_green_beige.png" alt="Rooted monogram background"
-          class="absolute inset-0 mx-auto my-auto w-full max-w-[240px] md:max-w-[360px] h-auto opacity-10 pointer-events-none select-none object-contain z-0"
-          aria-hidden="true" />
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-wide mb-8 text-center heading-on-light"
-          data-gsap-faq="heading" x-text="sectionTitle"></h2>
-        <div itemscope itemtype="https://schema.org/FAQPage" class="divide-y divide-[var(--rooted-green)]/10">
-          <template x-for="(faq, idx) in faqs" :key="faq.q">
-            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="py-3">
-              <button @click="open === idx ? open = -1 : open = idx" :aria-expanded="open === idx"
-                :aria-controls="'faq-panel-' + idx" :id="'faq-tab-' + idx"
-                class="w-full text-left font-semibold flex justify-between items-center py-2" itemprop="name"
-                data-gsap-faq="button">
-                <span x-text="faq.q"></span>
-                <span x-text="open === idx ? '-' : '+' " aria-hidden="true" class="ml-2"></span>
-              </button>
-              <div x-show="open === idx" x-transition:enter="transition duration-300 ease-out"
-                x-transition:enter-start="opacity-0 scale-y-75" x-transition:enter-end="opacity-100 scale-y-100"
-                x-transition:leave="transition duration-200 ease-in" x-transition:leave-start="opacity-100 scale-y-100"
-                x-transition:leave-end="opacity-0 scale-y-75"
-                class="origin-top overflow-hidden bg-white/90 border border-[var(--rooted-green)]/10 card-info mt-2"
-                :id="'faq-panel-' + idx" role="region" :aria-labelledby="'faq-tab-' + idx" itemscope
-                itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text" class="py-2 text-base md:text-lg text-on-light" x-text="faq.a"></p>
+    <!-- === SECTION 4: THE PANTRY (Flavors) - With Exact Nutrition === -->
+    <section id="pantry" class="relative py-24 bg-[#F3F1E6]" data-gsap-section="pantry">
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="font-display text-4xl md:text-6xl text-[var(--rooted-green)] mb-12">
+          The Pantry
+        </h2>
+
+        <div
+          class="max-w-6xl mx-auto bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px]"
+          x-data="{ showNutrition: false }">
+          <!-- Visual Side -->
+          <div class="md:w-1/2 bg-[#F9F7F2] relative flex items-center justify-center p-12 overflow-hidden group">
+            <div
+              class="absolute inset-0 bg-[var(--rooted-green)]/5 rounded-full scale-0 group-hover:scale-150 transition-transform duration-700">
+            </div>
+            <img src="./assets/product/2.png" alt="Himalayan Pink Salt"
+              class="w-64 md:w-96 drop-shadow-2xl transform transition-transform hover:scale-105 duration-500 relative z-10" />
+            <div
+              class="absolute top-8 left-8 bg-white px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase text-[var(--rooted-green)] shadow-sm">
+              Best Seller
+            </div>
+          </div>
+
+          <!-- Info Side -->
+          <div class="md:w-1/2 p-10 md:p-20 flex flex-col justify-center text-left relative">
+            <h3 class="font-display text-4xl md:text-5xl text-[var(--rooted-green)] mb-4">
+              Himalayan Pink Salt
+            </h3>
+            <p class="font-body text-xl text-[var(--rooted-brown)] mb-8 leading-relaxed">
+              The classic. Lightly roasted and dusted with mineral-rich pink
+              salt crystals. A pure, unadulterated crunch that satisfies the
+              soul.
+            </p>
+
+            <div class="space-y-4 mb-10">
+              <div class="flex items-center gap-4">
+                <span
+                  class="w-8 h-8 rounded-full bg-[#E8F5E9] flex items-center justify-center text-[var(--rooted-green)] font-bold">✓</span>
+                <span class="font-bold text-[var(--rooted-green)] text-lg">85% Popped Lily Seeds</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <span
+                  class="w-8 h-8 rounded-full bg-[#E8F5E9] flex items-center justify-center text-[var(--rooted-green)] font-bold">✓</span>
+                <span class="font-bold text-[var(--rooted-green)] text-lg">Olive Oil Roasted</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <span
+                  class="w-8 h-8 rounded-full bg-[#E8F5E9] flex items-center justify-center text-[var(--rooted-green)] font-bold">✓</span>
+                <span class="font-bold text-[var(--rooted-green)] text-lg">3 Simple Ingredients</span>
               </div>
             </div>
-          </template>
+
+            <button @click="showNutrition = !showNutrition"
+              class="px-8 py-3 border-2 border-[var(--rooted-green)] text-[var(--rooted-green)] font-bold rounded-full hover:bg-[var(--rooted-green)] hover:text-white transition-colors duration-300 w-max hover-lift">
+              <span x-text="showNutrition ? 'Hide Nutrition' : 'View Nutrition'"></span>
+            </button>
+
+            <!-- Nutrition Modal/Overlay (Detailed) -->
+            <div x-show="showNutrition" x-transition.origin.top
+              class="absolute inset-0 bg-white z-20 p-8 md:p-12 flex flex-col justify-center items-center text-center overflow-y-auto">
+              <h4 class="font-display text-3xl text-[var(--rooted-green)] mb-6">
+                Nutrition Facts
+              </h4>
+              <div class="w-full max-w-md text-left text-sm border-2 border-black p-6 font-mono bg-[#F9F7F2]">
+                <div class="grid grid-cols-3 border-b-2 border-black pb-2 mb-2 font-bold text-base">
+                  <span>Nutrient</span>
+                  <span class="text-right">Per 100g</span>
+                  <span class="text-right">Per 25g</span>
+                </div>
+                <div class="grid grid-cols-3 border-b border-gray-300 py-2">
+                  <span>Energy</span>
+                  <span class="text-right">402.1 kcal</span>
+                  <span class="text-right">100.52 kcal</span>
+                </div>
+                <div class="grid grid-cols-3 border-b border-gray-300 py-2">
+                  <span>Total Fat</span>
+                  <span class="text-right">10.5 g</span>
+                  <span class="text-right">2.62 g</span>
+                </div>
+                <div class="grid grid-cols-3 border-b border-gray-300 py-2 pl-4 text-xs italic">
+                  <span>of which Saturated</span>
+                  <span class="text-right">1.62 g</span>
+                  <span class="text-right">0.4 g</span>
+                </div>
+                <div class="grid grid-cols-3 border-b border-gray-300 py-2">
+                  <span>Carbohydrates</span>
+                  <span class="text-right">68.32 g</span>
+                  <span class="text-right">17.08 g</span>
+                </div>
+                <div class="grid grid-cols-3 border-b border-gray-300 py-2 pl-4 text-xs italic">
+                  <span>of which Sugars</span>
+                  <span class="text-right">&lt;0.2 g</span>
+                  <span class="text-right">&lt;0.05 g</span>
+                </div>
+                <div class="grid grid-cols-3 border-b border-gray-300 py-2">
+                  <span>Fibre</span>
+                  <span class="text-right">10.2 g</span>
+                  <span class="text-right">2.55 g</span>
+                </div>
+                <div class="grid grid-cols-3 border-b border-gray-300 py-2">
+                  <span>Protein</span>
+                  <span class="text-right">8.58 g</span>
+                  <span class="text-right">2.15 g</span>
+                </div>
+                <div class="grid grid-cols-3 py-2">
+                  <span>Sodium</span>
+                  <span class="text-right">251.0 mg</span>
+                  <span class="text-right">62.75 mg</span>
+                </div>
+              </div>
+              <button @click="showNutrition = false"
+                class="mt-6 text-[var(--rooted-brown)] underline hover:text-[var(--rooted-orange)]">
+                Close Table
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- === SECTION: Footer (Glassmorphic on Mobile) === -->
-    <footer
-      class="py-6 px-4 lg:px-12 text-center sticky bottom-0 md:static z-30 border-t  bg-[var(--rooted-green)] shadow-lg md:pb-4 transition-opacity duration-700 animate-none"
-      role="contentinfo" x-data="footerSection()" x-intersect:enter="animateIn($el, 0)"
-      x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0"
-      x-transition:enter-end="opacity-100">
-      <div class="flex flex-col md:flex-row items-center justify-between max-w-4xl mx-auto gap-2">
-        <div class="flex flex-col items-center gap-2 w-full">
-          <div class="flex items-center justify-center gap-4 mb-2">
-            <a :href="instagramUrl" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 link-on-dark inline transition" width="24"
-                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-              </svg>
-            </a>
-            <a :href="'mailto:' + email" class="link-on-dark" aria-label="Contact Rooted">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 link-on-dark inline transition" width="24"
-                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-              </svg>
-            </a>
+    <!-- === SECTION 5: COMMUNITY (Testimonials, Social, Footer) === -->
+    <section id="community" class="relative py-24 bg-white text-center" data-gsap-section="community">
+      <div class="container mx-auto px-6">
+        <!-- Testimonials Slider -->
+        <div class="mb-24" x-data="testimonialCarousel()">
+          <h2 class="font-display text-4xl md:text-5xl text-[var(--rooted-green)] mb-12">
+            Love from the Community
+          </h2>
+          <div class="relative max-w-4xl mx-auto min-h-[200px] flex items-center justify-center">
+            <template x-for="(t, index) in testimonials" :key="index">
+              <div x-show="current === index" x-transition:enter="transition ease-out duration-500"
+                x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+                class="absolute inset-0 flex flex-col items-center justify-center">
+                <p class="font-display text-2xl md:text-4xl text-[var(--rooted-brown)] mb-6 leading-tight">
+                  &ldquo;<span x-text="t.quote"></span>&rdquo;
+                </p>
+                <div class="flex items-center gap-2">
+                  <div
+                    class="w-8 h-8 bg-[var(--rooted-orange)] rounded-full text-white flex items-center justify-center font-bold"
+                    x-text="t.author[0]"></div>
+                  <span class="font-bold text-[var(--rooted-green)]" x-text="t.author"></span>
+                </div>
+              </div>
+            </template>
           </div>
-          <div class="text-sm md:text-base text-on-dark text-center">
-            &copy; <span x-text="new Date().getFullYear()"></span> <span x-text="copyright"></span>
+          <div class="flex justify-center gap-2 mt-8 relative z-10">
+            <template x-for="(t, index) in testimonials" :key="index">
+              <button @click="goTo(index)"
+                :class="current === index ? 'bg-[var(--rooted-green)] w-8' : 'bg-[var(--rooted-green)]/20 w-2'"
+                class="h-2 rounded-full transition-all duration-300"></button>
+            </template>
           </div>
         </div>
+
+        <h2 class="font-display text-4xl md:text-5xl text-[var(--rooted-green)] mb-6">
+          Join the Movement
+        </h2>
+        <p class="font-body text-xl text-[var(--rooted-brown)] max-w-2xl mx-auto mb-12">
+          Follow us
+          <a href="https://instagram.com/weare_rooted"
+            class="text-[var(--rooted-orange)] font-bold hover:underline">@weare_rooted</a>
+          for daily inspiration.
+        </p>
+
+        <!-- Instagram Grid (Using Generated Assets) -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
+          <div class="aspect-square bg-gray-100 rounded-2xl overflow-hidden group cursor-pointer relative">
+            <img src="./assets/mission/mission1.png"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              alt="Social 1" />
+            <div
+              class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-display text-xl">
+              @weare_rooted
+            </div>
+          </div>
+          <div class="aspect-square bg-gray-100 rounded-2xl overflow-hidden group cursor-pointer relative">
+            <img src="./assets/mission/mission2.png"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              alt="Social 2" />
+            <div
+              class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-display text-xl">
+              @weare_rooted
+            </div>
+          </div>
+          <div class="aspect-square bg-gray-100 rounded-2xl overflow-hidden group cursor-pointer relative">
+            <img src="./assets/mission/mission3.png"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              alt="Social 3" />
+            <div
+              class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-display text-xl">
+              @weare_rooted
+            </div>
+          </div>
+          <div class="aspect-square bg-gray-100 rounded-2xl overflow-hidden group cursor-pointer relative">
+            <img src="./assets/mission/mission4.png"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              alt="Social 4" />
+            <div
+              class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-display text-xl">
+              @weare_rooted
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer (Organized) -->
+        <footer class="bg-[#2C6752] text-[#F3F1E6] rounded-[3rem] p-12 md:p-20 text-left relative overflow-hidden">
+          <!-- Decorative Circles -->
+          <div
+            class="absolute top-0 right-0 w-96 h-96 bg-white opacity-5 rounded-full translate-x-1/3 -translate-y-1/3">
+          </div>
+          <div class="grid md:grid-cols-4 gap-12 relative z-10">
+            <div class="md:col-span-1">
+              <img src="./assets/logos/logo_rooted_beige.png" alt="Rooted" class="h-12 mb-6" />
+              <p class="opacity-80 leading-relaxed">
+                Snacks that love you back. Sustainably grown, mindfully popped.
+              </p>
+            </div>
+            <div class="footer-col">
+              <h4 class="font-display text-2xl mb-6 text-[var(--rooted-yellow)]">
+                Shop
+              </h4>
+              <ul class="space-y-3 opacity-80">
+                <li>
+                  <a href="#" class="hover:text-white transition-colors">All Snacks</a>
+                </li>
+                <li>
+                  <a href="#" class="hover:text-white transition-colors">Variety Packs</a>
+                </li>
+                <li>
+                  <a href="#" class="hover:text-white transition-colors">Gift Cards</a>
+                </li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4 class="font-display text-2xl mb-6 text-[var(--rooted-yellow)]">
+                Company
+              </h4>
+              <ul class="space-y-3 opacity-80">
+                <li>
+                  <a href="#mission" class="hover:text-white transition-colors">Our Mission</a>
+                </li>
+                <li>
+                  <a href="#origin" class="hover:text-white transition-colors">The Origin</a>
+                </li>
+                <li>
+                  <a href="#" class="hover:text-white transition-colors">Contact Us</a>
+                </li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4 class="font-display text-2xl mb-6 text-[var(--rooted-yellow)]">
+                Stay Rooted
+              </h4>
+              <p class="opacity-80 mb-4 text-sm">
+                Join the waitlist for 15% off.
+              </p>
+              <button @click="openEmailPopup()"
+                class="w-full py-3 bg-[#F3F1E6] text-[var(--rooted-green)] font-bold rounded-xl hover:bg-white transition-colors">
+                Join Waitlist
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center opacity-60 text-sm">
+            <p>
+              &copy;
+              <span x-text="new Date().getFullYear()"></span> Rooted Snacks. All
+              rights reserved.
+            </p>
+            <div class="flex gap-6 mt-4 md:mt-0">
+              <a href="#" class="hover:text-white">Privacy Policy</a>
+              <a href="#" class="hover:text-white">Terms of Service</a>
+            </div>
+          </div>
+        </footer>
       </div>
-      <div class="flex justify-center mt-6" aria-hidden="true">
-        <img :src="logo" :alt="logoAlt" class="h-8 w-auto opacity-80" width="64" height="32" loading="lazy"
-          x-imgfallback="'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'32\'\><rect width=\'64\' height=\'32\' fill=\'%23F7C9C0\'/><text x=\'50%\' y=\'50%\' font-size=\'12\' fill=\'%234B6A4A\' text-anchor=\'middle\' alignment-baseline=\'middle\'>Logo</text></svg>'" />
-      </div>
-    </footer>
+    </section>
   </main>
 
-  <!-- === SCROLL-TO-TOP BUTTON (Persistent, Accessible) === -->
+  <!-- === SCROLL-TO-TOP BUTTON (Fixed Overlap) === -->
   <div x-data="scrollToTopButton()" x-init="init()" x-show="show && !showEmailPopup" x-transition.opacity
-    class="fixed bottom-20 md:bottom-30 right-4 z-50">
-    <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Scroll to top" class="btn btn--round">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    class="fixed bottom-24 md:bottom-32 right-6 z-30">
+    <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Scroll to top"
+      class="btn btn--round bg-white text-[var(--rooted-green)]">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
       </svg>
     </button>
   </div>
+
   <!-- Tailwind CDN safelist for animation delays -->
   <span class="hidden delay-100"></span>
   <span class="hidden delay-200"></span>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
-  <script src="app.js"></script>
+  <!-- Modular JS Files -->
+  <script src="js/utils.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/animations.js"></script>
 </body>
 
 </html>

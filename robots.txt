@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rootedsnacks.com/sitemap.xml
