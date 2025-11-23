@@ -9,7 +9,7 @@ function navBar() {
     return {
         mobileNavOpen: false,
         navLinks: [
-            { href: '#sanctuary', label: 'Sanctuary' },
+            { href: '#home', label: 'Home' },
             { href: '#origin', label: 'Origin' },
             { href: '#ritual', label: 'Ritual' },
             { href: '#pantry', label: 'Pantry' },
@@ -23,6 +23,180 @@ function navBar() {
             }
         }
     }
+}
+
+/**
+ * Hero Carousel Component - Product showcase rotation
+ */
+function heroCarousel() {
+    return {
+        currentImageIndex: 0,
+        heroImages: [
+            './assets/product/2.png',
+            './assets/generated/origin_artistic_seed.png',
+            './assets/generated/ritual_harvest.png'
+        ],
+        autoRotateInterval: null,
+        
+        init() {
+            // Auto-rotate hero images every 5 seconds
+            this.autoRotateInterval = setInterval(() => {
+                this.nextImage();
+            }, 5000);
+        },
+        
+        nextImage() {
+            this.currentImageIndex = (this.currentImageIndex + 1) % this.heroImages.length;
+        },
+        
+        prevImage() {
+            this.currentImageIndex = (this.currentImageIndex - 1 + this.heroImages.length) % this.heroImages.length;
+        },
+        
+        goToImage(index) {
+            this.currentImageIndex = index;
+        },
+        
+        destroy() {
+            if (this.autoRotateInterval) {
+                clearInterval(this.autoRotateInterval);
+            }
+        }
+    };
+}
+
+/**
+ * Instagram Feed Component - Fetches posts from @weare_rooted
+ * Uses free Instagram scraping method
+ */
+function instagramFeed() {
+    return {
+        posts: [],
+        loading: true,
+        error: false,
+        selectedPost: null,
+        username: 'weare_rooted',
+        
+        // Fallback posts in case Instagram API fails
+        fallbackPosts: [
+            {
+                id: '1',
+                image: './assets/mission/mission1.png',
+                caption: 'Discover the ancient superfood that nourishes body and soul 🌿',
+                likes: 245,
+                link: 'https://www.instagram.com/weare_rooted/'
+            },
+            {
+                id: '2',
+                image: './assets/mission/mission2.png',
+                caption: 'Hand-harvested from pristine Bihar ponds 💧',
+                likes: 312,
+                link: 'https://www.instagram.com/weare_rooted/'
+            },
+            {
+                id: '3',
+                image: './assets/mission/mission3.png',
+                caption: 'Sustainably grown, mindfully popped 🌱',
+                likes: 189,
+                link: 'https://www.instagram.com/weare_rooted/'
+            },
+            {
+                id: '4',
+                image: './assets/mission/mission4.png',
+                caption: 'Join the Rooted family today! ✨',
+                likes: 276,
+                link: 'https://www.instagram.com/weare_rooted/'
+            },
+            {
+                id: '5',
+                image: './assets/product/2.png',
+                caption: 'Himalayan Pink Salt perfection 🧂',
+                likes: 423,
+                link: 'https://www.instagram.com/weare_rooted/'
+            },
+            {
+                id: '6',
+                image: './assets/generated/origin_artistic_seed.png',
+                caption: 'From seed to snack 🌾',
+                likes: 198,
+                link: 'https://www.instagram.com/weare_rooted/'
+            },
+            {
+                id: '7',
+                image: './assets/generated/ritual_harvest.png',
+                caption: 'The harvest begins 🪷',
+                likes: 267,
+                link: 'https://www.instagram.com/weare_rooted/'
+            },
+            {
+                id: '8',
+                image: './assets/generated/ritual_sundried.png',
+                caption: 'Sun-dried naturally ☀️',
+                likes: 234,
+                link: 'https://www.instagram.com/weare_rooted/'
+            }
+        ],
+        
+        async init() {
+            await this.loadPosts();
+        },
+        
+        async loadPosts() {
+            this.loading = true;
+            this.error = false;
+            
+            try {
+                // Try to fetch from Instagram using free scraping method
+                // Note: This uses Instagram's public JSON endpoint (no auth required)
+                const response = await fetch(`https://www.instagram.com/${this.username}/?__a=1&__d=dis`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const edges = data?.graphql?.user?.edge_owner_to_timeline_media?.edges || [];
+                    
+                    this.posts = edges.slice(0, 8).map(edge => ({
+                        id: edge.node.id,
+                        image: edge.node.display_url,
+                        caption: edge.node.edge_media_to_caption?.edges[0]?.node?.text || '',
+                        likes: edge.node.edge_liked_by?.count || 0,
+                        link: `https://www.instagram.com/p/${edge.node.shortcode}/`
+                    }));
+                } else {
+                    throw new Error('Instagram API response not ok');
+                }
+            } catch (err) {
+                console.warn('Could not fetch Instagram posts, using fallback:', err);
+                this.posts = this.fallbackPosts;
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        openPost(post) {
+            this.selectedPost = post;
+            document.body.style.overflow = 'hidden';
+        },
+        
+        closePost() {
+            this.selectedPost = null;
+            document.body.style.overflow = '';
+        },
+        
+        formatLikes(count) {
+            if (count >= 1000) {
+                return (count / 1000).toFixed(1) + 'k';
+            }
+            return count.toString();
+        },
+        
+        getInstagramUrl() {
+            return `https://www.instagram.com/${this.username}/`;
+        },
+        
+        visitPost(post) {
+            window.open(post.link || this.getInstagramUrl(), '_blank', 'noopener,noreferrer');
+        }
+    };
 }
 
 /**
@@ -258,6 +432,8 @@ document.addEventListener('alpine:init', () => {
 
 // Register components globally
 window.navBar = navBar;
+window.heroCarousel = heroCarousel;
+window.instagramFeed = instagramFeed;
 window.stickyCtaBar = stickyCtaBar;
 window.desktopCtaButton = desktopCtaButton;
 window.rootedApp = rootedApp;
