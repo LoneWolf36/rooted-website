@@ -37,6 +37,214 @@
 </head>
 
 <body class="antialiased scroll-smooth">
+  <!-- Link the new sanctuary styles -->
+<link rel="stylesheet" href="styles-sanctuary.css" />
+
+<!-- === SANCTUARY HERO SECTION === -->
+<section id="sanctuary" class="sanctuary-hero pt-20 pb-12 md:pb-20" x-data="sanctuaryHero()" x-init="init()">
+  <div class="container mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-12 items-center sanctuary-content">
+      <!-- Text Content -->
+      <div class="text-center lg:text-left space-y-8">
+        <div class="inline-block">
+          <span class="text-[var(--rooted-yellow)] font-bold tracking-widest uppercase text-sm px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm">
+            Welcome to Rooted
+          </span>
+        </div>
+        
+        <h1 class="sanctuary-title font-display">
+          Your Daily<br />Sanctuary
+        </h1>
+        
+        <p class="sanctuary-subtitle font-body max-w-xl mx-auto lg:mx-0">
+          Where ancient wisdom meets modern wellness. Discover snacks that nourish your body and soul.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <button @click="$root.querySelector('#waitlist-form') && $root.querySelector('#waitlist-form').scrollIntoView({behavior: 'smooth'})" 
+                  class="btn btn--primary bg-[var(--rooted-yellow)] text-[var(--rooted-green)] px-8 py-4 text-lg hover-lift">
+            Join the Waitlist
+          </button>
+          <a href="#origin" 
+             class="btn border-2 border-white text-white px-8 py-4 text-lg hover:bg-white hover:text-[var(--rooted-green)] transition-all">
+            Discover More
+          </a>
+        </div>
+        
+        <!-- Social Proof -->
+        <div class="flex items-center justify-center lg:justify-start gap-6 pt-4">
+          <div class="text-center">
+            <div class="text-3xl font-display text-[var(--rooted-yellow)]">10K+</div>
+            <div class="text-sm text-white/80">Waitlist Members</div>
+          </div>
+          <div class="w-px h-12 bg-white/20"></div>
+          <div class="text-center">
+            <div class="text-3xl font-display text-[var(--rooted-yellow)]">4.9★</div>
+            <div class="text-sm text-white/80">Early Reviews</div>
+          </div>
+          <div class="w-px h-12 bg-white/20"></div>
+          <div class="text-center">
+            <div class="text-3xl font-display text-[var(--rooted-yellow)]">100%</div>
+            <div class="text-sm text-white/80">Natural</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Showcase -->
+      <div class="sanctuary-image-wrapper">
+        <template x-for="(image, index) in heroImages" :key="index">
+          <div class="sanctuary-image" 
+               x-show="currentImageIndex === index"
+               x-transition:enter="transition ease-out duration-700"
+               x-transition:enter-start="opacity-0 scale-95"
+               x-transition:enter-end="opacity-100 scale-100">
+            <img :src="image" :alt="'Rooted Product ' + (index + 1)" loading="lazy" />
+          </div>
+        </template>
+        
+        <!-- Navigation Dots -->
+        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+          <template x-for="(image, index) in heroImages" :key="'dot-'+index">
+            <button @click="currentImageIndex = index"
+                    :class="currentImageIndex === index ? 'bg-[var(--rooted-yellow)] w-8' : 'bg-white/40 w-2'"
+                    class="h-2 rounded-full transition-all duration-300"
+                    :aria-label="'View product image ' + (index + 1)">
+            </button>
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === ENHANCED BENEFITS MARQUEE === -->
+<div class="marquee-premium py-6 relative z-20">
+  <div class="marquee-container flex items-center">
+    <div class="marquee-content-premium px-6">
+      <!-- Content duplicated for seamless loop -->
+      <span>Gluten Free</span>
+      <span class="marquee-separator">✦</span>
+      <span>Vegan</span>
+      <span class="marquee-separator">✦</span>
+      <span>Non-GMO</span>
+      <span class="marquee-separator">✦</span>
+      <span>96 Calories</span>
+      <span class="marquee-separator">✦</span>
+      <span>Plant Protein</span>
+      <span class="marquee-separator">✦</span>
+      <span>Ancient Superfood</span>
+      <span class="marquee-separator">✦</span>
+      <span>Sustainably Grown</span>
+      <span class="marquee-separator">✦</span>
+      <!-- Duplicate for seamless loop -->
+      <span>Gluten Free</span>
+      <span class="marquee-separator">✦</span>
+      <span>Vegan</span>
+      <span class="marquee-separator">✦</span>
+      <span>Non-GMO</span>
+      <span class="marquee-separator">✦</span>
+      <span>96 Calories</span>
+      <span class="marquee-separator">✦</span>
+      <span>Plant Protein</span>
+      <span class="marquee-separator">✦</span>
+      <span>Ancient Superfood</span>
+      <span class="marquee-separator">✦</span>
+      <span>Sustainably Grown</span>
+      <span class="marquee-separator">✦</span>
+    </div>
+  </div>
+</div>
+
+<!-- === INSTAGRAM FEED SECTION === -->
+<section class="py-24 bg-[#F3F1E6]" x-data="instagramFeed()" x-init="init()">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <span class="text-[var(--rooted-orange)] font-bold tracking-widest uppercase text-sm mb-2 block">
+        Join the Community
+      </span>
+      <h2 class="font-display text-4xl md:text-6xl text-[var(--rooted-green)] mb-6">
+        #RootedLife
+      </h2>
+      <p class="font-body text-xl text-[var(--rooted-brown)] max-w-2xl mx-auto mb-8">
+        Follow us <a :href="getInstagramUrl()" target="_blank" rel="noopener" 
+                     class="text-[var(--rooted-orange)] font-bold hover:underline">@weare_rooted</a> 
+        for daily inspiration and wellness tips.
+      </p>
+    </div>
+    
+    <!-- Loading State -->
+    <div x-show="loading" class="instagram-loading">
+      <div class="instagram-loader"></div>
+    </div>
+    
+    <!-- Instagram Grid -->
+    <div x-show="!loading" class="instagram-grid">
+      <template x-for="post in posts" :key="post.id">
+        <div class="instagram-post" @click="openPost(post)">
+          <img :src="post.image" :alt="post.caption" loading="lazy" />
+          <div class="instagram-overlay">
+            <div class="instagram-likes">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+              </svg>
+              <span x-text="formatLikes(post.likes)"></span>
+            </div>
+            <p class="instagram-caption" x-text="post.caption"></p>
+          </div>
+        </div>
+      </template>
+    </div>
+    
+    <!-- View More Button -->
+    <div class="text-center mt-12">
+      <a :href="getInstagramUrl()" 
+         target="_blank" 
+         rel="noopener"
+         class="inline-flex items-center gap-2 px-8 py-4 bg-[var(--rooted-green)] text-white font-bold rounded-full hover:bg-[var(--rooted-orange)] transition-colors hover-lift">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+        Follow @weare_rooted
+      </a>
+    </div>
+    
+    <!-- Instagram Modal -->
+    <div x-show="selectedPost" 
+         x-cloak
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         @click.self="closePost()"
+         @keydown.escape.window="closePost()"
+         class="instagram-modal">
+      <div class="instagram-modal-content">
+        <button @click="closePost()" class="instagram-modal-close" aria-label="Close">
+          ✕
+        </button>
+        <template x-if="selectedPost">
+          <div>
+            <img :src="selectedPost.image" :alt="selectedPost.caption" class="instagram-modal-image" />
+            <div class="instagram-modal-info">
+              <div class="flex items-center gap-3 mb-4">
+                <svg class="w-7 h-7 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-xl font-bold" x-text="formatLikes(selectedPost.likes) + ' likes'"></span>
+              </div>
+              <p class="text-[var(--rooted-brown)] text-lg leading-relaxed" x-text="selectedPost.caption"></p>
+              <a :href="getInstagramUrl()" 
+                 target="_blank" 
+                 rel="noopener"
+                 class="inline-block mt-6 text-[var(--rooted-orange)] font-bold hover:underline">
+                View on Instagram →
+              </a>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</section>
   <!-- === NAVBAR: Glassmorphic Sticky Top === -->
   <header x-cloak
     class="fixed top-0 left-0 right-0 z-50 bg-white/90 md:glass-base md:glass-light border-b border-[var(--rooted-green)]/30 shadow-lg rounded-b-xl md:rounded-b-2xl transition-all duration-300"
@@ -717,6 +925,7 @@
   <script src="js/utils.js"></script>
   <script src="js/components.js"></script>
   <script src="js/animations.js"></script>
+  <script src="js/sanctuary.js"></script>
 </body>
 
 </html>
