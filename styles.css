@@ -178,6 +178,22 @@ h6 { font-size: var(--text-lg); }
   transform: translateY(-1px) scale(0.98);
 }
 
+/* FIXED: Discover More button - High contrast secondary style */
+.btn--secondary {
+  background: white;
+  color: var(--rooted-green);
+  border: 2px solid white;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3);
+  font-weight: 700;
+}
+
+.btn--secondary:hover {
+  background: var(--rooted-yellow);
+  border-color: var(--rooted-yellow);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(255, 195, 68, 0.4);
+}
+
 /* Focus states for accessibility */
 .btn:focus-visible {
   outline: 2px solid var(--rooted-green);
@@ -494,7 +510,7 @@ h6 { font-size: var(--text-lg); }
   scroll-snap-stop: always;
 }
 
-/* === 10. Enhanced Nutrition Table === */
+/* === 10. ENHANCED NUTRITION TABLE === */
 .nutrition-table-enhanced {
   max-width: 520px;
   width: 100%;
@@ -525,6 +541,22 @@ h6 { font-size: var(--text-lg); }
   font-size: var(--text-lg);
 }
 
+/* ENHANCED: Per 25g column highlight */
+.nutrition-table-enhanced .nutrition-row > span:last-child {
+  font-weight: 600;
+}
+
+.nutrition-highlight {
+  display: inline-block;
+  background: linear-gradient(135deg, #F35C37 0%, #F9A826 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  box-shadow: 0 2px 8px rgba(243, 92, 55, 0.25);
+}
+
 .nutrition-table-enhanced .nutrition-subrow {
   grid-template-columns: 2fr 1.5fr 1.5fr;
   padding-left: 1.5rem;
@@ -533,12 +565,7 @@ h6 { font-size: var(--text-lg); }
   font-style: italic;
 }
 
-.nutrition-highlight {
-  color: var(--rooted-orange);
-  font-weight: 600;
-}
-
-/* Mobile nutrition quick stats */
+/* MOBILE NUTRITION QUICK STATS - Now properly styled */
 .nutrition-quick-stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -547,16 +574,24 @@ h6 { font-size: var(--text-lg); }
 }
 
 .nutrition-stat-card {
-  background: white;
+  background: linear-gradient(135deg, #F3F1E6 0%, #FFEEC9 100%);
   padding: 1.25rem;
   border-radius: 1rem;
   text-align: center;
   box-shadow: 0 4px 12px rgba(38, 97, 72, 0.08);
+  border: 1px solid rgba(38, 97, 72, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nutrition-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(38, 97, 72, 0.12);
 }
 
 .nutrition-stat-icon {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
 .nutrition-stat-value {
@@ -564,6 +599,7 @@ h6 { font-size: var(--text-lg); }
   font-weight: 700;
   color: var(--rooted-green);
   font-family: 'Transcity', serif;
+  line-height: 1;
 }
 
 .nutrition-stat-label {
@@ -571,6 +607,8 @@ h6 { font-size: var(--text-lg); }
   color: var(--rooted-brown);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+  font-weight: 600;
 }
 
 /* === 11. Enhanced Utility Classes === */
@@ -695,6 +733,11 @@ section {
   .nutrition-table-enhanced .nutrition-row {
     font-size: var(--text-sm);
     gap: 0.5rem;
+  }
+  
+  .nutrition-quick-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
   }
 }
 
