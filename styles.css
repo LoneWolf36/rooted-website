@@ -52,6 +52,10 @@
   --duration-slow: 400ms;
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* Navigation Height */
+  --nav-height: 64px;
+  --nav-height-mobile: 60px;
 }
 
 @font-face {
@@ -186,6 +190,20 @@ h6 { font-size: var(--text-lg); }
   position: relative;
   background: linear-gradient(135deg, #1a4d3a 0%, #266148 50%, #2C6752 100%);
   overflow: hidden;
+  padding-top: calc(var(--nav-height) + 2rem);
+}
+
+/* Video background container */
+.hero-video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* Enhanced ambient glow */
@@ -199,6 +217,7 @@ h6 { font-size: var(--text-lg); }
   background: radial-gradient(circle, rgba(255, 238, 201, 0.12) 0%, transparent 70%);
   animation: pulse-glow 10s ease-in-out infinite;
   pointer-events: none;
+  z-index: 1;
 }
 
 .hero-section-clean::after {
@@ -211,6 +230,13 @@ h6 { font-size: var(--text-lg); }
   background: radial-gradient(circle, rgba(255, 195, 68, 0.08) 0%, transparent 70%);
   animation: pulse-glow 12s ease-in-out infinite reverse;
   pointer-events: none;
+  z-index: 1;
+}
+
+/* Ensure hero content is above background effects */
+.hero-section-clean > .container {
+  position: relative;
+  z-index: 2;
 }
 
 @keyframes pulse-glow {
@@ -331,7 +357,122 @@ h6 { font-size: var(--text-lg); }
   animation-play-state: paused;
 }
 
-/* === 7. Ritual Section Mobile Scroll === */
+/* === 7. Founder's Note Section === */
+.founder-section {
+  background: linear-gradient(135deg, #F3F1E6 0%, #FFEEC9 100%);
+  border-radius: 3rem;
+  padding: var(--space-3xl) var(--space-xl);
+  box-shadow: 0 8px 32px rgba(38, 97, 72, 0.12);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.founder-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 8px 24px rgba(38, 97, 72, 0.15);
+  object-fit: cover;
+}
+
+.founder-quote {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.founder-quote::before {
+  content: '\201C';
+  position: absolute;
+  left: 0;
+  top: -0.5rem;
+  font-size: 4rem;
+  color: var(--rooted-orange);
+  opacity: 0.3;
+  font-family: Georgia, serif;
+}
+
+/* === 8. Ritual Gallery - Horizontal Scroll (Desktop) === */
+@media (min-width: 768px) {
+  .ritual-gallery-desktop {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 2rem;
+    padding: 2rem 0;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+  }
+  
+  .ritual-gallery-desktop::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .ritual-gallery-card {
+    flex: 0 0 540px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    height: 600px;
+    border-radius: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+  }
+  
+  .ritual-gallery-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .ritual-gallery-card-bg {
+    position: absolute;
+    inset: 0;
+    object-fit: cover;
+    opacity: 0.2;
+    filter: blur(2px);
+  }
+  
+  .ritual-gallery-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    background: linear-gradient(to bottom, rgba(255,238,201,0.95) 0%, rgba(243,241,230,0.98) 100%);
+    text-align: center;
+  }
+  
+  .ritual-emoji {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+  }
+  
+  .ritual-progress-bar {
+    position: sticky;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 4px;
+    background: rgba(38, 97, 72, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    z-index: 10;
+  }
+  
+  .ritual-progress-fill {
+    height: 100%;
+    background: var(--rooted-green);
+    transition: width 0.3s ease;
+  }
+}
+
+/* === 9. Ritual Section Mobile Scroll === */
 .ritual-scroll-snap {
   display: flex;
   overflow-x: auto;
@@ -353,7 +494,86 @@ h6 { font-size: var(--text-lg); }
   scroll-snap-stop: always;
 }
 
-/* === 8. Enhanced Utility Classes === */
+/* === 10. Enhanced Nutrition Table === */
+.nutrition-table-enhanced {
+  max-width: 520px;
+  width: 100%;
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(38, 97, 72, 0.12);
+}
+
+.nutrition-table-enhanced .nutrition-row {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rooted-soil-100);
+  font-size: var(--text-base);
+  transition: background 0.2s ease;
+}
+
+.nutrition-table-enhanced .nutrition-row:hover {
+  background: rgba(38, 97, 72, 0.03);
+}
+
+.nutrition-table-enhanced .nutrition-header {
+  font-weight: 700;
+  color: var(--rooted-green);
+  border-bottom: 2px solid var(--rooted-green);
+  font-size: var(--text-lg);
+}
+
+.nutrition-table-enhanced .nutrition-subrow {
+  grid-template-columns: 2fr 1.5fr 1.5fr;
+  padding-left: 1.5rem;
+  font-size: var(--text-sm);
+  color: var(--rooted-soil-600);
+  font-style: italic;
+}
+
+.nutrition-highlight {
+  color: var(--rooted-orange);
+  font-weight: 600;
+}
+
+/* Mobile nutrition quick stats */
+.nutrition-quick-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.nutrition-stat-card {
+  background: white;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(38, 97, 72, 0.08);
+}
+
+.nutrition-stat-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.nutrition-stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--rooted-green);
+  font-family: 'Transcity', serif;
+}
+
+.nutrition-stat-label {
+  font-size: 0.875rem;
+  color: var(--rooted-brown);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* === 11. Enhanced Utility Classes === */
 .hover-lift {
   transition: transform var(--duration-slow) var(--ease-bounce),
               box-shadow var(--duration-slow) var(--ease-smooth);
@@ -378,7 +598,7 @@ h6 { font-size: var(--text-lg); }
   transition: color var(--duration-base) var(--ease-smooth);
 }
 
-/* === 9. Skip to Main Content (Accessibility) === */
+/* === 12. Skip to Main Content (Accessibility) === */
 .skip-to-main {
   position: absolute;
   top: -100px;
@@ -396,7 +616,7 @@ h6 { font-size: var(--text-lg); }
   top: 0;
 }
 
-/* === 10. Enhanced Form Inputs === */
+/* === 13. Enhanced Form Inputs === */
 input[type="text"],
 input[type="email"],
 textarea {
@@ -409,13 +629,13 @@ textarea:focus {
   transform: translateY(-2px);
 }
 
-/* === 11. Section Spacing Consistency === */
+/* === 14. Section Spacing Consistency === */
 section {
   padding-top: clamp(3rem, 10vw, 6rem);
   padding-bottom: clamp(3rem, 10vw, 6rem);
 }
 
-/* === 12. Enhanced Shadow System === */
+/* === 15. Enhanced Shadow System === */
 .shadow-premium {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08),
               0 2px 8px rgba(0, 0, 0, 0.04);
@@ -426,7 +646,7 @@ section {
               0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
-/* === 13. Scroll Progress Indicator === */
+/* === 16. Scroll Progress Indicator === */
 .scroll-progress {
   position: fixed;
   top: 0;
@@ -437,11 +657,12 @@ section {
   transition: width var(--duration-fast) linear;
 }
 
-/* === 14. Mobile Optimizations === */
+/* === 17. Mobile Optimizations === */
 @media (max-width: 767px) {
   .hero-section-clean {
     min-height: auto;
-    padding: 4rem 0 2rem;
+    padding-top: calc(var(--nav-height-mobile) + 1rem);
+    padding-bottom: 3rem;
   }
   
   .marquee-premium {
@@ -456,9 +677,28 @@ section {
     padding-top: var(--space-2xl);
     padding-bottom: var(--space-2xl);
   }
+  
+  .founder-section {
+    padding: var(--space-xl) var(--space-md);
+    border-radius: 2rem;
+  }
+  
+  .founder-avatar {
+    width: 96px;
+    height: 96px;
+  }
+  
+  .nutrition-table-enhanced {
+    padding: 1.25rem;
+  }
+  
+  .nutrition-table-enhanced .nutrition-row {
+    font-size: var(--text-sm);
+    gap: 0.5rem;
+  }
 }
 
-/* === 15. Tablet Breakpoint (NEW) === */
+/* === 18. Tablet Breakpoint === */
 @media (min-width: 768px) and (max-width: 1023px) {
   .container {
     max-width: 90%;
@@ -466,9 +706,13 @@ section {
   
   h1 { font-size: clamp(2.5rem, 7vw, 4rem); }
   h2 { font-size: clamp(2rem, 5vw, 3.5rem); }
+  
+  .ritual-gallery-card {
+    flex: 0 0 460px;
+  }
 }
 
-/* === 16. High-Performance Animations === */
+/* === 19. High-Performance Animations === */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -479,7 +723,7 @@ section {
   }
 }
 
-/* === 17. Print Styles === */
+/* === 20. Print Styles === */
 @media print {
   .hero-section-clean::before,
   .hero-section-clean::after,
