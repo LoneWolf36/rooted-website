@@ -104,6 +104,66 @@ function heroCarousel() {
 }
 
 /**
+ * Horizontal Ritual Scroll Gallery (Desktop Only)
+ * Premium side-scrolling gallery with scroll progress tracking
+ */
+function ritualScrollGallery() {
+    return {
+        scrollProgress: 0,
+        ritualSteps: [
+            {
+                emoji: '🪷',
+                title: 'Harvested',
+                description: 'Farmers dive into the ponds to hand-pick the prickly water lily pods.',
+                image: './assets/generated/ritual_harvest.png'
+            },
+            {
+                emoji: '☀️',
+                title: 'Sun-Dried',
+                description: 'The seeds are dried under the intense Indian sun to reduce moisture naturally.',
+                image: './assets/generated/ritual_sundried.png'
+            },
+            {
+                emoji: '🔥',
+                title: 'Roasted & Popped',
+                description: 'Roasted in clay pots over a fire, then hand-popped with a wooden mallet.',
+                image: './assets/generated/ritual_popping.png'
+            },
+            {
+                emoji: '🧂',
+                title: 'Seasoned',
+                description: 'Tossed in olive oil and dusted with Himalayan Pink Salt. Simple. Perfect.',
+                image: './assets/generated/ritual_seasoning.png'
+            }
+        ],
+        
+        init() {
+            // Track scroll progress within the gallery
+            const gallery = this.$el;
+            if (gallery) {
+                gallery.addEventListener('scroll', () => {
+                    const scrollLeft = gallery.scrollLeft;
+                    const scrollWidth = gallery.scrollWidth - gallery.clientWidth;
+                    this.scrollProgress = (scrollLeft / scrollWidth) * 100;
+                }, { passive: true });
+            }
+        },
+        
+        scrollToStep(index) {
+            const gallery = this.$el;
+            const cards = gallery.querySelectorAll('.ritual-gallery-card');
+            if (cards[index]) {
+                cards[index].scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest',
+                    inline: 'center'
+                });
+            }
+        }
+    }
+}
+
+/**
  * Sticky CTA bar with scroll progress indicator
  */
 function stickyCtaBar() {
@@ -322,7 +382,7 @@ function rootedApp() {
 }
 
 /**
- * Testimonial Grid - Show all at once (no carousel)
+ * Testimonial Carousel - Controlled advancement
  */
 function testimonialCarousel() {
     return {
@@ -410,7 +470,8 @@ function scrollToTopButton() {
 }
 
 /**
- * Instagram Feed Component - Enhanced with better fallback
+ * Instagram Feed Component - Live feed with fallback
+ * Displays Instagram posts from @weare_rooted
  */
 function instagramFeed() {
     return {
@@ -452,8 +513,29 @@ function instagramFeed() {
         
         init() {
             // Use fallback posts immediately for better performance
+            // Instagram API integration can be added via backend proxy
             this.posts = this.fallbackPosts;
             this.loading = false;
+            
+            // Optional: Fetch live posts if API endpoint available
+            // this.fetchInstagramPosts();
+        },
+        
+        async fetchInstagramPosts() {
+            // This requires a backend proxy to Instagram API
+            // For now, using fallback posts
+            try {
+                // const response = await fetch('/api/instagram/feed');
+                // const data = await response.json();
+                // this.posts = data.posts;
+                this.posts = this.fallbackPosts;
+                this.loading = false;
+            } catch (err) {
+                console.error('Instagram feed error:', err);
+                this.posts = this.fallbackPosts;
+                this.loading = false;
+                this.error = true;
+            }
         },
         
         getInstagramUrl() {
@@ -491,6 +573,7 @@ document.addEventListener('alpine:init', () => {
 // Register components globally
 window.navBar = navBar;
 window.heroCarousel = heroCarousel;
+window.ritualScrollGallery = ritualScrollGallery;
 window.instagramFeed = instagramFeed;
 window.stickyCtaBar = stickyCtaBar;
 window.rootedApp = rootedApp;
